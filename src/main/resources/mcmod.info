@@ -1,8 +1,8 @@
 [
 {
-  "modid": "lazyapi",
-  "name": "Lazy Modder API",
-  "description": "A core mod with useful api for the lazy(smart) modder. Why do the work when someone else has done it for you?",
+  "modid": "lazymodder",
+  "name": "Lazy Modder",
+  "description": "A mod with useful functionality for the lazy(smart) modder. Why do the work when someone else has done it for you?",
   "version": "0.1",
   "mcversion": "1.11",
   "url": "",
