@@ -1,6 +1,0 @@
-{
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "layer1":"zbloodbaubles:gemstones/GodsGiftActive"
-    }
-}
