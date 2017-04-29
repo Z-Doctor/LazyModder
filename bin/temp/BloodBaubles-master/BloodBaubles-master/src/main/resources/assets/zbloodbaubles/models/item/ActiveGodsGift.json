@@ -1,0 +1,7 @@
+{
+    "parent":"zbloodbaubles:item/Standard_Ring",
+    "textures": {
+        "layer0":"zbloodbaubles:rings/GoldRing",
+        "layer1":"zbloodbaubles:gemstones/GodsGiftActive"
+    }
+}

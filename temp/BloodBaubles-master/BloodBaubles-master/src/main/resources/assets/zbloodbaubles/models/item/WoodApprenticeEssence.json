@@ -1,0 +1,7 @@
+{
+	"parent":"zbloodbaubles:item/Standard_Ring",
+    "textures": {
+        "layer0":"zbloodbaubles:rings/WoodRing",
+        "layer1":"zbloodbaubles:gemstones/ApprenticeBloodOrb"
+    }
+}

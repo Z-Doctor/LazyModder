@@ -1,0 +1,23 @@
+itemGroup.BloodBaubles=Blood Baubles
+
+item.WoodBasicRing.name=Wood Ring
+item.StoneBasicRing.name=Stone Ring
+item.IronBasicRing.name=Iron Ring
+item.GoldBasicRing.name=Gold Ring
+item.DiamondBasicRing.name=Diamond Ring
+
+item.WoodWeakEssence.name=Weak Essence Ring
+item.StoneWeakEssence.name=Weak Essence Ring
+item.IronWeakEssence.name=Weak Essence Ring
+item.GoldWeakEssence.name=Weak Essence Ring
+item.DiamondWeakEssence.name=Weak Essence Ring
+
+item.WoodApprenticeEssence.name=Apprentice Essence Ring
+item.StoneApprenticeEssence.name=Apprentice Essence Ring
+item.IronApprenticeEssence.name=Apprentice Essence Ring
+item.GoldApprenticeEssence.name=Apprentice Essence Ring
+item.DiamondApprenticeEssence.name=Apprentice Essence Ring
+
+
+item.ActiveGodsGift.name=God's Gift (Active)
+item.InactiveGodsGift.name=God's Gift (Inactive)

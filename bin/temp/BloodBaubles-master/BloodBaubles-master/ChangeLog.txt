@@ -1,0 +1,7 @@
+2.0.0
+	+ Updated to 1.10
+	+ 1.8 Java syntax
+	+ Rings updated
+	+ Any Priest will bless a Inactive God's Gift for 40 Emeralds
+	+ New code foundation, complete rework
+	
