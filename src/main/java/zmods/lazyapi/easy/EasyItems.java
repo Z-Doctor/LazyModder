@@ -48,11 +48,11 @@ public class EasyItems extends Item {
 	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
 		if(this.hasSubtypes)
-			return "item." + this.getNameFromDamage(par1ItemStack.getItemDamage()).toLowerCase();
+			return "item." + this.getNameFromMeta(par1ItemStack.getItemDamage()).toLowerCase();
 		return super.getUnlocalizedName().toLowerCase();
 	}
 
-	public String getNameFromDamage(int itemDamage) {
+	public String getNameFromMeta(int meta) {
 		return getRegistryName().getResourcePath();
 	}
 

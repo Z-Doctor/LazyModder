@@ -43,9 +43,9 @@ public class DevTools {
 //				System.out.println("Has SubItems: " + item.getHasSubtypes());
 //				System.out.println("SubCount: " + item.getSubCount());
 				for (int i = 0; i < item.getSubCount(); i++) {
-					System.out.println("Registered: " + res.getResourceDomain() + ":" + item.getNameFromDamage(i));
+					System.out.println("Registered: " + res.getResourceDomain() + ":" + item.getNameFromMeta(i));
 					ModelLoader.setCustomModelResourceLocation(item, i,
-							new ModelResourceLocation(res.getResourceDomain() + ":" + item.getNameFromDamage(i), "inventory"));
+							new ModelResourceLocation(res.getResourceDomain() + ":" + item.getNameFromMeta(i), "inventory"));
 				}
 			}
 		});
