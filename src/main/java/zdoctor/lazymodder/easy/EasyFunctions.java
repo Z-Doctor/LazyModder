@@ -75,26 +75,39 @@ public class EasyFunctions {
 	}
 
 	public static enum VanillaRules {
-		FIRETICK("doFireTick", GameRules.ValueType.BOOLEAN_VALUE),
-		MOBGRIEF("mobGriefing", GameRules.ValueType.BOOLEAN_VALUE),
-		KEEPINVENTORY("keepInventory", GameRules.ValueType.BOOLEAN_VALUE),
-		MOBSPAWNING("doMobSpawning", GameRules.ValueType.BOOLEAN_VALUE),
-		MOBLOOT("doMobLoot", GameRules.ValueType.BOOLEAN_VALUE),
-		TILEDROPS("doTileDrops", GameRules.ValueType.BOOLEAN_VALUE),
-		ENTITYDROPS("doEntityDrops", GameRules.ValueType.BOOLEAN_VALUE),
-		COMMANDBLOCKOUTPUT("commandBlockOutput", GameRules.ValueType.BOOLEAN_VALUE),
-		NATURALREGEN("naturalRegeneration", GameRules.ValueType.BOOLEAN_VALUE),
-		DAYCYCLE("doDaylightCycle", GameRules.ValueType.BOOLEAN_VALUE),
-		LOGADMINCOMMANDS("logAdminCommands", GameRules.ValueType.BOOLEAN_VALUE),
-		SHOWDEATHMESSAGES("showDeathMessages", GameRules.ValueType.BOOLEAN_VALUE),
-		RANDOMTICKSPEED("randomTickSpeed", GameRules.ValueType.NUMERICAL_VALUE),
-		COMMANDFEEDBACK("sendCommandFeedback", GameRules.ValueType.BOOLEAN_VALUE),
-		MINDEBUGINFO("reducedDebugInfo", GameRules.ValueType.BOOLEAN_VALUE),
-		SPECTATORSGENERATECHUNKS("spectatorsGenerateChunks", GameRules.ValueType.BOOLEAN_VALUE),
-		SPAWNRADIUS("spawnRadius", GameRules.ValueType.NUMERICAL_VALUE),
-		DISABLEELYTRAMOVEMENTCHECK("disableElytraMovementCheck", GameRules.ValueType.NUMERICAL_VALUE),
-		MAXENTITYCRAMMING("maxEntityCramming", GameRules.ValueType.NUMERICAL_VALUE),
-		WEATHERCYCLE("doWeatherCycle", GameRules.ValueType.BOOLEAN_VALUE);
+		FIRETICK("doFireTick", GameRules.ValueType.BOOLEAN_VALUE), MOBGRIEF("mobGriefing",
+				GameRules.ValueType.BOOLEAN_VALUE), KEEPINVENTORY("keepInventory",
+						GameRules.ValueType.BOOLEAN_VALUE), MOBSPAWNING("doMobSpawning",
+								GameRules.ValueType.BOOLEAN_VALUE), MOBLOOT("doMobLoot",
+										GameRules.ValueType.BOOLEAN_VALUE), TILEDROPS("doTileDrops",
+												GameRules.ValueType.BOOLEAN_VALUE), ENTITYDROPS("doEntityDrops",
+														GameRules.ValueType.BOOLEAN_VALUE), COMMANDBLOCKOUTPUT(
+																"commandBlockOutput",
+																GameRules.ValueType.BOOLEAN_VALUE), NATURALREGEN(
+																		"naturalRegeneration",
+																		GameRules.ValueType.BOOLEAN_VALUE), DAYCYCLE(
+																				"doDaylightCycle",
+																				GameRules.ValueType.BOOLEAN_VALUE), LOGADMINCOMMANDS(
+																						"logAdminCommands",
+																						GameRules.ValueType.BOOLEAN_VALUE), SHOWDEATHMESSAGES(
+																								"showDeathMessages",
+																								GameRules.ValueType.BOOLEAN_VALUE), RANDOMTICKSPEED(
+																										"randomTickSpeed",
+																										GameRules.ValueType.NUMERICAL_VALUE), COMMANDFEEDBACK(
+																												"sendCommandFeedback",
+																												GameRules.ValueType.BOOLEAN_VALUE), MINDEBUGINFO(
+																														"reducedDebugInfo",
+																														GameRules.ValueType.BOOLEAN_VALUE), SPECTATORSGENERATECHUNKS(
+																																"spectatorsGenerateChunks",
+																																GameRules.ValueType.BOOLEAN_VALUE), SPAWNRADIUS(
+																																		"spawnRadius",
+																																		GameRules.ValueType.NUMERICAL_VALUE), DISABLEELYTRAMOVEMENTCHECK(
+																																				"disableElytraMovementCheck",
+																																				GameRules.ValueType.NUMERICAL_VALUE), MAXENTITYCRAMMING(
+																																						"maxEntityCramming",
+																																						GameRules.ValueType.NUMERICAL_VALUE), WEATHERCYCLE(
+																																								"doWeatherCycle",
+																																								GameRules.ValueType.BOOLEAN_VALUE);
 
 		private final String ruleName;
 		private final ValueType ruleType;
