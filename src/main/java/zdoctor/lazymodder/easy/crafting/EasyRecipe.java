@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public interface EasyRecipe {
+public interface EasyRecipe extends IRecipe {
 	
 	public static class ShapedRecipe extends ShapedRecipes implements EasyRecipe {
 		public ShapedRecipe(IngredientList ingredientList) {

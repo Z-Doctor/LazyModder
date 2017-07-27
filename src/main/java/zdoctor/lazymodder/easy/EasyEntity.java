@@ -25,8 +25,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
-import zdoctor.lazymodder.easy.EasyBlock.EasyItemBlock;
 import zdoctor.lazymodder.easy.EasyEntity.InventoryEntity.InventoryTileEntity;
+import zdoctor.lazymodder.easy.blocks.EasyBlock;
+import zdoctor.lazymodder.easy.blocks.EasyBlock.EasyItemBlock;
 
 public class EasyEntity extends BlockContainer {
 	{

@@ -1,7 +1,8 @@
-package zdoctor.lazymodder.core;
+package zdoctor.lazymodder.registery;
 
 import org.apache.logging.log4j.Level;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -17,8 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.easy.EasyFunctions;
 import zdoctor.lazymodder.events.RuleChangedEvent;
-import zdoctor.lazymodder.registery.ItemRegistry;
-import zdoctor.lazymodder.registery.RecipeRegistry;
 
 public class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
@@ -62,21 +61,30 @@ public class EventRegistry {
 		
 		@SubscribeEvent
 		public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-			System.out.println("Recipe Evnet");
+			System.out.println("Registering Recipes");
 			RecipeRegistry.registerRecipes(event);
 		}
 		
 		@SubscribeEvent
 		public void registerItems(RegistryEvent.Register<Item> event) {
-			System.out.println("Item Event");
+			System.out.println("Registering Items");
 			
 			ItemRegistry.registerItems(event);
+		}
+		
+		@SubscribeEvent
+		public void registerBlocks(RegistryEvent.Register<Block> event) {
+			System.out.println("Registering Blocks");
+			
+			BlockRegistry.registerBlocks(event);
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@SubscribeEvent
 		public void registerModels(ModelRegistryEvent event) {
+			System.out.println("Registering Models");
 			ItemRegistry.registerItemModels();
+			BlockRegistry.registerBlockModels();
 		}
 		
 	}
