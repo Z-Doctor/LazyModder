@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import zdoctor.lazymodder.easy.EasyFunctions;
 import zdoctor.lazymodder.events.RuleChangedEvent;
 
 public class EventRegistry {

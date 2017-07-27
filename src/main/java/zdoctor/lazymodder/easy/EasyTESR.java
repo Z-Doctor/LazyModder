@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,20 +52,20 @@ public class EasyTESR extends TileEntitySpecialRenderer {
 	}
 
 	
-	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks,
-			int destroyStage) {
-		this.startRender(x, y, z);
-//		GlStateManager.translate(x, y, z);
-		this.renderTileEntity(te, x, y, z, partialTicks, destroyStage);
-		this.endRender();
-	}
-
-	@Override
-	public void renderTileEntityFast(TileEntity te, double x, double y, double z, float partialTicks,
-			int destroyStage, VertexBuffer buffer) {
-		this.startRender(x, y, z);
-		this.renderTileEntity(te, x, y, z, partialTicks, destroyStage);
-		this.endRender();
-	}
+//	@Override
+//	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks,
+//			int destroyStage) {
+//		this.startRender(x, y, z);
+////		GlStateManager.translate(x, y, z);
+//		this.renderTileEntity(te, x, y, z, partialTicks, destroyStage);
+//		this.endRender();
+//	}
+//
+//	@Override
+//	public void renderTileEntityFast(TileEntity te, double x, double y, double z, float partialTicks,
+//			int destroyStage, VertexBuffer buffer) {
+//		this.startRender(x, y, z);
+//		this.renderTileEntity(te, x, y, z, partialTicks, destroyStage);
+//		this.endRender();
+//	}
 }

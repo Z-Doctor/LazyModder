@@ -12,16 +12,9 @@ import javax.swing.JOptionPane;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.registries.IForgeRegistry;
-import zdoctor.lazymodder.easy.items.EasyItem;
-import zdoctor.lazymodder.easy.items.IEasyItem;
 
 public class ModelCreator {
 	private static ResourceLocation itemRes = new ResourceLocation("lazymodder:models/item/standard_item.json");

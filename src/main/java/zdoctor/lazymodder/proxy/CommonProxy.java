@@ -5,11 +5,10 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.core.Misc;
 import zdoctor.lazymodder.examples.Blocks;
-import zdoctor.lazymodder.examples.Entity;
 import zdoctor.lazymodder.examples.Food;
+import zdoctor.lazymodder.examples.Recipes;
 import zdoctor.lazymodder.examples.ZItems;
 import zdoctor.lazymodder.registery.EventRegistry;
-import zdoctor.lazymodder.examples.Recipes;
 
 public class CommonProxy {
 	
@@ -18,7 +17,7 @@ public class CommonProxy {
 //		CoreEvents.load();
 		ZItems.preInit();
 		Blocks.preInit();
-		Entity.preInit();
+//		Entity.preInit();
 		Food.preInit();
 		Recipes.preInit();
 		//Do not comment out

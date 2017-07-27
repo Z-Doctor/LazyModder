@@ -49,7 +49,7 @@ public class EasyEntity extends BlockContainer {
 		this.setRegistryName(name);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
-		EasyFunctions.register(this);
+//		EasyFunctions.register(this);
 		this.itemBlock = new EasyBlock.EasyItemBlock(this);
 	}
 	

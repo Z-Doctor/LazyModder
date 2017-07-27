@@ -1,20 +1,12 @@
 package zdoctor.lazymodder.easy.crafting;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
-import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import zdoctor.lazymodder.easy.crafting.EasyRecipe.Groups;
 
 public interface NoContainerRecipes extends EasyRecipe {
 

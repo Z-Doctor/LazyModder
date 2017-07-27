@@ -1,8 +1,5 @@
 package zdoctor.lazymodder.easy.crafting;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.item.Item;

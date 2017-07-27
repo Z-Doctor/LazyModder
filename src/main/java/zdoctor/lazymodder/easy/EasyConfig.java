@@ -111,10 +111,10 @@ public class EasyConfig extends Configuration {
 			
 		}
 
-		@Override
-		public Class<? extends GuiScreen> mainConfigGuiClass() {
-			return Gui.class;
-		}
+//		@Override
+//		public Class<? extends GuiScreen> mainConfigGuiClass() {
+//			return Gui.class;
+//		}
 
 		@Override
 		public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
@@ -133,11 +133,11 @@ public class EasyConfig extends Configuration {
 			return null;
 		}
 
-		@Override
-		public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+//		@Override
+//		public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
 		
 	}
 	

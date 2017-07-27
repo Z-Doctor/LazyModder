@@ -2,10 +2,7 @@ package zdoctor.lazymodder.examples;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import zdoctor.lazymodder.easy.crafting.EasyRecipe;
-import zdoctor.lazymodder.easy.crafting.EasyRecipe.ShapedRecipe;
-import zdoctor.lazymodder.easy.crafting.IngredientList.ShapedList;
 import zdoctor.lazymodder.easy.crafting.IngredientList.ShapelessList;
 import zdoctor.lazymodder.registery.RecipeRegistry;
 

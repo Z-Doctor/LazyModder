@@ -9,10 +9,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
-@Mod(modid = ModMain.MODID, version = "0.1")
+@Mod(modid = ModMain.MODID, version = "1.0")
 public class ModMain {
 	public static final String MODID = "lazymodder";
-	public static final boolean DEV_ENV = true;
+	//Change this to true if you are developing using lazymodder
+	public static final boolean DEV_ENV = false;
 	@Instance
 	public static ModMain mod = new ModMain();
 

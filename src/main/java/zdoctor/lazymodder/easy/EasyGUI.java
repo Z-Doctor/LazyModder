@@ -128,7 +128,7 @@ public interface EasyGUI {
 			if (this.defualtBackground)
 				this.drawDefaultBackground();
 			textList.forEach(text -> {
-				text.drawString(this.fontRendererObj);
+//				text.drawString(this.fontRendererObj);
 			});
 			super.drawScreen(mouseX, mouseY, partialTicks);
 		}

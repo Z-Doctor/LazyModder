@@ -8,7 +8,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
-import zdoctor.lazymodder.easy.EasyFunctions;
 import zdoctor.lazymodder.registery.ItemRegistry;
 
 public class EasyArmor extends ItemArmor implements IEasyItem {
