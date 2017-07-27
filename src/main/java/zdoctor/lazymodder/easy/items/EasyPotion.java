@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.items;
 
 import java.util.List;
 import java.util.Map;

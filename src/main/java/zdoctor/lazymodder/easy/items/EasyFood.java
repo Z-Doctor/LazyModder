@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.items;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,8 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import zdoctor.lazymodder.easy.EasyFunctions;
+import zdoctor.lazymodder.registery.ItemRegistry;
 /**
  * Some common values are:
  * Food Hunger Points Saturation
@@ -20,7 +22,7 @@ import net.minecraft.world.World;
  * Cooked Porkchop/Beef - 8 - 0.8f <p>
  * Golden Apple - 4 - 1.2f <p>
  */
-public class EasyFood extends ItemFood {
+public class EasyFood extends ItemFood implements IEasyItem {
 	ArrayList<PotionEffect> effectsOnEaten = new ArrayList<>();
 	Map<PotionEffect, Float> chanceOnEaten = new HashMap<>();
 
@@ -48,7 +50,7 @@ public class EasyFood extends ItemFood {
 		this.setRegistryName(name);
 		this.setCreativeTab(CreativeTabs.FOOD);
 		this.setMaxStackSize(64);
-		EasyFunctions.register(this);
+		ItemRegistry.register(this);
 	}
 	
 	
@@ -98,5 +100,16 @@ public class EasyFood extends ItemFood {
 		public EnumAction getItemUseAction(ItemStack stack) {
 			return EnumAction.DRINK;
 		}
+	}
+
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return getRegistryName().getResourcePath();
+	}
+
+	@Override
+	public int getSubCount() {
+		return 1;
 	}
 }

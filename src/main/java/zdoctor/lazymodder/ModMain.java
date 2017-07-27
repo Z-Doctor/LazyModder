@@ -9,8 +9,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
-@Mod(modid = "lazymodder", version = "0.1")
+@Mod(modid = ModMain.MODID, version = "0.1")
 public class ModMain {
+	public static final String MODID = "lazymodder";
 	public static final boolean DEV_ENV = true;
 	@Instance
 	public static ModMain mod = new ModMain();

@@ -2,15 +2,23 @@ package zdoctor.lazymodder.core;
 
 import org.apache.logging.log4j.Level;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.easy.EasyFunctions;
 import zdoctor.lazymodder.events.RuleChangedEvent;
+import zdoctor.lazymodder.registery.ItemRegistry;
+import zdoctor.lazymodder.registery.RecipeRegistry;
 
 public class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
@@ -22,9 +30,9 @@ public class EventRegistry {
 
 	public static void register(Class eventClass) {
 		try {
-			register(eventClass.newInstance());
+			MinecraftForge.EVENT_BUS.register(eventClass.newInstance());
 		} catch (IllegalAccessException | InstantiationException e) {
-			FMLLog.log(Level.FATAL, "Unable to create a new instance of {} for event handling.", eventClass.getName());
+			FMLLog.log.catching(Level.FATAL, e);
 		}
 	}
 
@@ -37,7 +45,7 @@ public class EventRegistry {
 		public void loadGameRules(WorldEvent.Unload e) {
 			World world = e.getWorld();
 			GameRules gRules = world.getGameRules();
-			EasyFunctions.customGameRules.forEach((key, ruleValue) -> {
+			zdoctor.lazymodder.client.GameRules.customGameRules.forEach((key, ruleValue) -> {
 				String currentRule = gRules.getString(key);
 				RuleChangedEvent ruleEvent = new RuleChangedEvent(key, ruleValue.getKey(), ruleValue.getValue(),
 						currentRule);
@@ -51,6 +59,25 @@ public class EventRegistry {
 				}
 			});
 		}
-
+		
+		@SubscribeEvent
+		public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+			System.out.println("Recipe Evnet");
+			RecipeRegistry.registerRecipes(event);
+		}
+		
+		@SubscribeEvent
+		public void registerItems(RegistryEvent.Register<Item> event) {
+			System.out.println("Item Event");
+			
+			ItemRegistry.registerItems(event);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@SubscribeEvent
+		public void registerModels(ModelRegistryEvent event) {
+			ItemRegistry.registerItemModels();
+		}
+		
 	}
 }

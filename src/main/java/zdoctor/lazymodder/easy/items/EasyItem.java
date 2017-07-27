@@ -1,28 +1,29 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.items;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import zdoctor.lazymodder.registery.ItemRegistry;
 
-public class EasyItems extends Item {
+public class EasyItem extends Item {
 	int subCount = 1;
 
-	public EasyItems(String name) {
+	public EasyItem(String name) {
 		this(name, false);
 	}
 	
-	public EasyItems(String name, boolean hasSubTypes) {
+	public EasyItem(String name, boolean hasSubTypes) {
 		setUnlocalizedName(name);
 		setHasSubtypes(hasSubTypes);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.MISC);
 		setMaxStackSize(64);
-		EasyFunctions.register(this);
+		ItemRegistry.register(this);
 	}
 
-	public EasyItems noStack() {
+	public EasyItem noStack() {
 		this.setMaxStackSize(1);
 		return this;
 	}
@@ -36,12 +37,12 @@ public class EasyItems extends Item {
 	}
 	
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		if(this.hasSubtypes)
 			for(int i = 0; i < this.getSubCount(); i++)
-				subItems.add(new ItemStack(itemIn, 1, i));
+				subItems.add(new ItemStack(this, 1, i));
 		else
-			super.getSubItems(itemIn, tab, subItems);
+			super.getSubItems(tab, subItems);
 	}
 	
 	@Override
@@ -54,7 +55,7 @@ public class EasyItems extends Item {
 		return getRegistryName().getResourcePath();
 	}
 
-	public static class ContainerItem extends EasyItems {
+	public static class ContainerItem extends EasyItem {
 		public static final int UNBREAKING = Short.MIN_VALUE;
 		public ContainerItem(String name, int uses) {
 			super(name);
@@ -77,7 +78,7 @@ public class EasyItems extends Item {
 
 		@Override
 		public ItemStack getContainerItem(ItemStack itemStack) {
-			if (itemStack.attemptDamageItem(1, itemRand)) {
+			if (itemStack.attemptDamageItem(1, itemRand, null)) {
 				return ItemStack.EMPTY;
 			}
 			return itemStack.copy();

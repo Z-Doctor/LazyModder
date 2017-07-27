@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.items;
 
 import java.util.Set;
 
@@ -28,6 +28,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import zdoctor.lazymodder.registery.ItemRegistry;
+
 // ToDo: Add the shove feature to make dirt path.
 /**
  * Contains a bunch of quick ways to create tools/weapons, with added/intended
@@ -35,7 +37,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * 
  * @author Z_Doctor
  */
-public abstract class EasyTools {
+public abstract class EasyTools implements IEasyItem {
 	/**
 	 * @param materialName
 	 *            The name of the material
@@ -75,41 +77,96 @@ public abstract class EasyTools {
 	private static void register(Item tool, String toolName) {
 		tool.setRegistryName(toolName);
 		tool.setUnlocalizedName(toolName);
-		GameRegistry.register(tool);
+		ItemRegistry.register(tool);
 	}
 
-	public static class EasyPickaxe extends ItemPickaxe {
+	public static class EasyPickaxe extends ItemPickaxe implements IEasyItem {
 		public EasyPickaxe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
 		}
+
+		@Override
+		public String getNameFromMeta(int meta) {
+			// TODO Auto-generated method stub
+			return getRegistryName().getResourcePath();
+		}
+
+		@Override
+		public int getSubCount() {
+			return 1;
+		}
 	}
 
-	public static class EasyAxe extends ItemAxe {
+	public static class EasyAxe extends ItemAxe implements IEasyItem {
 		public EasyAxe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
 		}
+
+		@Override
+		public String getNameFromMeta(int meta) {
+			// TODO Auto-generated method stub
+			return getRegistryName().getResourcePath();
+		}
+
+		@Override
+		public int getSubCount() {
+			return 1;
+		}
 	}
 
-	public static class EasySpade extends ItemSpade {
+	public static class EasySpade extends ItemSpade implements IEasyItem {
 		public EasySpade(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
 		}
+
+		@Override
+		public String getNameFromMeta(int meta) {
+			// TODO Auto-generated method stub
+			return getRegistryName().getResourcePath();
+		}
+
+		@Override
+		public int getSubCount() {
+			return 1;
+		}
 	}
 
-	public static class EasyHoe extends ItemHoe {
+	public static class EasyHoe extends ItemHoe implements IEasyItem {
 		public EasyHoe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
 		}
+
+		@Override
+		public String getNameFromMeta(int meta) {
+			// TODO Auto-generated method stub
+			return getRegistryName().getResourcePath();
+		}
+
+		@Override
+		public int getSubCount() {
+			return 1;
+		}
 	}
 
-	public static class EasyWeapon extends ItemSword {
+	public static class EasyWeapon extends ItemSword implements IEasyItem {
 		public EasyWeapon(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
+		}
+
+		@Override
+		public String getNameFromMeta(int meta) {
+			// TODO Auto-generated method stub
+			return getRegistryName().getResourcePath();
+		}
+
+		@Override
+		public int getSubCount() {
+			return 1;
 		}
 	}
 
@@ -135,16 +192,14 @@ public abstract class EasyTools {
 			@Override
 			public boolean canHarvestBlock(IBlockState state) {
 				Block block = state.getBlock();
-		        return block == Blocks.SNOW_LAYER ? true : block == Blocks.SNOW ? true : super.canHarvestBlock(state);
+				return block == Blocks.SNOW_LAYER ? true : block == Blocks.SNOW ? true : super.canHarvestBlock(state);
 			}
 
 			@Override
 			public float getStrVsBlock(ItemStack stack, IBlockState state) {
-				return shovelBlocks.contains(state.getBlock()) ? this.getToolMaterial().getEfficiencyOnProperMaterial()
+				return shovelBlocks.contains(state.getBlock()) ? efficiencyOnProperMaterial
 						: super.getStrVsBlock(stack, state);
 			}
-			
-			
 
 		}
 
@@ -162,8 +217,8 @@ public abstract class EasyTools {
 			public float getStrVsBlock(ItemStack stack, IBlockState state) {
 				if (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.VINE
 						|| state.getMaterial() == Material.PLANTS)
-					return this.getToolMaterial().getEfficiencyOnProperMaterial();
-				return omniBlocks.contains(state.getBlock()) ? this.getToolMaterial().getEfficiencyOnProperMaterial()
+					return efficiencyOnProperMaterial;
+				return omniBlocks.contains(state.getBlock()) ? efficiencyOnProperMaterial
 						: super.getStrVsBlock(stack, state);
 			}
 		}
@@ -182,8 +237,8 @@ public abstract class EasyTools {
 			public float getStrVsBlock(ItemStack stack, IBlockState state) {
 				if (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.VINE
 						|| state.getMaterial() == Material.PLANTS)
-					return this.getToolMaterial().getEfficiencyOnProperMaterial();
-				return omniBlocks.contains(state.getBlock()) ? this.getToolMaterial().getEfficiencyOnProperMaterial()
+					return efficiencyOnProperMaterial;
+				return omniBlocks.contains(state.getBlock()) ? efficiencyOnProperMaterial
 						: super.getStrVsBlock(stack, state);
 			}
 		}
@@ -222,8 +277,8 @@ public abstract class EasyTools {
 			public float getStrVsBlock(ItemStack stack, IBlockState state) {
 				if (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.VINE
 						|| state.getMaterial() == Material.PLANTS)
-					return this.getToolMaterial().getEfficiencyOnProperMaterial();
-				return omniBlocks.contains(state.getBlock()) ? this.getToolMaterial().getEfficiencyOnProperMaterial()
+					return efficiencyOnProperMaterial;
+				return omniBlocks.contains(state.getBlock()) ? efficiencyOnProperMaterial
 						: super.getStrVsBlock(stack, state);
 			}
 

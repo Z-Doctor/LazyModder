@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.items;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +8,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
+import zdoctor.lazymodder.easy.EasyFunctions;
+import zdoctor.lazymodder.registery.ItemRegistry;
 
-public class EasyArmor extends ItemArmor {
+public class EasyArmor extends ItemArmor implements IEasyItem {
 	public EasyArmor(String armorName, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
 		super(materialIn, renderIndexIn, equipmentSlotIn);
 		this.setUnlocalizedName(armorName);
@@ -24,7 +26,7 @@ public class EasyArmor extends ItemArmor {
 		armorSet.put(EntityEquipmentSlot.LEGS, new EasyArmor(armorName + "_leggings", materialIn, 2, EntityEquipmentSlot.LEGS));
 		armorSet.put(EntityEquipmentSlot.FEET, new EasyArmor(armorName + "_boots", materialIn, 1, EntityEquipmentSlot.FEET));
 		for (ItemArmor item : armorSet.values()) {
-			EasyFunctions.register(item);
+			ItemRegistry.register(item);
 		}
 		return armorSet;
 	}
@@ -34,5 +36,15 @@ public class EasyArmor extends ItemArmor {
 
 		return EnumHelper.addArmorMaterial(materialName, textureName, durability, reductionAmounts, enchantability,
 				soundOnEquip, toughness);
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return getRegistryName().getResourcePath();
+	}
+
+	@Override
+	public int getSubCount() {
+		return 1;
 	}
 }
