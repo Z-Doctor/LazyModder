@@ -4,10 +4,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.core.Misc;
-import zdoctor.lazymodder.examples.Blocks;
-import zdoctor.lazymodder.examples.Food;
-import zdoctor.lazymodder.examples.Recipes;
-import zdoctor.lazymodder.examples.ZItems;
+import zdoctor.lazymodder.examples.Entity;
+import zdoctor.lazymodder.registery.EntityRegistry;
 import zdoctor.lazymodder.registery.EventRegistry;
 
 public class CommonProxy {
@@ -15,13 +13,14 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
 //		ConfigGuiFactory.load(e);
 //		CoreEvents.load();
-		ZItems.preInit();
-		Blocks.preInit();
-//		Entity.preInit();
-		Food.preInit();
-		Recipes.preInit();
-		//Do not comment out
+		
+		Entity.preInit();
+		
 		Misc.preInit();
+		//Do not comment out
+		EventRegistry.register(EventRegistry.builtinEvents.class);
+		
+		EntityRegistry.registerEntities();
 	}
 	
 	public void init(FMLInitializationEvent e) {

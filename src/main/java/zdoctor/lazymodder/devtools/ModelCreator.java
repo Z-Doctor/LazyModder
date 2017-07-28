@@ -16,6 +16,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Used to detect if a model is missing for blocks and items and
+ * create default models for them. Due to certain limitations
+ * users must direct where to save the models.
+ * 
+ * Users will be prompted if they want to create the model file.
+ * 
+ * EasyItems and items/blocks that implement IEasyItem/IEasyBlock
+ * will automatically check for model existence and prompt. Other
+ * classes will have to handle them self.
+ * 
+ * @author Z_Doctor
+ *
+ */
 public class ModelCreator {
 	private static ResourceLocation itemRes = new ResourceLocation("lazymodder:models/item/standard_item.json");
 	private static ResourceLocation blockRes = new ResourceLocation("lazymodder:models/block/standard_block.json");

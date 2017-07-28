@@ -54,25 +54,4 @@ public class ItemRegistry {
 			registry.register(item);
 		});
 	}
-
-	public static void registerItemModels() {
-		IForgeRegistry<Item> itemReg = GameRegistry.findRegistry(Item.class);
-		itemReg.getValues().forEach(item1 -> {
-			if (item1 instanceof EasyItem) {
-				EasyItem item = (EasyItem) item1;
-				for (int i = 0; i < item.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(
-							item.getRegistryName().getResourceDomain() + ":" + item.getNameFromMeta(i), "inventory"));
-				}
-			} else if (item1 instanceof IEasyItem) {
-				IEasyItem item = (IEasyItem) item1;
-				for (int i = 0; i < item.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation((Item) item, i, new ModelResourceLocation(
-							item.getRegistryName().getResourceDomain() + ":" + item.getNameFromMeta(i), "inventory"));
-				}
-			}
-		});
-
-	}
-
 }

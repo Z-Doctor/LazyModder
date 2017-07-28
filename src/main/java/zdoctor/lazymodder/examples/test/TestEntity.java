@@ -1,6 +1,6 @@
 package zdoctor.lazymodder.examples.test;
 
-import zdoctor.lazymodder.easy.EasyEntity.EasyTileEntity.UpdateTileEntity;
+import zdoctor.lazymodder.easy.entity.EasyEntity.EasyTileEntity.UpdateTileEntity;
 
 public class TestEntity extends UpdateTileEntity {
 	@Override

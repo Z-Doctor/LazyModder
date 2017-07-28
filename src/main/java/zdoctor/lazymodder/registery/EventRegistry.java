@@ -17,6 +17,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.events.RuleChangedEvent;
+import zdoctor.lazymodder.examples.Blocks;
+import zdoctor.lazymodder.examples.Food;
+import zdoctor.lazymodder.examples.Recipes;
+import zdoctor.lazymodder.examples.ZItems;
 
 public class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
@@ -61,13 +65,16 @@ public class EventRegistry {
 		@SubscribeEvent
 		public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			System.out.println("Registering Recipes");
+			Recipes.preInit();
 			RecipeRegistry.registerRecipes(event);
 		}
 		
 		@SubscribeEvent
 		public void registerItems(RegistryEvent.Register<Item> event) {
 			System.out.println("Registering Items");
-			
+			ZItems.preInit();
+			Blocks.preInit();
+			Food.preInit();
 			ItemRegistry.registerItems(event);
 		}
 		
@@ -82,9 +89,15 @@ public class EventRegistry {
 		@SubscribeEvent
 		public void registerModels(ModelRegistryEvent event) {
 			System.out.println("Registering Models");
-			ItemRegistry.registerItemModels();
-			BlockRegistry.registerBlockModels();
+			RenderRegistry.registerItemModels();
+			RenderRegistry.registerBlockModels();
 		}
+		
+//		@SideOnly(Side.CLIENT)
+//		@SubscribeEvent
+//		public void registerEntities(RegistryEvent<IForgeRegistryEntry<T>>) {
+//			
+//		}
 		
 	}
 }

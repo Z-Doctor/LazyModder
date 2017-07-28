@@ -43,26 +43,4 @@ public class BlockRegistry {
 		});
 	}
 
-	public static void registerBlockModels() {
-		IForgeRegistry<Block> blockReg = GameRegistry.findRegistry(Block.class);
-		blockReg.getValues().forEach(block1 -> {
-			if (block1 instanceof EasyBlock) { // res.getResourceDomain().equalsIgnoreCase(modId))
-												// {
-				EasyBlock block = (EasyBlock) block1;
-				for (int i = 0; i < block.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), i,
-							new ModelResourceLocation(
-									block.getRegistryName().getResourceDomain() + ":" + block.getNameFromMeta(i),
-									"inventory"));
-				}
-			} else if (block1 instanceof IEasyBlock) {
-				IEasyBlock block = (IEasyBlock) block1;
-				for (int i = 0; i < block.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation((Item) block, i, new ModelResourceLocation(
-							block.getRegistryName().getResourceDomain() + ":" + block.getNameFromMeta(i), "inventory"));
-				}
-			}
-		});
-
-	}
 }

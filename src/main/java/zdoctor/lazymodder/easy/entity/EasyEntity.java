@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy;
+package zdoctor.lazymodder.easy.entity;
 
 import org.apache.logging.log4j.Level;
 
@@ -25,9 +25,10 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
-import zdoctor.lazymodder.easy.EasyEntity.InventoryEntity.InventoryTileEntity;
+import zdoctor.lazymodder.easy.EasyFunctions;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.blocks.EasyBlock.EasyItemBlock;
+import zdoctor.lazymodder.easy.entity.EasyEntity.InventoryEntity.InventoryTileEntity;
 
 public class EasyEntity extends BlockContainer {
 	{

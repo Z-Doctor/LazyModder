@@ -13,7 +13,7 @@ import zdoctor.lazymodder.proxy.CommonProxy;
 public class ModMain {
 	public static final String MODID = "lazymodder";
 	//Change this to true if you are developing using lazymodder
-	public static final boolean DEV_ENV = false;
+	public static final boolean DEV_ENV = true;
 	@Instance
 	public static ModMain mod = new ModMain();
 
