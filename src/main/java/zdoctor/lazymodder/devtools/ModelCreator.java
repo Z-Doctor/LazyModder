@@ -14,18 +14,19 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * Used to detect if a model is missing for blocks and items and
- * create default models for them. Due to certain limitations
- * users must direct where to save the models.
+ * Used to detect if a model is missing for blocks and items and create default
+ * models for them. Due to certain limitations users must direct where to save
+ * the models.
  * 
  * Users will be prompted if they want to create the model file.
  * 
- * EasyItems and items/blocks that implement IEasyItem/IEasyBlock
- * will automatically check for model existence and prompt. Other
- * classes will have to handle them self.
+ * EasyItems and items/blocks that implement IEasyItem/IEasyBlock will
+ * automatically check for model existence and prompt. Other classes will have
+ * to handle them self.
  * 
  * @author Z_Doctor
  *
@@ -43,6 +44,42 @@ public class ModelCreator {
 		fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
+	}
+
+	public void createDefaultModel(ItemStack stack) {
+		try {
+			int reply = JOptionPane.showConfirmDialog(null, "Create default model?",
+					"Item Model Missing - " + stack.getUnlocalizedName().substring(5), JOptionPane.YES_NO_OPTION);
+			if (reply == JOptionPane.YES_OPTION) {
+				int returnVal = fc.showOpenDialog(null);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = new File(fc.getSelectedFile(), stack.getUnlocalizedName().substring(5) + ".json");
+					fc.setCurrentDirectory(fc.getSelectedFile());
+
+					if (file.createNewFile()) {
+						System.out.println("Succesfully created model");
+						BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+						InputStream in = Minecraft.getMinecraft().getResourceManager().getResource(itemRes)
+								.getInputStream();
+						BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+						String s = null;
+						while ((s = reader.readLine()) != null) {
+							bw.write(s);
+							bw.newLine();
+						}
+						bw.close();
+					} else
+						JOptionPane.showMessageDialog(null, "File already exists");
+				}
+			}
+
+		} catch (Exception e1) {
+			System.out.println("Failed to load file");
+			// e1.printStackTrace();
+		}
 	}
 
 	public void createDefaultModel(Item item) {
@@ -205,19 +242,29 @@ public class ModelCreator {
 		return exist;
 	}
 
+	public static String getItemPath(Item item, int meta) {
+		return item.getRegistryName().getResourceDomain() + ":models/item/"
+				+ item.getUnlocalizedName(new ItemStack(item, meta)).substring(5) + ".json";
+	}
+
+	public static String getItemPath(ItemStack stack) {
+		return stack.getItem().getRegistryName().getResourceDomain() + ":models/item/"
+				+ stack.getUnlocalizedName().substring(5) + ".json";
+	}
+
 	public static String getItemPath(Item item) {
-		return item.getRegistryName().getResourceDomain()
-				+ ":models/item/" + item.getRegistryName().getResourcePath() + ".json";
+		return item.getRegistryName().getResourceDomain() + ":models/item/" + item.getRegistryName().getResourcePath()
+				+ ".json";
 	}
 
 	public String getBlockPath(Block block) {
-		return block.getRegistryName().getResourceDomain()
-				+ ":models/block/" + block.getRegistryName().getResourcePath() + ".json";
-	}
-	
-	public String getBlockStatePath(Block block) {
-		return block.getRegistryName().getResourceDomain() + ":blockstates/"
+		return block.getRegistryName().getResourceDomain() + ":models/block/"
 				+ block.getRegistryName().getResourcePath() + ".json";
+	}
+
+	public String getBlockStatePath(Block block) {
+		return block.getRegistryName().getResourceDomain() + ":blockstates/" + block.getRegistryName().getResourcePath()
+				+ ".json";
 	}
 
 }

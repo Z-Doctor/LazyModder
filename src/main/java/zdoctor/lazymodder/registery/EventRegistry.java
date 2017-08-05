@@ -10,10 +10,12 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.events.RuleChangedEvent;
@@ -21,6 +23,7 @@ import zdoctor.lazymodder.examples.Blocks;
 import zdoctor.lazymodder.examples.Food;
 import zdoctor.lazymodder.examples.Recipes;
 import zdoctor.lazymodder.examples.ZItems;
+import zdoctor.lazymodder.helpers.KeyBindingHelper;
 
 public class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
@@ -93,11 +96,9 @@ public class EventRegistry {
 			RenderRegistry.registerBlockModels();
 		}
 		
-//		@SideOnly(Side.CLIENT)
-//		@SubscribeEvent
-//		public void registerEntities(RegistryEvent<IForgeRegistryEntry<T>>) {
-//			
-//		}
-		
+		@SubscribeEvent
+		public void lootEvent(LootTableLoadEvent event) {
+//			event.getLootTableManager().
+		}
 	}
 }

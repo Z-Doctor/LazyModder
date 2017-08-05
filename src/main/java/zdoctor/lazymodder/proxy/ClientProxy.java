@@ -10,7 +10,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
         //EasyTESR.registerEasyTESR();
-        RenderRegistry.registerEntityRenderingHandlers();
+//        RenderRegistry.registerEntityRenderingHandlers();
     }
 
     @Override

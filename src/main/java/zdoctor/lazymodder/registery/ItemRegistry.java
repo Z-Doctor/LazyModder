@@ -2,16 +2,15 @@ package zdoctor.lazymodder.registery;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.devtools.ModelCreator;
-import zdoctor.lazymodder.easy.items.EasyItem;
+import zdoctor.lazymodder.easy.blocks.EasyBlock.EasyItemBlock;
 import zdoctor.lazymodder.easy.items.IEasyItem;
 
 public class ItemRegistry {
@@ -23,25 +22,36 @@ public class ItemRegistry {
 		if (ModMain.DEV_ENV) {
 			if (mc == null)
 				mc = new ModelCreator();
-
-			if (!mc.doesFileExist(mc.getItemPath(item))) {
+			if (item.getHasSubtypes()) {
+				NonNullList<ItemStack> subList = NonNullList.create();
+				item.getSubItems(CreativeTabs.SEARCH, subList);
+				System.out.println("Found SubTypes: " + subList.size());
+				for (ItemStack itemStack : subList) {
+					if (!mc.doesFileExist(mc.getItemPath(itemStack))) {
+						System.out.println("Model Error: " + itemStack.getUnlocalizedName().substring(5));
+						mc.createDefaultModel(itemStack);
+					}
+				}
+			} else if (!mc.doesFileExist(mc.getItemPath(item))) {
 				System.out.println("Model Error: " + item.getRegistryName());
-				mc.createDefaultModel(item);
+				mc.createDefaultModel((Item) item);
 			}
 		}
 
 		itemList.add(item);
 	}
-	
-	public static void register(ItemBlock item) {
+
+	public static void register(EasyItemBlock item) {
 		System.out.println("ItemBlock Added: " + item.getRegistryName());
 		if (ModMain.DEV_ENV) {
-			if (mc == null)
-				mc = new ModelCreator();
+			if (item instanceof IEasyItem) {
+				if (mc == null)
+					mc = new ModelCreator();
 
-			if (!mc.doesFileExist(mc.getItemPath(item))) {
-				System.out.println("Model Error: " + item.getRegistryName());
-				mc.createDefaultModel(item);
+				if (!mc.doesFileExist(mc.getItemPath(item))) {
+					System.out.println("Model Error: " + item.getRegistryName());
+					mc.createDefaultModel(item);
+				}
 			}
 		}
 
@@ -50,6 +60,7 @@ public class ItemRegistry {
 
 	public static void registerItems(Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
+		System.out.println("Registering ITems");
 		itemList.forEach(item -> {
 			registry.register(item);
 		});

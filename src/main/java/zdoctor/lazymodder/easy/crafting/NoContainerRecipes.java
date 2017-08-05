@@ -54,10 +54,10 @@ public interface NoContainerRecipes extends EasyRecipe {
 			return nonnulllist;
 		}
 
-		@Override
-		public String getName() {
-			return getRecipeOutput().getItem().getRegistryName().toString();
-		}
+//		@Override
+//		public String getName() {
+//			return getRecipeOutput().getItem().getRegistryName().toString();
+//		}
 
 		@Override
 		public ResourceLocation getGroupResource() {
@@ -110,10 +110,10 @@ public interface NoContainerRecipes extends EasyRecipe {
 			return nonnulllist;
 		}
 
-		@Override
-		public String getName() {
-			return getRecipeOutput().getItem().getRegistryName().toString();
-		}
+//		@Override
+//		public String getName() {
+//			return getRecipeOutput().getItem().getRegistryName().toString();
+//		}
 
 		@Override
 		public ResourceLocation getGroupResource() {

@@ -7,6 +7,8 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import zdoctor.lazymodder.registery.RecipeRegistry;
 
 public interface EasyRecipe extends IRecipe {
 	
@@ -24,12 +26,13 @@ public interface EasyRecipe extends IRecipe {
 		}
 		
 		public ShapedRecipe(String group, NonNullList<Ingredient> ingredients, ItemStack result) {
-			super(group, 3, 3, ingredients, result);
+			this(group, 3, 3, ingredients, result);
 		}
 		
 		public ShapedRecipe(String group, int width, int height, NonNullList<Ingredient> ingredients, ItemStack output) {
 			super(group, width, height, ingredients, output);
-//			GameRegistry.addShapedRecipe(name, group, output, params);
+			setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + output.getUnlocalizedName().substring(5)));
+			RecipeRegistry.addRecipe(this);
 		}
 
 		@Override
@@ -42,10 +45,6 @@ public interface EasyRecipe extends IRecipe {
 			return new ResourceLocation(this.getGroup());
 		}
 		
-		@Override
-		public String getName() {
-			return getRecipeOutput().getItem().getRegistryName().toString();
-		}
 	}
 	
 	public static class ShapelessRecipe extends ShapelessRecipes implements EasyRecipe {
@@ -63,6 +62,8 @@ public interface EasyRecipe extends IRecipe {
 		
 		public ShapelessRecipe(String group, NonNullList<Ingredient> ingredients, ItemStack output) {
 			super(group, output, ingredients);
+			setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId() + ":" + output.getUnlocalizedName().substring(5)));
+			RecipeRegistry.addRecipe(this);
 //			GameRegistry.addShapedRecipe(name, group, output, params);
 		}
 
@@ -76,16 +77,12 @@ public interface EasyRecipe extends IRecipe {
 			return new ResourceLocation(this.getGroup());
 		}
 
-		@Override
-		public String getName() {
-			return getRecipeOutput().getItem().getRegistryName().toString();
-		}
 	}
 	
 
 	public String getGroup();
 	
-	public String getName();
+//	public String getName();
 	
 	public ResourceLocation getGroupResource();
 

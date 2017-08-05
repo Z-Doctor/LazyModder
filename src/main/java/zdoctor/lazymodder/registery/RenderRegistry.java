@@ -7,9 +7,12 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -21,26 +24,23 @@ import zdoctor.lazymodder.easy.items.EasyItem;
 import zdoctor.lazymodder.easy.items.IEasyItem;
 
 public class RenderRegistry {
-	
+
 	public static void registerItemModels() {
 		IForgeRegistry<Item> itemReg = GameRegistry.findRegistry(Item.class);
-		itemReg.getValues().forEach(item1 -> {
-			if (item1 instanceof EasyItem) {
-				EasyItem item = (EasyItem) item1;
-				for (int i = 0; i < item.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(
-							item.getRegistryName().getResourceDomain() + ":" + item.getNameFromMeta(i), "inventory"));
-				}
-			} else if (item1 instanceof IEasyItem) {
-				IEasyItem item = (IEasyItem) item1;
-				for (int i = 0; i < item.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation((Item) item, i, new ModelResourceLocation(
-							item.getRegistryName().getResourceDomain() + ":" + item.getNameFromMeta(i), "inventory"));
+		itemReg.getValues().forEach(item -> {
+			if (item instanceof IEasyItem) {
+				NonNullList<ItemStack> subItems = NonNullList.create();
+				item.getSubItems(CreativeTabs.SEARCH, subItems);
+				for (int i = 0; i < subItems.size(); i++) {
+					System.out.println("Registered Model: " + subItems.get(i).getUnlocalizedName().substring(5));
+					ModelLoader.setCustomModelResourceLocation(item, i,
+							new ModelResourceLocation(item.getRegistryName().getResourceDomain() + ":"
+									+ subItems.get(i).getUnlocalizedName().substring(5), "inventory"));
 				}
 			}
 		});
 	}
-	
+
 	public static void registerBlockModels() {
 		IForgeRegistry<Block> blockReg = GameRegistry.findRegistry(Block.class);
 		blockReg.getValues().forEach(block1 -> {
@@ -62,16 +62,9 @@ public class RenderRegistry {
 			}
 		});
 	}
-	
-	public static void registerEntityRenderingHandlers() {
-		System.out.println("registering Handlers");
-		EntityRegistry.entityList.forEach(entity -> {
-			if(entity.getEntityClass() != null && entity.getEntityRenderer() != null)
-				registerEntityRenderingHandler(entity.getEntityClass(), entity.getEntityRenderer());
-		});
-	}
-	
-	public static void registerEntityRenderingHandler(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRender) {
+
+	public static void registerEntityRenderingHandler(Class<? extends EntityLiving> entityClass,
+			Class<? extends RenderLiving> entityRender) {
 		registerEntityRenderingHandler(entityClass, new IRenderFactory() {
 
 			@Override
@@ -85,8 +78,9 @@ public class RenderRegistry {
 			}
 		});
 	}
-	
-	public static void registerEntityRenderingHandler(Class<? extends Entity> entityClass, IRenderFactory<Entity> renderFactory) {
+
+	public static void registerEntityRenderingHandler(Class<? extends Entity> entityClass,
+			IRenderFactory<Entity> renderFactory) {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
 	}
 }

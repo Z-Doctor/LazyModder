@@ -21,15 +21,17 @@ public class BlockRegistry {
 	public static void register(Block block) {
 		System.out.println("Block Added: " + block.getRegistryName());
 		if (ModMain.DEV_ENV) {
-			if (mc == null)
-				mc = new ModelCreator();
-			
-			if (!mc.doesFileExist(mc.getBlockPath(block))) {
-				mc.createDefaultModel(block);
+			if(block instanceof IEasyBlock) {
+				if (mc == null)
+					mc = new ModelCreator();
+				
+				if (!mc.doesFileExist(mc.getBlockPath(block))) {
+					mc.createDefaultModel(block);
+				}
+				
+				if (!mc.doesFileExist(mc.getBlockStatePath(block))) 
+					mc.createDefaultBlockstate(block);
 			}
-			
-			if (!mc.doesFileExist(mc.getBlockStatePath(block))) 
-				mc.createDefaultBlockstate(block);
 		}
 
 		blockList.add(block);

@@ -43,22 +43,32 @@ public abstract class IngredientList {
 			ingredientList = NonNullList.withSize(height * width, Ingredient.EMPTY);
 		}
 		
-		public boolean addIngredient(int x, int y, Item item) {
+		public ShapedList addIngredient(int x, int y, Item item) {
 			return addIngredient(x, y, Ingredient.fromItem(item));
 		}
 		
-		public boolean addIngredient(int x, int y, ItemStack stack) {
+		public ShapedList addIngredient(int x, int y, ItemStack stack) {
 			return addIngredient(x, y, Ingredient.fromStacks(stack));
 		}
 		
-		public boolean addIngredient(int x, int y, Ingredient ingredient) {
+		public ShapedList addIngredient(int x, int y, Ingredient ingredient) {
 			try {
 				ingredientList.set(getWidth() * (y - 1) + (x - 1), ingredient);
-				return true;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				FMLLog.log.catching(Level.FATAL, e);
-				return false;
 			}
+			
+			return this;
+		}
+		
+		public ShapedList addIngredient(Item ingredient, int... coords) {
+			if(coords.length % 2 == 0) {
+				for(int i = 0; i < coords.length; i = i + 2) {
+					addIngredient(coords[i], coords[i+1], ingredient);
+				}
+			} else
+				FMLLog.log.warn("Unable to add ingredient");
+			return this;
 		}
 
 		@Override
@@ -74,14 +84,14 @@ public abstract class IngredientList {
 			ingredientList = NonNullList.create();
 		}
 		
-		public boolean addIngredient(Item item) {
+		public ShapelessList addIngredient(Item item) {
 			ingredientList.add(Ingredient.fromItem(item));
-			return true;
+			return this;
 		}
 		
-		public boolean addIngredient(ItemStack stack) {
+		public ShapelessList addIngredient(ItemStack stack) {
 			ingredientList.add(Ingredient.fromStacks(stack));
-			return true;
+			return this;
 		}
 
 		@Override

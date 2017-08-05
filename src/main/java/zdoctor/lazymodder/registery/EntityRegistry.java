@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.relauncher.Side;
 import zdoctor.lazymodder.easy.entity.EasyLivingEntity;
 
 public class EntityRegistry {
@@ -19,33 +20,47 @@ public class EntityRegistry {
 	static Map<String, Integer> UID = new HashMap<>();
 
 	public static void registerEntities() {
-		entityList.forEach(entity -> {
-			String mod = entity.getRegistryName().getResourceDomain();
-			Integer temp = UID.putIfAbsent(mod, 0);
-			int id = temp == null ? 0 : temp.intValue();
-			UID.put(mod, ++id);
-			
-			EntityEntry entry = new EntityEntry(entity.getEntityClass(), entity.getRegistryName().getResourcePath()).setRegistryName(entity.getRegistryName());
-			
-			System.out.println("Test: " + entity.getRegistryName()+ " : " +
-						entity.getEntityClass()+ " : " + entity.getRegistryName().getResourcePath()+ " : " + id+ " : " + mod+ " : " +
-						entity.getTrackingRange()+ " : " + entity.getUpdateFrequency()+ " : " + entity.sendsVelocityUpdates()+ " : " +
-						entity.getPrimaryEggColor()+ " : " + entity.getSecondaryEggColor());
-			if (entity.hasEgg())
-				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
-						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
-						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates(),
-						entity.getPrimaryEggColor(), entity.getSecondaryEggColor());
-			else
-				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
-						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
-						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
-		});
+//		entityList.forEach(entity -> {
+//			String mod = entity.getRegistryName().getResourceDomain();
+//			Integer temp = UID.putIfAbsent(mod, 0);
+//			int id = temp == null ? 0 : temp.intValue();
+//			UID.put(mod, ++id);
+//			
+//			if (entity.hasEgg())
+//				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
+//						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
+//						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates(),
+//						entity.getPrimaryEggColor(), entity.getSecondaryEggColor());
+//			else
+//				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
+//						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
+//						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
+//		});
 	}
 
 	public static void register(EasyLivingEntity entity) {
 		System.out.println("Entity Added: " + entity.getRegistryName());
-		entityList.add(entity);
+//		entityList.add(entity);
+		
+		String mod = entity.getRegistryName().getResourceDomain();
+		Integer temp = UID.putIfAbsent(mod, 0);
+		int id = temp == null ? 0 : temp.intValue();
+		UID.put(mod, ++id);
+		
+		if (entity.hasEgg())
+			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
+					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
+					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates(),
+					entity.getPrimaryEggColor(), entity.getSecondaryEggColor());
+		else
+			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
+					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
+					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
+		
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT && entity.getEntityRenderer() != null) {
+			System.out.println("Client side");
+			RenderRegistry.registerEntityRenderingHandler(entity.getEntityClass(), entity.getEntityRenderer());
+		}
 	}
 
 	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max,

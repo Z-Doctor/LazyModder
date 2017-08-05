@@ -9,16 +9,21 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.Loader;
 import zdoctor.lazymodder.client.model.ModelMushromoid;
+import zdoctor.lazymodder.entity.living.EntityMushromoid;
 import zdoctor.lazymodder.registery.EntityRegistry;
+import zdoctor.lazymodder.renderer.RenderMushromid;
+
 /**
- * Used to create entities with models. Can also create eggs for them and existing model.
- * If the renderer is null, the client will used an previously associated model with the class.s
+ * Used to create entities with models. Can also create eggs for them and
+ * existing model. If the renderer is null, the client will used an previously
+ * associated model with the class.s
  * 
  * 
  * @author Z_Doctor
@@ -35,10 +40,18 @@ public class EasyLivingEntity {
 
 	private String entityName;
 
-	private ResourceLocation registryName;
-
 	private Class<? extends EntityLiving> entityClass;
 	private Class<? extends RenderLiving> entityRenderer;
+	
+	private ResourceLocation registryName;
+	
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
 
 	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
 			String entityName) {
@@ -46,26 +59,89 @@ public class EasyLivingEntity {
 		this.entityName = entityName;
 
 		this.entityRenderer = entityRenderer;
-
 		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
 
+	}
+
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
+			String entityName, int primary, int secondary) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.entityRenderer = entityRenderer;
+
+		addEgg(primary, secondary);
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
+	
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
+			String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.entityRenderer = entityRenderer;
+
+		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
 		EntityRegistry.register(this);
 	}
 
-	public EasyLivingEntity addEgg(int primaryColor, int secondaryColor) {
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
+			String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates, int primary,
+			int secondary) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.entityRenderer = entityRenderer;
+
+		this.addEgg(primary, secondary);
+		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
+	
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
+		
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
+	
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates, int primary, int secondary) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.addEgg(primary, secondary);
+		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
+		
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
+
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int primary, int secondary) {
+		this.entityClass = entityClass;
+		this.entityName = entityName;
+
+		this.addEgg(primary, secondary);
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EntityRegistry.register(this);
+	}
+
+	protected void addEgg(int primaryColor, int secondaryColor) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
 		hasEgg = true;
-
-		return this;
 	}
 
-	public EasyLivingEntity updateValues(int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
+	protected void updateValues(int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
 		this.trackingRange = trackingRange;
 		this.updateFrequenc = updateFrequenc;
 		this.sendsVelocityUpdates = sendsVelocityUpdates;
-
-		return this;
 	}
 
 	public ResourceLocation getRegistryName() {
@@ -153,7 +229,7 @@ public class EasyLivingEntity {
 		protected void updateAITasks() {
 
 		}
-		
+
 		/**
 		 * Where to add modifiers to health, speed, etc
 		 */
@@ -161,8 +237,8 @@ public class EasyLivingEntity {
 		protected void applyEntityAttributes() {
 			super.applyEntityAttributes();
 		}
-		
-		//Check in existing models and parent class for more examples
+
+		// Check in existing models and parent class for more examples
 	}
 
 	/**
@@ -183,5 +259,4 @@ public class EasyLivingEntity {
 	public static class CustomModel extends ModelBase {
 
 	}
-
 }
