@@ -1,7 +1,5 @@
 package zdoctor.lazymodder.registery;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
@@ -20,14 +18,23 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.blocks.IEasyBlock;
-import zdoctor.lazymodder.easy.items.EasyItem;
 import zdoctor.lazymodder.easy.items.IEasyItem;
+import zdoctor.lazymodder.interfaces.IItemModel;
 
 public class RenderRegistry {
 
 	public static void registerItemModels() {
 		IForgeRegistry<Item> itemReg = GameRegistry.findRegistry(Item.class);
 		itemReg.getValues().forEach(item -> {
+//			if(item instanceof IItemModel) {
+//				NonNullList<ItemStack> subItems = NonNullList.create();
+//				item.getSubItems(CreativeTabs.SEARCH, subItems);
+//				for (int i = 0; i < subItems.size(); i++) {
+//					System.out.println("Registered Model: " + subItems.get(i).getUnlocalizedName().substring(5));
+//					ModelLoader.setCustomModelResourceLocation(item, i,
+//							((IItemModel)subItems.get(i).getItem()).getModelLocation(subItems.get(i)));
+//				}
+//			} else 
 			if (item instanceof IEasyItem) {
 				NonNullList<ItemStack> subItems = NonNullList.create();
 				item.getSubItems(CreativeTabs.SEARCH, subItems);

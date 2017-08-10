@@ -3,8 +3,6 @@ package zdoctor.lazymodder.proxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import zdoctor.lazymodder.examples.Entity;
-import zdoctor.lazymodder.examples.GUIs;
 import zdoctor.lazymodder.helpers.KeyBindingHelper;
 import zdoctor.lazymodder.registery.EntityRegistry;
 import zdoctor.lazymodder.registery.EventRegistry;
@@ -15,7 +13,7 @@ public class CommonProxy {
 //		ConfigGuiFactory.load(e);
 //		CoreEvents.load();
 		
-		Entity.preInit();
+//		Entity.preInit();
 		
 		//Do not comment out
 		EventRegistry.register(EventRegistry.builtinEvents.class);
@@ -29,7 +27,7 @@ public class CommonProxy {
 		//Do not comment out
 		EventRegistry.init();
 
-		GUIs.init();
+//		GUIs.init();
 	}
 	
 	public void postInit(FMLPostInitializationEvent e) {

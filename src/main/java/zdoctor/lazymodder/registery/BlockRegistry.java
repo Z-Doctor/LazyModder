@@ -13,30 +13,28 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.devtools.ModelCreator;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.blocks.IEasyBlock;
+import zdoctor.lazymodder.interfaces.INoModel;
 
 public class BlockRegistry {
 	private static ArrayList<Block> blockList = new ArrayList<>();
 	private static ModelCreator mc;
-	
+
 	public static void register(Block block) {
 		System.out.println("Block Added: " + block.getRegistryName());
-		if (ModMain.DEV_ENV) {
-			if(block instanceof IEasyBlock) {
-				if (mc == null)
-					mc = new ModelCreator();
-				
-				if (!mc.doesFileExist(mc.getBlockPath(block))) {
-					mc.createDefaultModel(block);
-				}
-				
-				if (!mc.doesFileExist(mc.getBlockStatePath(block))) 
-					mc.createDefaultBlockstate(block);
+		if (ModMain.DEV_ENV && block instanceof IEasyBlock && !(block instanceof INoModel)) {
+			if (mc == null)
+				mc = new ModelCreator();
+
+			if (!mc.doesFileExist(mc.getBlockPath(block))) {
+				mc.createDefaultModel(block);
 			}
+
+			if (!mc.doesFileExist(mc.getBlockStatePath(block)))
+				mc.createDefaultBlockstate(block);
 		}
 
 		blockList.add(block);
 	}
-
 
 	public static void registerBlocks(Register<Block> event) {
 		IForgeRegistry<Block> registry = event.getRegistry();

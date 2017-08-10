@@ -17,14 +17,14 @@ public class ZItems {
 	public static EasyItem testItem;
 
 	public static void preInit() {
-		Item guiItem = new EasyItem("GuiTest") {
-			public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-				playerIn.openGui(ModMain.mod, 0, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
-//				Test test = new GUIs.Test();
-//				Minecraft.getMinecraft().displayGuiScreen(test);
-				return super.onItemRightClick(worldIn, playerIn, handIn);
-			};
-		}.setCreativeTab(CreativeTabs.TOOLS);
+//		Item guiItem = new EasyItem("GuiTest") {
+//			public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+//				playerIn.openGui(ModMain.mod, 0, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+////				Test test = new GUIs.Test();
+////				Minecraft.getMinecraft().displayGuiScreen(test);
+//				return super.onItemRightClick(worldIn, playerIn, handIn);
+//			};
+//		}.setCreativeTab(CreativeTabs.TOOLS);
 //		testItem = new EasyItem("TestItem");
 //		Item testAxe = new EasyTools.EasyAxe("TestAxe", ToolMaterial.DIAMOND);
 //		Item testPick = new EasyTools.EasyPickaxe("TestPick", ToolMaterial.DIAMOND);

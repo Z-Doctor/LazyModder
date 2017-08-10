@@ -10,6 +10,10 @@ import zdoctor.lazymodder.registery.ItemRegistry;
 
 public class EasyItem extends Item implements IEasyItem {
 	int subCount = 1;
+	
+	public EasyItem() {
+		ItemRegistry.register(this);
+	}
 
 	public EasyItem(String name) {
 		this(name, 1);

@@ -19,7 +19,7 @@ public class GUIs {
 	public static void init() {
 		// testGuiID = GUIHandler.registerGUI(new EasyGUI.GuiScreen(true, true),
 		// EasyGUI.Empty_Container);
-		GuiHandler testGui = new GuiHandler(Test.class);
+//		GuiHandler testGui = new GuiHandler(Test.class);
 	}
 
 	public static class Test extends GuiScreen {

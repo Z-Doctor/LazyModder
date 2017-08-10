@@ -16,6 +16,7 @@ public class EasyArmor extends ItemArmor implements IEasyItem {
 		this.setUnlocalizedName(armorName);
 		this.setRegistryName(armorName);
 		this.setCreativeTab(CreativeTabs.COMBAT);
+		ItemRegistry.register(this);
 	}
 	
 	public static Map<EntityEquipmentSlot, ItemArmor> createArmorSet(String armorName, ArmorMaterial materialIn) {

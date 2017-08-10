@@ -1,0 +1,16 @@
+[
+{
+  "modid": "defaultp",
+  "name": "Default Name",
+  "description": "",
+  "version": "1.0",
+  "mcversion": "1.12",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Z_Doctor"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

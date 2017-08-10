@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -152,20 +154,43 @@ public abstract class EasyTools implements IEasyItem {
 	}
 
 	public static class EasyWeapon extends ItemSword implements IEasyItem {
+		private int subTypeCount;
+
 		public EasyWeapon(String toolName, ToolMaterial material) {
+			this(toolName, 1, material);
+		}
+		
+		public EasyWeapon(String toolName, int subTypeCount, ToolMaterial material) {
 			super(material);
+			this.subTypeCount = subTypeCount;
+			if(subTypeCount > 1)
+				setHasSubtypes(true);
 			register(this, toolName);
 		}
 
 		@Override
 		public String getNameFromMeta(int meta) {
-			// TODO Auto-generated method stub
 			return getRegistryName().getResourcePath();
 		}
 
 		@Override
 		public int getSubCount() {
-			return 1;
+			return subTypeCount;
+		}
+		
+		@Override
+		public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+			if (this.hasSubtypes) {
+				if (this.isInCreativeTab(tab))
+					for (int i = 0; i < this.getSubCount(); i++)
+						subItems.add(new ItemStack(this, 1, i));
+			} else
+				super.getSubItems(tab, subItems);
+		}
+
+		@Override
+		public String getUnlocalizedName(ItemStack par1ItemStack) {
+			return "item." + this.getNameFromMeta(par1ItemStack.getItemDamage()).toLowerCase();
 		}
 	}
 

@@ -20,27 +20,10 @@ public class EntityRegistry {
 	static Map<String, Integer> UID = new HashMap<>();
 
 	public static void registerEntities() {
-//		entityList.forEach(entity -> {
-//			String mod = entity.getRegistryName().getResourceDomain();
-//			Integer temp = UID.putIfAbsent(mod, 0);
-//			int id = temp == null ? 0 : temp.intValue();
-//			UID.put(mod, ++id);
-//			
-//			if (entity.hasEgg())
-//				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
-//						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
-//						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates(),
-//						entity.getPrimaryEggColor(), entity.getSecondaryEggColor());
-//			else
-//				net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
-//						entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
-//						entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
-//		});
 	}
 
 	public static void register(EasyLivingEntity entity) {
 		System.out.println("Entity Added: " + entity.getRegistryName());
-//		entityList.add(entity);
 		
 		String mod = entity.getRegistryName().getResourceDomain();
 		Integer temp = UID.putIfAbsent(mod, 0);

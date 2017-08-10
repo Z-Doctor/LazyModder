@@ -15,15 +15,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.events.RuleChangedEvent;
-import zdoctor.lazymodder.examples.Blocks;
-import zdoctor.lazymodder.examples.Food;
-import zdoctor.lazymodder.examples.Recipes;
-import zdoctor.lazymodder.examples.ZItems;
-import zdoctor.lazymodder.helpers.KeyBindingHelper;
 
 public class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
@@ -68,16 +62,16 @@ public class EventRegistry {
 		@SubscribeEvent
 		public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			System.out.println("Registering Recipes");
-			Recipes.preInit();
+//			Recipes.preInit();
 			RecipeRegistry.registerRecipes(event);
 		}
 		
 		@SubscribeEvent
 		public void registerItems(RegistryEvent.Register<Item> event) {
 			System.out.println("Registering Items");
-			ZItems.preInit();
-			Blocks.preInit();
-			Food.preInit();
+//			ZItems.preInit();
+//			Blocks.preInit();
+//			Food.preInit();
 			ItemRegistry.registerItems(event);
 		}
 		

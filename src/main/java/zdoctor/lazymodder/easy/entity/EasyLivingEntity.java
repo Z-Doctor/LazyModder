@@ -1,24 +1,15 @@
 package zdoctor.lazymodder.easy.entity;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.Loader;
-import zdoctor.lazymodder.client.model.ModelMushromoid;
-import zdoctor.lazymodder.entity.living.EntityMushromoid;
 import zdoctor.lazymodder.registery.EntityRegistry;
-import zdoctor.lazymodder.renderer.RenderMushromid;
 
 /**
  * Used to create entities with models. Can also create eggs for them and
