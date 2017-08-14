@@ -1,0 +1,25 @@
+Making Items is super easy with LazyModder, no external class required. Just create a new instance of EasyItem and pass a string for its name.
+
+Item test1 = new EasyItem("test1");
+
+The libarary handles naming, registration, and rendering.
+
+You can control the amount of subtypes an item has by pasing that along with the constructor.
+
+Item test2 = new EasyItem("test2", 5);
+
+By default, It will only register one JSon file, but you can change this behavior by overriding getRegistryNameForMeta(int meta). However, I personally recommending just overriding in the JSon file because every EasyItem is given META_GETTER which will change its model depending on meta.There are a few other getters added by Minecraft suchs as: DAMAGED_GETTER, DAMAGE_GETTER, LEFTHANDED_GETTER, and COOLDOWN_GETTER. That can be used to further customize based on these values. An example of overrriding is as follows and would be put into the JSon file for test2:
+
+{
+    "overrides": [
+        {"predicate":{"meta": 0},  "model":"(modid):item/item1"},
+        {"predicate":{"meta": 1},  "model":"(modid):item/item2"},
+        {"predicate":{"meta": 2},  "model":"(modid):item/item3"},
+        {"predicate":{"meta": 3},  "model":"(modid):item/item4"},
+        {"predicate":{"meta": 4},  "model":"(modid):item/item5"}
+    ]
+}
+
+You may want to override getNameFromMeta(int meta) as to name each state something else.
+
+Another class found in EasyItem is ContainerItem. Its the same as above except that when used it returns an item (i.e. when lava is used as fuel the bucket is returned, or a wooden bowl is returned when mushroom soup is eaten).
