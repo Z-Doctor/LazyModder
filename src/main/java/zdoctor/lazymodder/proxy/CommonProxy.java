@@ -13,9 +13,6 @@ public class CommonProxy {
 //		ConfigGuiFactory.load(e);
 //		CoreEvents.load();
 		
-//		Entity.preInit();
-		
-		//Do not comment out
 		EventRegistry.register(EventRegistry.builtinEvents.class);
 		EventRegistry.register(KeyBindingHelper.class);
 		EntityRegistry.registerEntities();
@@ -23,11 +20,7 @@ public class CommonProxy {
 	}
 	
 	public void init(FMLInitializationEvent e) {
-//		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.mod, new GUIHandler());
-		//Do not comment out
 		EventRegistry.init();
-
-//		GUIs.init();
 	}
 	
 	public void postInit(FMLPostInitializationEvent e) {

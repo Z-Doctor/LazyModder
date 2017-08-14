@@ -24,4 +24,9 @@ public class EasyBucket extends ItemBucket implements IEasyItem {
 		return 1;
 	}
 
+	@Override
+	public String getRegistryNameForMeta(int meta) {
+		return getNameFromMeta(meta);
+	}
+
 }

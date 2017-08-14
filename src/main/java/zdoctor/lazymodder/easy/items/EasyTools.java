@@ -89,13 +89,17 @@ public abstract class EasyTools implements IEasyItem {
 
 		@Override
 		public String getNameFromMeta(int meta) {
-			// TODO Auto-generated method stub
 			return getRegistryName().getResourcePath();
 		}
 
 		@Override
 		public int getSubCount() {
 			return 1;
+		}
+
+		@Override
+		public String getRegistryNameForMeta(int meta) {
+			return getNameFromMeta(meta);
 		}
 	}
 
@@ -115,6 +119,11 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return 1;
 		}
+		
+		@Override
+		public String getRegistryNameForMeta(int meta) {
+			return getNameFromMeta(meta);
+		}
 	}
 
 	public static class EasySpade extends ItemSpade implements IEasyItem {
@@ -133,6 +142,11 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return 1;
 		}
+		
+		@Override
+		public String getRegistryNameForMeta(int meta) {
+			return getNameFromMeta(meta);
+		}
 	}
 
 	public static class EasyHoe extends ItemHoe implements IEasyItem {
@@ -143,13 +157,17 @@ public abstract class EasyTools implements IEasyItem {
 
 		@Override
 		public String getNameFromMeta(int meta) {
-			// TODO Auto-generated method stub
 			return getRegistryName().getResourcePath();
 		}
 
 		@Override
 		public int getSubCount() {
 			return 1;
+		}
+		
+		@Override
+		public String getRegistryNameForMeta(int meta) {
+			return getNameFromMeta(meta);
 		}
 	}
 
@@ -191,6 +209,11 @@ public abstract class EasyTools implements IEasyItem {
 		@Override
 		public String getUnlocalizedName(ItemStack par1ItemStack) {
 			return "item." + this.getNameFromMeta(par1ItemStack.getItemDamage()).toLowerCase();
+		}
+		
+		@Override
+		public String getRegistryNameForMeta(int meta) {
+			return getNameFromMeta(meta);
 		}
 	}
 

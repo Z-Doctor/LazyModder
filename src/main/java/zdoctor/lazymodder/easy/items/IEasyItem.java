@@ -15,4 +15,6 @@ public interface IEasyItem {
 	public boolean getHasSubtypes();
 
 	public void getSubItems(CreativeTabs search, NonNullList<ItemStack> subList);
+
+	public String getRegistryNameForMeta(int meta);
 }

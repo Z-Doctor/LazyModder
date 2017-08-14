@@ -1,13 +1,8 @@
 package zdoctor.lazymodder.easy.blocks;
 
 import net.minecraft.util.ResourceLocation;
+import zdoctor.lazymodder.easy.items.IEasyItem;
 
-public interface IEasyBlock {
-
-	int getSubCount();
-
-	ResourceLocation getRegistryName();
-
-	String getNameFromMeta(int i);
+public interface IEasyBlock extends IEasyItem {
 
 }

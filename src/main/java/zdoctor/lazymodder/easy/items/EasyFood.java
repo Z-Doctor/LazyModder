@@ -77,7 +77,11 @@ public class EasyFood extends ItemFood implements IEasyItem {
 			}
 		}
 	}
-
+	
+	@Override
+	public String getRegistryNameForMeta(int meta) {
+		return getNameFromMeta(meta);
+	}
 	
 	public static class EasyDrink extends EasyFood {
 		public EasyDrink(String name, int amount) {

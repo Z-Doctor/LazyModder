@@ -15,56 +15,44 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.blocks.IEasyBlock;
 import zdoctor.lazymodder.easy.items.IEasyItem;
-import zdoctor.lazymodder.interfaces.IItemModel;
+import zdoctor.lazymodder.interfaces.INoModel;
 
 public class RenderRegistry {
 
+	@SideOnly(Side.CLIENT)
 	public static void registerItemModels() {
 		IForgeRegistry<Item> itemReg = GameRegistry.findRegistry(Item.class);
 		itemReg.getValues().forEach(item -> {
-//			if(item instanceof IItemModel) {
-//				NonNullList<ItemStack> subItems = NonNullList.create();
-//				item.getSubItems(CreativeTabs.SEARCH, subItems);
-//				for (int i = 0; i < subItems.size(); i++) {
-//					System.out.println("Registered Model: " + subItems.get(i).getUnlocalizedName().substring(5));
-//					ModelLoader.setCustomModelResourceLocation(item, i,
-//							((IItemModel)subItems.get(i).getItem()).getModelLocation(subItems.get(i)));
-//				}
-//			} else 
-			if (item instanceof IEasyItem) {
+			if (item instanceof IEasyItem && !(item instanceof INoModel)) {
 				NonNullList<ItemStack> subItems = NonNullList.create();
 				item.getSubItems(CreativeTabs.SEARCH, subItems);
 				for (int i = 0; i < subItems.size(); i++) {
-					System.out.println("Registered Model: " + subItems.get(i).getUnlocalizedName().substring(5));
+					IEasyItem item1 = (IEasyItem) item;
+					System.out.println("Registered Model: " + item.getRegistryName().getResourceDomain() + ":" + item1.getRegistryNameForMeta(i));
 					ModelLoader.setCustomModelResourceLocation(item, i,
 							new ModelResourceLocation(item.getRegistryName().getResourceDomain() + ":"
-									+ subItems.get(i).getUnlocalizedName().substring(5), "inventory"));
+									+ item1.getRegistryNameForMeta(i), "inventory"));
 				}
 			}
 		});
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	public static void registerBlockModels() {
 		IForgeRegistry<Block> blockReg = GameRegistry.findRegistry(Block.class);
 		blockReg.getValues().forEach(block1 -> {
-			if (block1 instanceof EasyBlock) { // res.getResourceDomain().equalsIgnoreCase(modId))
-												// {
-				EasyBlock block = (EasyBlock) block1;
-				for (int i = 0; i < block.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), i,
-							new ModelResourceLocation(
-									block.getRegistryName().getResourceDomain() + ":" + block.getNameFromMeta(i),
-									"inventory"));
-				}
-			} else if (block1 instanceof IEasyBlock) {
+			if (block1 instanceof IEasyBlock && !(block1 instanceof INoModel)) {
 				IEasyBlock block = (IEasyBlock) block1;
 				for (int i = 0; i < block.getSubCount(); i++) {
-					ModelLoader.setCustomModelResourceLocation((Item) block, i, new ModelResourceLocation(
-							block.getRegistryName().getResourceDomain() + ":" + block.getNameFromMeta(i), "inventory"));
+					System.out.println("REG BLOCK: " + block.getRegistryName().getResourceDomain() + ":" + block.getRegistryNameForMeta(i));
+					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block1), i, new ModelResourceLocation(block.getRegistryName().getResourceDomain() + ":" +
+							block.getRegistryNameForMeta(i), "inventory"));
 				}
 			}
 		});

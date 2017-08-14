@@ -12,15 +12,17 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.devtools.ModelCreator;
 import zdoctor.lazymodder.easy.blocks.EasyBlock.EasyItemBlock;
 import zdoctor.lazymodder.easy.items.IEasyItem;
+import zdoctor.lazymodder.interfaces.IModelHelper;
 import zdoctor.lazymodder.interfaces.INoModel;
 
 public class ItemRegistry {
 	private static ArrayList<Item> itemList = new ArrayList<>();
 	private static ModelCreator mc;
 
+	@SuppressWarnings("unused")
 	public static void register(Item item) {
 		System.out.println("Item Added: " + item.getRegistryName());
-		if (ModMain.DEV_ENV && item instanceof IEasyItem && !(item instanceof INoModel)) {
+		if (ModMain.DEV_ENV && item instanceof IModelHelper) {
 			if (mc == null)
 				mc = new ModelCreator();
 			if (item.getHasSubtypes()) {
@@ -42,10 +44,11 @@ public class ItemRegistry {
 		itemList.add(item);
 	}
 
+	@SuppressWarnings("unused")
 	public static void register(EasyItemBlock item) {
 		System.out.println("ItemBlock Added: " + item.getRegistryName());
 		if (ModMain.DEV_ENV && item instanceof IEasyItem && !(item instanceof INoModel)) {
-			if (item instanceof IEasyItem) {
+			if (item instanceof IEasyItem && item instanceof IModelHelper) {
 				if (mc == null)
 					mc = new ModelCreator();
 

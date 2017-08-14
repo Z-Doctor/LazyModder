@@ -19,7 +19,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.events.RuleChangedEvent;
 
-public class EventRegistry {
+/**
+ * @author Z_Doctor
+ * 
+ * Events class should be registered here either
+ * 
+ */
+public final class EventRegistry {
 	private static NonNullList<Object> eventList = NonNullList.create();
 
 	public static void init() {
@@ -27,6 +33,10 @@ public class EventRegistry {
 		eventList.clear();
 	}
 
+	/**
+	 * Used to register event classes
+	 * @param eventClass - I.e ModEvent.class
+	 */
 	public static void register(Class eventClass) {
 		try {
 			MinecraftForge.EVENT_BUS.register(eventClass.newInstance());
@@ -34,12 +44,22 @@ public class EventRegistry {
 			FMLLog.log.catching(Level.FATAL, e);
 		}
 	}
-
+	
+	/**
+	 * Used to register event class instances
+	 * @param modEvents - I.e new ModEvent();
+	 */
 	public static void register(Object modEvents) {
 		eventList.add(modEvents);
 	}
 
-	public static class builtinEvents {
+	/**
+	 * @author Z_Doctor
+	 * 
+	 * Internal class for built in events
+	 *
+	 */
+	public static final class builtinEvents {
 		@SubscribeEvent
 		public void loadGameRules(WorldEvent.Unload e) {
 			World world = e.getWorld();
@@ -62,23 +82,18 @@ public class EventRegistry {
 		@SubscribeEvent
 		public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			System.out.println("Registering Recipes");
-//			Recipes.preInit();
 			RecipeRegistry.registerRecipes(event);
 		}
 		
 		@SubscribeEvent
 		public void registerItems(RegistryEvent.Register<Item> event) {
 			System.out.println("Registering Items");
-//			ZItems.preInit();
-//			Blocks.preInit();
-//			Food.preInit();
 			ItemRegistry.registerItems(event);
 		}
 		
 		@SubscribeEvent
 		public void registerBlocks(RegistryEvent.Register<Block> event) {
 			System.out.println("Registering Blocks");
-			
 			BlockRegistry.registerBlocks(event);
 		}
 		
@@ -92,7 +107,6 @@ public class EventRegistry {
 		
 		@SubscribeEvent
 		public void lootEvent(LootTableLoadEvent event) {
-//			event.getLootTableManager().
 		}
 	}
 }

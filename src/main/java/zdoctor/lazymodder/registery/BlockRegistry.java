@@ -13,15 +13,17 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.devtools.ModelCreator;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.blocks.IEasyBlock;
+import zdoctor.lazymodder.interfaces.IModelHelper;
 import zdoctor.lazymodder.interfaces.INoModel;
 
 public class BlockRegistry {
 	private static ArrayList<Block> blockList = new ArrayList<>();
 	private static ModelCreator mc;
 
+	@SuppressWarnings("unused")
 	public static void register(Block block) {
 		System.out.println("Block Added: " + block.getRegistryName());
-		if (ModMain.DEV_ENV && block instanceof IEasyBlock && !(block instanceof INoModel)) {
+		if (ModMain.DEV_ENV && block instanceof IModelHelper && !(block instanceof INoModel)) {
 			if (mc == null)
 				mc = new ModelCreator();
 

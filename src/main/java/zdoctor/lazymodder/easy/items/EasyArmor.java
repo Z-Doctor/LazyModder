@@ -47,4 +47,9 @@ public class EasyArmor extends ItemArmor implements IEasyItem {
 	public int getSubCount() {
 		return 1;
 	}
+	
+	@Override
+	public String getRegistryNameForMeta(int meta) {
+		return getNameFromMeta(meta);
+	}
 }

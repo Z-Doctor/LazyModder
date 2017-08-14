@@ -31,6 +31,7 @@ import net.minecraft.util.ResourceLocation;
  * @author Z_Doctor
  *
  */
+//TODO Update using IModelHelper
 public class ModelCreator {
 	private static ResourceLocation itemRes = new ResourceLocation("lazymodder:models/item/standard_item.json");
 	private static ResourceLocation blockRes = new ResourceLocation("lazymodder:models/block/standard_block.json");

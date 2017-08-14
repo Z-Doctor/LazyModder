@@ -51,7 +51,7 @@ public class EasyEntity extends BlockContainer {
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
 //		EasyFunctions.register(this);
-		this.itemBlock = new EasyBlock.EasyItemBlock(this);
+//		this.itemBlock = new EasyBlock.EasyItemBlock(this);
 	}
 	
 	public Class<? extends TileEntity> getTileEntity() {
