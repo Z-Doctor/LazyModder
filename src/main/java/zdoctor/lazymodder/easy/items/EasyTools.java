@@ -29,7 +29,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import zdoctor.lazymodder.registery.ItemRegistry;
+import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 // ToDo: Add the shove feature to make dirt path.
 /**
@@ -38,7 +39,7 @@ import zdoctor.lazymodder.registery.ItemRegistry;
  * 
  * @author Z_Doctor
  */
-public abstract class EasyTools implements IEasyItem {
+public abstract class EasyTools implements IEasyRegister {
 	/**
 	 * @param materialName
 	 *            The name of the material
@@ -78,10 +79,10 @@ public abstract class EasyTools implements IEasyItem {
 	private static void register(Item tool, String toolName) {
 		tool.setRegistryName(toolName);
 		tool.setUnlocalizedName(toolName);
-		ItemRegistry.register(tool);
+		EasyRegistry.register(tool);
 	}
 
-	public static class EasyPickaxe extends ItemPickaxe implements IEasyItem {
+	public static class EasyPickaxe extends ItemPickaxe implements IEasyRegister {
 		public EasyPickaxe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
@@ -103,7 +104,7 @@ public abstract class EasyTools implements IEasyItem {
 		}
 	}
 
-	public static class EasyAxe extends ItemAxe implements IEasyItem {
+	public static class EasyAxe extends ItemAxe implements IEasyRegister {
 		public EasyAxe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
@@ -119,14 +120,14 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return 1;
 		}
-		
+
 		@Override
 		public String getRegistryNameForMeta(int meta) {
 			return getNameFromMeta(meta);
 		}
 	}
 
-	public static class EasySpade extends ItemSpade implements IEasyItem {
+	public static class EasySpade extends ItemSpade implements IEasyRegister {
 		public EasySpade(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
@@ -142,14 +143,14 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return 1;
 		}
-		
+
 		@Override
 		public String getRegistryNameForMeta(int meta) {
 			return getNameFromMeta(meta);
 		}
 	}
 
-	public static class EasyHoe extends ItemHoe implements IEasyItem {
+	public static class EasyHoe extends ItemHoe implements IEasyRegister {
 		public EasyHoe(String toolName, ToolMaterial material) {
 			super(material);
 			register(this, toolName);
@@ -164,24 +165,24 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return 1;
 		}
-		
+
 		@Override
 		public String getRegistryNameForMeta(int meta) {
 			return getNameFromMeta(meta);
 		}
 	}
 
-	public static class EasyWeapon extends ItemSword implements IEasyItem {
+	public static class EasyWeapon extends ItemSword implements IEasyRegister {
 		private int subTypeCount;
 
 		public EasyWeapon(String toolName, ToolMaterial material) {
 			this(toolName, 1, material);
 		}
-		
+
 		public EasyWeapon(String toolName, int subTypeCount, ToolMaterial material) {
 			super(material);
 			this.subTypeCount = subTypeCount;
-			if(subTypeCount > 1)
+			if (subTypeCount > 1)
 				setHasSubtypes(true);
 			register(this, toolName);
 		}
@@ -195,7 +196,7 @@ public abstract class EasyTools implements IEasyItem {
 		public int getSubCount() {
 			return subTypeCount;
 		}
-		
+
 		@Override
 		public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 			if (this.hasSubtypes) {
@@ -210,7 +211,7 @@ public abstract class EasyTools implements IEasyItem {
 		public String getUnlocalizedName(ItemStack par1ItemStack) {
 			return "item." + this.getNameFromMeta(par1ItemStack.getItemDamage()).toLowerCase();
 		}
-		
+
 		@Override
 		public String getRegistryNameForMeta(int meta) {
 			return getNameFromMeta(meta);

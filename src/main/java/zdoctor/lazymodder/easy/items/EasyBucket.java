@@ -1,17 +1,17 @@
 package zdoctor.lazymodder.easy.items;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
-import zdoctor.lazymodder.registery.ItemRegistry;
+import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
-public class EasyBucket extends ItemBucket implements IEasyItem {
+public class EasyBucket extends ItemBucket implements IEasyRegister {
 
 	public EasyBucket(Block containedBlockIn) {
 		super(containedBlockIn);
 		setUnlocalizedName("bucket" + containedBlockIn.getUnlocalizedName().substring(5));
 		setRegistryName("bucket" + containedBlockIn.getUnlocalizedName().substring(5));
-		ItemRegistry.register(this);
+		EasyRegistry.register(this);
 	}
 
 	@Override

@@ -11,8 +11,8 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import zdoctor.lazymodder.easy.EasyFunctions;
-import zdoctor.lazymodder.registery.ItemRegistry;
+import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.registry.EasyRegistry;
 /**
  * Some common values are:
  * Food Hunger Points Saturation
@@ -22,7 +22,7 @@ import zdoctor.lazymodder.registery.ItemRegistry;
  * Cooked Porkchop/Beef - 8 - 0.8f <p>
  * Golden Apple - 4 - 1.2f <p>
  */
-public class EasyFood extends ItemFood implements IEasyItem {
+public class EasyFood extends ItemFood implements IEasyRegister {
 	ArrayList<PotionEffect> effectsOnEaten = new ArrayList<>();
 	Map<PotionEffect, Float> chanceOnEaten = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class EasyFood extends ItemFood implements IEasyItem {
 		this.setRegistryName(name);
 		this.setCreativeTab(CreativeTabs.FOOD);
 		this.setMaxStackSize(64);
-		ItemRegistry.register(this);
+		EasyRegistry.register(this);
 	}
 	
 	
@@ -70,10 +70,10 @@ public class EasyFood extends ItemFood implements IEasyItem {
 		super.onFoodEaten(stack, world, player);
 		if (!world.isRemote) {
 			for (PotionEffect effect : this.effectsOnEaten) {
-				EasyFunctions.addPotionEffect(player, effect);
+				EasyRegistry.addPotionEffect(player, effect);
 			}
 			for (PotionEffect effect : chanceOnEaten.keySet()) {
-				EasyFunctions.addPotionEffectWithChance(player, world, effect, chanceOnEaten.get(effect));
+				EasyRegistry.addPotionEffectWithChance(player, world, effect, chanceOnEaten.get(effect));
 			}
 		}
 	}
