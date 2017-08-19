@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.old.easy.crafting;
+package zdoctor.lazymodder.easy.crafting;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;

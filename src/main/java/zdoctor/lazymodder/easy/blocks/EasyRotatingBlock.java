@@ -23,7 +23,7 @@ import zdoctor.lazymodder.easy.items.EasyItemBlock;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 public class EasyRotatingBlock extends BlockHorizontal implements IEasyRegister {
-	private ItemBlock itemBlock;
+	protected ItemBlock itemBlock;
 	private int subCount;
 	private boolean invert;
 

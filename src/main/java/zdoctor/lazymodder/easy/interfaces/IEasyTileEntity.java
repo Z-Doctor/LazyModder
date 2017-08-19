@@ -4,9 +4,9 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
-public interface IEasyTileEntity {
+public interface IEasyTileEntity<T> {
 	public Class<? extends TileEntity> getTileEntity();
 	public Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer();
 	public String getTileEntityRegistryName();
-	public ItemBlock getItemBlock();
+	public T getItemBlock();
 }

@@ -41,11 +41,12 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.client.render.block.statemap.EmptyStateMap;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
+import zdoctor.lazymodder.easy.crafting.EasyRecipe;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
+import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.interfaces.INoModel;
-import zdoctor.lazymodder.old.easy.crafting.EasyRecipe;
 
 public class EasyRegistry {
 	private static ArrayList<Block> blockList = new ArrayList<>();
@@ -159,12 +160,18 @@ public class EasyRegistry {
 		blockList.forEach(block -> {
 			if (block instanceof IEasyRegister) {
 				IEasyRegister block1 = (IEasyRegister) block;
-
+				
+				if(block instanceof ICustomStateMap) {
+					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap)block).getStateMap());
+				}
+				
 				if (block instanceof IEasyTileEntity) {
 					System.out.println("REG TILEENTITY: " + block.getRegistryName());
 					IEasyTileEntity tile = (IEasyTileEntity) block1;
 					bindTileEntitySpecialRenderer(block, tile.getTileEntity(), tile.getTileEntityRenderer());
-				} else if (!(block instanceof INoModel)) {
+				}
+				
+				if (!(block instanceof INoModel)) {
 					for (int i = 0; i < block1.getSubCount(); i++) {
 						System.out.println("REG BLOCK: " + block.getRegistryName().getResourceDomain() + ":"
 								+ block1.getRegistryNameForMeta(i));

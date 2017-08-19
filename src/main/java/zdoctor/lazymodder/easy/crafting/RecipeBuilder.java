@@ -1,0 +1,100 @@
+package zdoctor.lazymodder.easy.crafting;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.util.NonNullList;
+
+public class RecipeBuilder {
+	private ItemStack result;
+	private int height = -1;
+	private int width = -1;
+	private String[] recipeArray;
+	private Map<Character, ItemStack> ingredients = new HashMap();
+	private IRecipe recipe;
+
+	public RecipeBuilder(ItemStack itemStack) {
+		this.result = itemStack;
+	}
+
+	public RecipeBuilder map(String... recipeArray) throws Exception {
+		this.height = recipeArray.length;
+		for (String string : recipeArray) {
+			if(this.width == -1)
+				this.width = string.length();
+			else if(this.width != string.length())
+				throw new Exception("Invalid Argument: Recipe strings must have same length");
+		}
+		this.recipeArray = recipeArray;
+		return this;
+	}
+
+	public RecipeBuilder where(char key, ItemStack value) {
+		ingredients.put(key, value);
+		return this;
+	}
+	
+	public RecipeBuilder where(char key, Item value) {
+		ingredients.put(key, new ItemStack(value));
+		return this;
+	}
+	
+	public RecipeBuilder buildShaped() {
+		return this.buildShaped(Groups.NONE);
+	}
+	
+	public RecipeBuilder buildShaped(String group) {
+		recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
+		return this;
+	}
+
+	private NonNullList<Ingredient> getIngreidentList() {
+		NonNullList<Ingredient> ingredientList = NonNullList.withSize(height*width, Ingredient.EMPTY);
+		int coord = 0;
+		for (String s : recipeArray) {
+			for(int i = 0; i < s.length() -1; i++) {
+				char c = s.charAt(i);
+				if(c != ' ')
+					ingredientList.set(coord, Ingredient.fromStacks(ingredients.get(c)));
+				coord++;
+			}
+		}
+		return null;
+	}
+
+	public static class Groups {
+		public static final String NONE = "";
+		public static final String WOOL = "wool";
+		public static final String STAINED_HARDENED_CLAY = "stained_hardened_clay";
+		public static final String STAINED_GLASS_PANE = "stained_glass_pane";
+		public static final String STAINED_GLASS = "stained_glass";
+		public static final String YELLOW_DYE = "yellow_dye";
+		public static final String CONCRETE_POWDER = "concrete_powder";
+		public static final String CARPET = "carpet";
+		public static final String DYED_BED = "dyed_bed";
+		public static final String BED = "bed";
+		public static final String BANNER = "banner";
+		public static final String WOODEN_DOOR = "wooden_door";
+		public static final String WOODEN_SLAB = "wooden_slab";
+		public static final String WOODEN_STAIRS = "wooden_stairs";
+		public static final String PLANKS = "planks";
+		public static final String WOODEN_FENCE_GATE = "wooden_fence_gate";
+		public static final String WOODEN_FENCE = "wooden_fence";
+		public static final String boat = "boat";
+		public static final String RED_DYE = "red_dye";
+		public static final String RABBIT_STEW = "rabbit_stew";
+		public static final String PINK_DYE = "pink_dye";
+		public static final String ORANGE_DYE = "orange_dye";
+		public static final String MAGENTA_DYE = "magenta_dye";
+		public static final String LIGHT_GRAY_DYE = "light_gray_dye";
+		public static final String LIGHT_BLUE_DYE = "light_blue_dye";
+		public static final String IRON_INGOT = "iron_ingot";
+		public static final String GOLD_INGOT = "gold_ingot";
+		public static final String BONEMEAL = "bonemeal";
+	}
+}
