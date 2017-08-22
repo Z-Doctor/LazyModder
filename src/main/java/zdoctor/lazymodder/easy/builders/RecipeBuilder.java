@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy.crafting;
+package zdoctor.lazymodder.easy.builders;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import zdoctor.lazymodder.ModMain;
 
 public class RecipeBuilder {
 	private ItemStack result;
@@ -17,6 +23,7 @@ public class RecipeBuilder {
 	private String[] recipeArray;
 	private Map<Character, ItemStack> ingredients = new HashMap();
 	private IRecipe recipe;
+	private String name;
 
 	public RecipeBuilder(ItemStack itemStack) {
 		this.result = itemStack;
@@ -25,9 +32,9 @@ public class RecipeBuilder {
 	public RecipeBuilder map(String... recipeArray) throws Exception {
 		this.height = recipeArray.length;
 		for (String string : recipeArray) {
-			if(this.width == -1)
+			if (this.width == -1)
 				this.width = string.length();
-			else if(this.width != string.length())
+			else if (this.width != string.length())
 				throw new Exception("Invalid Argument: Recipe strings must have same length");
 		}
 		this.recipeArray = recipeArray;
@@ -38,33 +45,77 @@ public class RecipeBuilder {
 		ingredients.put(key, value);
 		return this;
 	}
-	
+
 	public RecipeBuilder where(char key, Item value) {
 		ingredients.put(key, new ItemStack(value));
 		return this;
 	}
-	
-	public RecipeBuilder buildShaped() {
-		return this.buildShaped(Groups.NONE);
-	}
-	
-	public RecipeBuilder buildShaped(String group) {
-		recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
+
+	public RecipeBuilder setName(String name) {
+		this.name = name;
 		return this;
 	}
 
-	private NonNullList<Ingredient> getIngreidentList() {
-		NonNullList<Ingredient> ingredientList = NonNullList.withSize(height*width, Ingredient.EMPTY);
+	public String getName() {
+		if (name != null)
+			return name;
+
+		StringBuilder name = new StringBuilder();
+		int coord = 0;
+		for (int i = 0; i < recipeArray.length; i++) {
+			String s = recipeArray[i];
+			for (int y = 0; y < s.length(); y++) {
+				char c = s.charAt(y);
+				if (c != ' ') {
+					ItemStack stack = ingredients.get(c);
+					name.append(stack.getDisplayName() + "[" + stack.getMetadata() + "]");
+				} else
+					name.append("Empty[0]");
+				if (i + 1 < recipeArray.length || y + 1 < s.length())
+					name.append(";");
+
+			}
+		}
+		return name.toString();
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
+
+	public IRecipe buildShaped() {
+		return this.buildShaped(Groups.NONE);
+	}
+
+	public IRecipe buildShaped(String group) {
+		recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
+		recipe.setRegistryName(new ResourceLocation(ModMain.MODID, "Shaped{" + getName() + "}"));
+		return recipe;
+	}
+
+	public IRecipe buildShapeless() {
+		return this.buildShapeless(Groups.NONE);
+	}
+
+	public IRecipe buildShapeless(String group) {
+		recipe = new ShapelessRecipes(group, result, getIngreidentList());
+		recipe.setRegistryName(new ResourceLocation(ModMain.MODID, "Shapeless{" + getName() + "}"));
+		return recipe;
+	}
+
+	public NonNullList<Ingredient> getIngreidentList() {
+		NonNullList<Ingredient> ingredientList = NonNullList.withSize(height * width, Ingredient.EMPTY);
 		int coord = 0;
 		for (String s : recipeArray) {
-			for(int i = 0; i < s.length() -1; i++) {
+			for (int i = 0; i < s.length(); i++) {
 				char c = s.charAt(i);
-				if(c != ' ')
+				if (c != ' ')
 					ingredientList.set(coord, Ingredient.fromStacks(ingredients.get(c)));
 				coord++;
 			}
 		}
-		return null;
+		return ingredientList;
 	}
 
 	public static class Groups {

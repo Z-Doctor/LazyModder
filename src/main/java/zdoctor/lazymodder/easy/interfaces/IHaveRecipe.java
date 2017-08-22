@@ -1,9 +1,11 @@
 package zdoctor.lazymodder.easy.interfaces;
 
-import zdoctor.lazymodder.easy.crafting.RecipeBuilder;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
+import zdoctor.lazymodder.easy.builders.RecipeBuilder;
 
 public interface IHaveRecipe {
 
-	public RecipeBuilder getRecipe() throws Exception;
+	public void addRecipeToList(NonNullList<IRecipe> recipeList) throws Exception;
 	
 }

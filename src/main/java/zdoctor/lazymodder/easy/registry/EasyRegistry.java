@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -41,17 +42,20 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.client.render.block.statemap.EmptyStateMap;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
+import zdoctor.lazymodder.easy.builders.RecipeBuilder;
 import zdoctor.lazymodder.easy.crafting.EasyRecipe;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
+import zdoctor.lazymodder.easy.interfaces.IHaveRecipe;
 import zdoctor.lazymodder.easy.interfaces.INoModel;
 
 public class EasyRegistry {
 	private static ArrayList<Block> blockList = new ArrayList<>();
 	private static ArrayList<Item> itemList = new ArrayList<>();
-	private static ArrayList<EasyRecipe> recipeList = new ArrayList<>();
+	private static ArrayList<IRecipe> recipeList = new ArrayList<>();
 	private static ArrayList<Object> eventList = new ArrayList<>();
 	private static ArrayList<EasyLivingEntity> entityList = new ArrayList<>();
 	private static Map<String, Integer> UID = new HashMap<>();
@@ -64,7 +68,7 @@ public class EasyRegistry {
 		itemList.add(item);
 	}
 
-	public static void register(EasyRecipe recipe) {
+	public static void register(IRecipe recipe) {
 		recipeList.add(recipe);
 	}
 	
@@ -165,9 +169,21 @@ public class EasyRegistry {
 					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap)block).getStateMap());
 				}
 				
-				if (block instanceof IEasyTileEntity) {
+				if(block instanceof IHaveRecipe) {
+					try {
+						NonNullList<IRecipe> recipeList = NonNullList.create();
+						((IHaveRecipe)block).addRecipeToList(recipeList);
+						for (IRecipe iRecipe : recipeList) {
+							register(iRecipe);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				if (block instanceof IEasyTESR) {
 					System.out.println("REG TILEENTITY: " + block.getRegistryName());
-					IEasyTileEntity tile = (IEasyTileEntity) block1;
+					IEasyTESR tile = (IEasyTESR) block1;
 					bindTileEntitySpecialRenderer(block, tile.getTileEntity(), tile.getTileEntityRenderer());
 				}
 				
@@ -181,9 +197,9 @@ public class EasyRegistry {
 					}
 				}
 
-				if (block instanceof INoModel) {
-					ModelLoader.setCustomStateMapper(block, new EmptyStateMap());
-				}
+//				if (block instanceof INoModel) {
+//					ModelLoader.setCustomStateMapper(block, new EmptyStateMap());
+//				}
 			}
 		});
 	}

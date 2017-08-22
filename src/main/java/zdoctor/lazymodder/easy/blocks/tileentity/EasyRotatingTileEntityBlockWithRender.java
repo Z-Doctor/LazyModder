@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy.entity.tile;
+package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import java.util.Random;
 
@@ -21,19 +21,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.blocks.EasyRotatingBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
-public class EasyRotatingTileEntityBlock extends EasyRotatingBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister {
+public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
 	protected Class<? extends TileEntity> tileEntity;
 	private Class<? extends TileEntitySpecialRenderer> renderEntity;
 
-	public EasyRotatingTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
+	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
 			Class<? extends TileEntitySpecialRenderer> renderEntity) {
 		this(name, tileEntity, renderEntity, Material.IRON);
 	}
 
-	public EasyRotatingTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
+	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
 			Class<? extends TileEntitySpecialRenderer> renderEntity, Material materialIn) {
 		super(name, materialIn);
 		this.tileEntity = tileEntity;

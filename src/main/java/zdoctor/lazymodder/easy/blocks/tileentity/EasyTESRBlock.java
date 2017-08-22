@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy.entity.tile;
+package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import org.apache.logging.log4j.Level;
 
@@ -15,19 +15,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
+import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
-public class EasyTileEntityBlock extends EasyBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister {
+public class EasyTESRBlock extends EasyBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
 	protected Class<? extends TileEntity> tileEntity;
 	private Class<? extends TileEntitySpecialRenderer> renderEntity;
 
-	public EasyTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
 			Class<? extends TileEntitySpecialRenderer> renderEntity) {
 		this(name, tileEntity, renderEntity, Material.IRON);
 	}
 
-	public EasyTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
 			Class<? extends TileEntitySpecialRenderer> renderEntity, Material materialIn) {
 		super(name, materialIn);
 		this.tileEntity = tileEntity;

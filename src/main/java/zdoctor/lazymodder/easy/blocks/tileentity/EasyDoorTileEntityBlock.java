@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.easy.entity.tile;
+package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import java.util.Random;
 
@@ -33,17 +33,17 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 	protected ItemDoor itemDoor;
 
 	protected Class<? extends TileEntity> tileEntity;
-	private Class<? extends TileEntitySpecialRenderer> renderEntity;
+	protected Class<? extends TileEntitySpecialRenderer> renderEntity;
 
-	private boolean powerOpens;
+	protected boolean powerOpens;
 
 	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
 			Class<? extends TileEntitySpecialRenderer> renderEntity) {
-		this(name, false, tileEntity, renderEntity, Material.IRON);
+		this(name,  tileEntity, renderEntity, false, Material.IRON);
 	}
 
-	public EasyDoorTileEntityBlock(String name, boolean powerOpens, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity, Material materialIn) {
+	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
+			Class<? extends TileEntitySpecialRenderer> renderEntity, boolean powerOpens, Material materialIn) {
 		super(materialIn);
 		this.tileEntity = tileEntity;
 		this.renderEntity = renderEntity;
@@ -53,6 +53,10 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 		this.powerOpens = powerOpens;
 		EasyRegistry.register(this);
 		itemDoor = createItem();
+	}
+	
+	public ItemDoor createItem() {
+		return new EasyItemDoorTileEntity(this);
 	}
 
 	@Override
@@ -133,18 +137,9 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 		return itemDoor;
 	}
 
-	public ItemDoor createItem() {
-		return new EasyItemDoorTileEntity(this);
-	}
-
 	@Override
 	public Class<? extends TileEntity> getTileEntity() {
 		return this.tileEntity;
-	}
-
-	@Override
-	public Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer() {
-		return this.renderEntity;
 	}
 
 	@Override
@@ -164,7 +159,7 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override
@@ -178,46 +173,6 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 	}
 
 	// Defaults
-	@Override
-	public boolean isBlockNormalCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return false;
-	}
-
-	@Override
-	public boolean isTranslucent(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isFullBlock(IBlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean hasTileEntity() {
-		return true;
-	}
-
 	@Override
 	public int getSubCount() {
 		return 1;

@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public interface IEasyTileEntity<T> {
 	public Class<? extends TileEntity> getTileEntity();
-	public Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer();
 	public String getTileEntityRegistryName();
 	public T getItemBlock();
 }
