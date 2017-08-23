@@ -9,5 +9,8 @@ This will import forge and set up the workspace.
 #How to use the library
 With some more input from Choonster, I will now detail how to use the library. First get the library version you want, see <a href="#howtobuild">How to Build</a>
 
-#<div id="howtobuild">How to build</div>
+<div id="howtobuild">
+
+#How to build
 test
+</div>
