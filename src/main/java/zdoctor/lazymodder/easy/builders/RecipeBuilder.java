@@ -90,7 +90,8 @@ public class RecipeBuilder {
 
 	public IRecipe buildShaped(String group) {
 		recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
-		recipe.setRegistryName(new ResourceLocation(ModMain.MODID, "Shaped{" + getName() + "}"));
+		String modid = Loader.instance().activeModContainer().getModId();
+		recipe.setRegistryName(new ResourceLocation(modid, "Shaped{" + getName() + "}"));
 		return recipe;
 	}
 

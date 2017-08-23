@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemDoor;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -21,16 +23,18 @@ import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 
 public class EasyItemMultiBlock extends EasyItemBlock {
 
+	private EasyMultiBlock multiBlock;
+
 	public EasyItemMultiBlock(EasyMultiBlock multiBlock) {
 		super(multiBlock, 1);
+		this.multiBlock = multiBlock;
 	}
-
+	
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ, IBlockState newState) {
 		if (!world.setBlockState(pos, newState, 11))
 			return false;
-
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() == this.block) {
 			setTileEntityNBT(world, player, pos, stack);
