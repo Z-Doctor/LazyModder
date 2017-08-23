@@ -14,7 +14,7 @@ import zdoctor.lazymodder.easy.registry.EasyRegistry;
 /**
  * Used to create entities with models. Can also create eggs for them and
  * existing model. If the renderer is null, the client will used an previously
- * associated model with the class.s
+ * associated model with the class.
  * 
  * 
  * @author Z_Doctor
