@@ -1,15 +1,13 @@
-package zdoctor.lazymodder.proxy;
+package zdoctor.defaultp.proxy;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy {
+public class ServerProxy extends CommonProxy {
 	@Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
-        //EasyTESR.registerEasyTESR();
-//        RenderRegistry.registerEntityRenderingHandlers();
     }
 
     @Override

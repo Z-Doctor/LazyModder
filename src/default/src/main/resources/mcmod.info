@@ -1,8 +1,8 @@
 [
 {
-  "modid": "lazymodder",
-  "name": "Lazy Modder",
-  "description": "A mod with useful functionality for the lazy(smart) modder. Why do the work when someone else has done it for you?",
+  "modid": "defaultp",
+  "name": "Default Name",
+  "description": "",
   "version": "1.0",
   "mcversion": "1.12",
   "url": "",
