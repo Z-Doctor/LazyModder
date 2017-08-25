@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.old.client.gui;
+package zdoctor.lazymodder.client.gui;
 
 import java.io.IOException;
 import java.util.List;

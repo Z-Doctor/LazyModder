@@ -32,20 +32,22 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.ModMain;
-import zdoctor.lazymodder.client.render.block.statemap.EmptyStateMap;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
-import zdoctor.lazymodder.easy.builders.RecipeBuilder;
-import zdoctor.lazymodder.easy.crafting.EasyRecipe;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
+import zdoctor.lazymodder.easy.interfaces.IEasyGuiHandler;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
@@ -59,6 +61,7 @@ public class EasyRegistry {
 	private static ArrayList<Object> eventList = new ArrayList<>();
 	private static ArrayList<EasyLivingEntity> entityList = new ArrayList<>();
 	private static Map<String, Integer> UID = new HashMap<>();
+	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
 
 	public static void register(Block block) {
 		blockList.add(block);
@@ -71,7 +74,7 @@ public class EasyRegistry {
 	public static void register(IRecipe recipe) {
 		recipeList.add(recipe);
 	}
-	
+
 	/**
 	 * Used to register event classes
 	 * 
@@ -108,6 +111,10 @@ public class EasyRegistry {
 			System.out.println("Client side");
 			registerEntityRenderingHandler(entity.getEntityClass(), entity.getEntityRenderer());
 		}
+	}
+
+	public static void register(IEasyGuiHandler guiHandler) {
+		guiHandlerList.add(guiHandler);
 	}
 
 	@SubscribeEvent
@@ -164,15 +171,15 @@ public class EasyRegistry {
 		blockList.forEach(block -> {
 			if (block instanceof IEasyRegister) {
 				IEasyRegister block1 = (IEasyRegister) block;
-				
-				if(block instanceof ICustomStateMap) {
-					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap)block).getStateMap());
+
+				if (block instanceof ICustomStateMap) {
+					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap) block).getStateMap());
 				}
-				
-				if(block instanceof IHaveRecipe) {
+
+				if (block instanceof IHaveRecipe) {
 					try {
 						NonNullList<IRecipe> recipeList = NonNullList.create();
-						((IHaveRecipe)block).addRecipeToList(recipeList);
+						((IHaveRecipe) block).addRecipeToList(recipeList);
 						for (IRecipe iRecipe : recipeList) {
 							register(iRecipe);
 						}
@@ -180,13 +187,13 @@ public class EasyRegistry {
 						e.printStackTrace();
 					}
 				}
-				
+
 				if (block instanceof IEasyTESR) {
 					System.out.println("REG TILEENTITY: " + block.getRegistryName());
 					IEasyTESR tile = (IEasyTESR) block1;
 					bindTileEntitySpecialRenderer(block, tile.getTileEntity(), tile.getTileEntityRenderer());
 				}
-				
+
 				if (!(block instanceof INoModel)) {
 					for (int i = 0; i < block1.getSubCount(); i++) {
 						System.out.println("REG BLOCK: " + block.getRegistryName().getResourceDomain() + ":"
@@ -197,11 +204,17 @@ public class EasyRegistry {
 					}
 				}
 
-//				if (block instanceof INoModel) {
-//					ModelLoader.setCustomStateMapper(block, new EmptyStateMap());
-//				}
+				// if (block instanceof INoModel) {
+				// ModelLoader.setCustomStateMapper(block, new EmptyStateMap());
+				// }
 			}
 		});
+	}
+	
+	public static void init() {
+		for (IEasyGuiHandler iEasyGuiHandler : guiHandlerList) {
+			NetworkRegistry.INSTANCE.registerGuiHandler(iEasyGuiHandler.getMod(), iEasyGuiHandler.getHandler());
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -270,7 +283,7 @@ public class EasyRegistry {
 			System.out.println("Failed");
 		}
 	}
-	
+
 	public static void addPotionEffect(EntityLivingBase entity, PotionEffect effect) {
 		entity.addPotionEffect(effect);
 	}
@@ -281,4 +294,5 @@ public class EasyRegistry {
 			addPotionEffect(entity, effect);
 		}
 	}
+
 }
