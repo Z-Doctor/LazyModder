@@ -5,13 +5,19 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
 public class EasyGuiScreen extends GuiScreen {
 	protected List<GuiTextField> textBoxList = Lists.<GuiTextField>newArrayList();
+	
+	public EasyGuiScreen() {
+	}
+	
+	public EasyGuiScreen(EntityPlayer player, World world, int x, int y, int z) {
+	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
