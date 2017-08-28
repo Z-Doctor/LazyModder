@@ -6,6 +6,6 @@ import zdoctor.lazymodder.easy.builders.RecipeBuilder;
 
 public interface IHaveRecipe {
 
-	public void addRecipeToList(NonNullList<IRecipe> recipeList) throws Exception;
+	public void addRecipeToList(NonNullList<IRecipe> recipeList);
 	
 }

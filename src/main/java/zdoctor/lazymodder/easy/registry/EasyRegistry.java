@@ -32,9 +32,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -63,14 +60,26 @@ public class EasyRegistry {
 	private static Map<String, Integer> UID = new HashMap<>();
 	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
 
+	/**
+	 * Blocks should be registered during preInit
+	 * @param block
+	 */
 	public static void register(Block block) {
 		blockList.add(block);
 	}
 
+	/**
+	 * Items should be registered during preInit
+	 * @param item
+	 */
 	public static void register(Item item) {
 		itemList.add(item);
 	}
 
+	/**
+	 * Recipes should be registered after items have been initialized and during preInit
+	 * @param recipe
+	 */
 	public static void register(IRecipe recipe) {
 		recipeList.add(recipe);
 	}
@@ -89,6 +98,10 @@ public class EasyRegistry {
 		}
 	}
 
+	/**
+	 * Used to register living entities and their renders
+	 * @param entity
+	 */
 	public static void register(EasyLivingEntity entity) {
 		System.out.println("Registered Living Entity: " + entity.getRegistryName());
 
@@ -108,11 +121,14 @@ public class EasyRegistry {
 					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
 
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT && entity.getEntityRenderer() != null) {
-			System.out.println("Client side");
 			registerEntityRenderingHandler(entity.getEntityClass(), entity.getEntityRenderer());
 		}
 	}
 
+	/**
+	 * Used to register IEasyGuiHandler
+	 * @param guiHandler
+	 */
 	public static void register(IEasyGuiHandler guiHandler) {
 		guiHandlerList.add(guiHandler);
 	}
@@ -242,6 +258,11 @@ public class EasyRegistry {
 		});
 	}
 
+	/**
+	 * Called internally in {@link EasyLivingEntity}, but is here for others convience
+	 * @param entityClass
+	 * @param entityRender
+	 */
 	public static void registerEntityRenderingHandler(Class<? extends EntityLiving> entityClass,
 			Class<? extends RenderLiving> entityRender) {
 		registerEntityRenderingHandler(entityClass, new IRenderFactory() {

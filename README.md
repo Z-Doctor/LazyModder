@@ -11,6 +11,9 @@ With some more input from Choonster, I will now detail how to use the library. F
 
 The difference in these two method is the first will just require without the source being visible and the second will have the soruce visible.
 
+To require the mod add this line to the Mod annotation: dependencies = "required-after:lazymodder@[x.x,)" 
+Where x is the version of the library you want to use.
+
 Note: If anyone knows of a simpler way to do this let me know!
 
 <div id="howtobuild">

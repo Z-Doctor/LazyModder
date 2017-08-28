@@ -35,11 +35,11 @@ import zdoctor.lazymodder.easy.registry.EasyRegistry;
 // ToDo: Add the shove feature to make dirt path.
 /**
  * Contains a bunch of quick ways to create tools/weapons, with added/intended
- * support omni-tools
+ * support omni-tools. Tools should not extend thi
  * 
  * @author Z_Doctor
  */
-public abstract class EasyTools implements IEasyRegister {
+public abstract class EasyTools {
 	/**
 	 * @param materialName
 	 *            The name of the material

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Loader;
 /**
  * @author Z_Doctor
  * 
- * This class helps path textures from common paths.
+ * This class helps path textures from common paths. All names are set to lower regardless of case.
  */
 public class TextureLocation extends ResourceLocation {
 	public static final String TEX_EXT = ".png";

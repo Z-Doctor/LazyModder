@@ -3,6 +3,7 @@ package zdoctor.lazymodder.easy.builders;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -22,20 +23,36 @@ public class RecipeBuilder {
 	private int width = -1;
 	private String[] recipeArray;
 	private Map<Character, ItemStack> ingredients = new HashMap();
-	private IRecipe recipe;
 	private String name;
+	private boolean isShaped = false;
+	private int meta;
+	private int amount;
 
+	public RecipeBuilder(Item item) {
+		this(new ItemStack(item));
+	}
+	
 	public RecipeBuilder(ItemStack itemStack) {
 		this.result = itemStack;
 	}
 
-	public RecipeBuilder map(String... recipeArray) throws Exception {
+	public RecipeBuilder map(String... recipeArray) {
 		this.height = recipeArray.length;
 		for (String string : recipeArray) {
-			if (this.width == -1)
-				this.width = string.length();
-			else if (this.width != string.length())
-				throw new Exception("Invalid Argument: Recipe strings must have same length");
+			this.width = this.width < string.length() ? string.length() : this.width;
+		}
+		for (String string : recipeArray) {
+			if (this.width != string.length()) {
+				StringBuilder sb = new StringBuilder(string);
+				do {
+					sb.append(' ');
+					setShaped(true);
+				} while (this.width != string.length());
+			}
+			for (char c : string.toCharArray()) {
+				if(c == ' ')
+					setShaped(true);
+			}
 		}
 		this.recipeArray = recipeArray;
 		return this;
@@ -50,10 +67,23 @@ public class RecipeBuilder {
 		ingredients.put(key, new ItemStack(value));
 		return this;
 	}
+	
+	public RecipeBuilder where(char key, Block value) {
+		ingredients.put(key, new ItemStack(value));
+		return this;
+	}
 
 	public RecipeBuilder setName(String name) {
 		this.name = name;
 		return this;
+	}
+	
+	public ItemStack getResult() {
+		return result;
+	}
+	
+	public void setResult(ItemStack result) {
+		this.result = result;
 	}
 
 	public String getName() {
@@ -83,13 +113,21 @@ public class RecipeBuilder {
 	public String toString() {
 		return getName();
 	}
+	
+	public IRecipe build() {
+		return this.build(Groups.NONE);
+	}
+
+	public IRecipe build(String group) {
+		return isShaped ? buildShaped(group) : buildShapeless(group);
+	}
 
 	public IRecipe buildShaped() {
 		return this.buildShaped(Groups.NONE);
 	}
 
 	public IRecipe buildShaped(String group) {
-		recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
+		ShapedRecipes recipe = new ShapedRecipes(group, width, height, getIngreidentList(), result);
 		String modid = Loader.instance().activeModContainer().getModId();
 		recipe.setRegistryName(new ResourceLocation(modid, "Shaped{" + getName() + "}"));
 		return recipe;
@@ -100,7 +138,7 @@ public class RecipeBuilder {
 	}
 
 	public IRecipe buildShapeless(String group) {
-		recipe = new ShapelessRecipes(group, result, getIngreidentList());
+		ShapelessRecipes recipe = new ShapelessRecipes(group, result, getIngreidentList());
 		recipe.setRegistryName(new ResourceLocation(ModMain.MODID, "Shapeless{" + getName() + "}"));
 		return recipe;
 	}
@@ -117,6 +155,11 @@ public class RecipeBuilder {
 			}
 		}
 		return ingredientList;
+	}
+	
+	public RecipeBuilder setShaped(boolean shaped) {
+		this.isShaped = shaped;
+		return this;
 	}
 
 	public static class Groups {
@@ -149,4 +192,5 @@ public class RecipeBuilder {
 		public static final String GOLD_INGOT = "gold_ingot";
 		public static final String BONEMEAL = "bonemeal";
 	}
+
 }
