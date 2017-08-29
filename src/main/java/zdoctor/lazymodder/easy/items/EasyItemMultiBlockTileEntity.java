@@ -47,7 +47,7 @@ public class EasyItemMultiBlockTileEntity extends ItemBlock implements IEasyRegi
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		if(this.block instanceof EasyBlock)
-			return "tile." + ((EasyBlock)this.block).getNameFromMeta(itemStack.getMetadata());
-		return "tile." + this.getNameFromMeta(itemStack.getMetadata());
+			return "tile." + ((EasyBlock)this.block).getNameFromMeta(itemStack.getMetadata()).toLowerCase();
+		return "tile." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
 	}
 }

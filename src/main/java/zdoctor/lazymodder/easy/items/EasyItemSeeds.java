@@ -99,7 +99,7 @@ public class EasyItemSeeds extends ItemSeeds implements IEasyRegister {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		if (this.crop instanceof IEasyRegister)
-			return "item.seed." + ((IEasyRegister) this.crop).getNameFromMeta(itemStack.getMetadata());
-		return "item.seed." + this.getNameFromMeta(itemStack.getMetadata());
+			return "item.seed." + ((IEasyRegister) this.crop).getNameFromMeta(itemStack.getMetadata()).toLowerCase();
+		return "item.seed." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
 	}
 }

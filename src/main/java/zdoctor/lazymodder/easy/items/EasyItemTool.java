@@ -53,6 +53,17 @@ public class EasyItemTool extends ItemTool implements IEasyRegister {
 		this(toolName, 1, 0.0F, 0.0F, materialIn, effectiveBlocksIn);
 	}
 	
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (isInCreativeTab(tab))
+			for (int i = 0; i < this.getSubCount(); i++)
+				subItems.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return "item." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
+	}
 
 	@Override
 	public String getNameFromMeta(int meta) {

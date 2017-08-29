@@ -5,4 +5,5 @@ public interface IEasyRegister {
 	public String getRegistryNameForMeta(int meta);
 	
 	public int getSubCount();
+	
 }

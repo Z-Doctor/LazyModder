@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -60,6 +61,18 @@ public class EasyItemHoe extends ItemHoe implements IEasyRegister {
 
 	private float getSpeed() {
 		return speed;
+	}
+	
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (isInCreativeTab(tab))
+			for (int i = 0; i < this.getSubCount(); i++)
+				subItems.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return "item." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
 	}
 
 	@Override

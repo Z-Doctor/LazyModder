@@ -59,7 +59,7 @@ public class EasyItemBlock extends ItemBlock implements IEasyRegister {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		if(this.block instanceof EasyBlock)
-			return "tile." + ((EasyBlock)this.block).getNameFromMeta(itemStack.getMetadata());
-		return "tile." + this.getNameFromMeta(itemStack.getMetadata());
+			return "tile." + ((EasyBlock)this.block).getNameFromMeta(itemStack.getMetadata()).toLowerCase();
+		return "tile." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
 	}
 }

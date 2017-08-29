@@ -10,6 +10,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
@@ -83,6 +84,28 @@ public class EasyFood extends ItemFood implements IEasyRegister {
 		return getNameFromMeta(meta);
 	}
 	
+	@Override
+	public String getNameFromMeta(int meta) {
+		return getRegistryName().getResourcePath();
+	}
+
+	@Override
+	public int getSubCount() {
+		return 1;
+	}
+	
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (isInCreativeTab(tab))
+			for (int i = 0; i < this.getSubCount(); i++)
+				subItems.add(new ItemStack(this, 1, i));
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return "item." + this.getNameFromMeta(itemStack.getMetadata()).toLowerCase();
+	}
+	
 	public static class EasyDrink extends EasyFood {
 		public EasyDrink(String name, int amount) {
 			this(name, amount, 0.6F);
@@ -104,16 +127,5 @@ public class EasyFood extends ItemFood implements IEasyRegister {
 		public EnumAction getItemUseAction(ItemStack stack) {
 			return EnumAction.DRINK;
 		}
-	}
-
-
-	@Override
-	public String getNameFromMeta(int meta) {
-		return getRegistryName().getResourcePath();
-	}
-
-	@Override
-	public int getSubCount() {
-		return 1;
 	}
 }
