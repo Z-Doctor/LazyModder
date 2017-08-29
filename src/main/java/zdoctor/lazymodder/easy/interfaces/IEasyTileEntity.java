@@ -1,7 +1,5 @@
 package zdoctor.lazymodder.easy.interfaces;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
 public interface IEasyTileEntity<T> {

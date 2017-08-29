@@ -1,12 +1,6 @@
 package zdoctor.lazymodder.builtin.helpers;
 
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionAbsorption;
-import net.minecraft.potion.PotionAttackDamage;
-import net.minecraft.potion.PotionHealth;
-import net.minecraft.potion.PotionHealthBoost;
-import net.minecraft.util.ResourceLocation;
 
 public class PotionHelper {
 	public static final Potion SPEED = Potion.getPotionFromResourceLocation("speed");

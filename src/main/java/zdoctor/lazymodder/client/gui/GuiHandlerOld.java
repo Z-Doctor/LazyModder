@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.old.client.gui;
+package zdoctor.lazymodder.client.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,18 +17,18 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
  * This class is used to create a GuiHandler. GUI IDs are handled internally
  * but can be fetched from the class.
  */
-public class GuiHandler implements IGuiHandler {
-	static Map<String, ArrayList<GuiHandler>> GUI_MAP = new HashMap<>();
+public class GuiHandlerOld implements IGuiHandler {
+	static Map<String, ArrayList<GuiHandlerOld>> GUI_MAP = new HashMap<>();
 	private int uid;
 	private Class<? extends GuiScreen> clientGui;
 	private Class<? extends Container> serverGui;
 	
-	public GuiHandler(Class<? extends GuiScreen> clientGui) {
+	public GuiHandlerOld(Class<? extends GuiScreen> clientGui) {
 		this.serverGui = null;
 		this.clientGui = clientGui;
 		
 		String mod = Loader.instance().activeModContainer().getModId();
-		ArrayList<GuiHandler> guiList = GUI_MAP.putIfAbsent(mod, new ArrayList<>());
+		ArrayList<GuiHandlerOld> guiList = GUI_MAP.putIfAbsent(mod, new ArrayList<>());
 		guiList = guiList == null ? GUI_MAP.get(mod) : guiList;
 		
 		uid = guiList.size();
@@ -37,12 +37,12 @@ public class GuiHandler implements IGuiHandler {
 		NetworkRegistry.INSTANCE.registerGuiHandler(mod, this);
 	}
 	
-	public GuiHandler(Class<? extends Container> serverGui, Class<? extends GuiContainer> clientGui) {
+	public GuiHandlerOld(Class<? extends Container> serverGui, Class<? extends GuiContainer> clientGui) {
 		this.serverGui = serverGui;
 		this.clientGui = clientGui;
 		
 		String mod = Loader.instance().activeModContainer().getModId();
-		ArrayList<GuiHandler> guiList = GUI_MAP.putIfAbsent(mod, new ArrayList<>());
+		ArrayList<GuiHandlerOld> guiList = GUI_MAP.putIfAbsent(mod, new ArrayList<>());
 		guiList = guiList == null ? GUI_MAP.get(mod) : guiList;
 		
 		uid = guiList.size();
@@ -51,7 +51,7 @@ public class GuiHandler implements IGuiHandler {
 		NetworkRegistry.INSTANCE.registerGuiHandler(mod, this);
 	}
 	
-	public GuiHandler setServerContainer(Class<? extends Container> serverGui) {
+	public GuiHandlerOld setServerContainer(Class<? extends Container> serverGui) {
 		this.serverGui = serverGui;
 		return this;
 	}
@@ -84,8 +84,8 @@ public class GuiHandler implements IGuiHandler {
 		return null;
 	}
 	
-	public static int getGuiID(GuiHandler handler) {
-		for (ArrayList<GuiHandler> guiList : GUI_MAP.values()) {
+	public static int getGuiID(GuiHandlerOld handler) {
+		for (ArrayList<GuiHandlerOld> guiList : GUI_MAP.values()) {
 			if(guiList.contains(handler))
 				return guiList.indexOf(handler);
 		};

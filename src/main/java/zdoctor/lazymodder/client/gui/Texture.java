@@ -1,4 +1,4 @@
-package zdoctor.lazymodder.old.client.gui;
+package zdoctor.lazymodder.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 
 import net.minecraft.util.ResourceLocation;
 import zdoctor.lazymodder.builtin.helpers.StreamHelper;
-import zdoctor.lazymodder.builtin.helpers.TextureLocation.GUITextureLocation;
 
 public class Texture {
 

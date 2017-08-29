@@ -20,12 +20,10 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
-import zdoctor.lazymodder.easy.interfaces.IEntityDoor;
 import zdoctor.lazymodder.easy.items.EasyItemDoorTileEntity;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 

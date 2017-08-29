@@ -15,23 +15,24 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import zdoctor.lazymodder.builtin.helpers.KeyBindingHelper;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererRenderItem;
+import zdoctor.lazymodder.easy.config.EasyConfig;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
+import zdoctor.lazymodder.events.AdditonalEvents;
 
 public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent e) {
-//		ConfigGuiFactory.load(e);
-//		CoreEvents.load();
-		
-//		EventRegistry.register(EventRegistry.builtinEvents.class);
-//		EventRegistry.register(KeyBindingHelper.class);
+//		EasyRegistry.register(EasyRegistry.builtinEvents.class);
+		EasyRegistry.register(KeyBindingHelper.class);
 		EasyRegistry.register(EasyRegistry.class);
+		EasyRegistry.register(AdditonalEvents.class);
+		EasyRegistry.register(EasyConfig.class);
 	}
 	
 	public void init(FMLInitializationEvent e) {
-//		EventRegistry.init();
-		
+		EasyRegistry.init();
 		// Adds support for IItemRender
 		IReloadableResourceManager mcResourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
 

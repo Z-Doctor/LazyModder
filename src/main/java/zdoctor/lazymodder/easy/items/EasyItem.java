@@ -1,7 +1,6 @@
 package zdoctor.lazymodder.easy.items;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -33,7 +32,7 @@ public class EasyItem extends Item implements IEasyRegister {
 
 		EasyRegistry.register(this);
 	}
-
+	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		if (isInCreativeTab(tab))

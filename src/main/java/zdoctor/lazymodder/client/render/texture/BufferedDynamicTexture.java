@@ -1,7 +1,6 @@
 package zdoctor.lazymodder.client.render.texture;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageFilter;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;

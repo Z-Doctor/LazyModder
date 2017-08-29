@@ -3,6 +3,8 @@ package zdoctor.lazymodder.builtin.helpers;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -18,6 +20,12 @@ public class KeyBindingHelper {
 	}
 	
 	public static abstract class EasyKeyBinding extends KeyBinding {
+		/**
+		 * 
+		 * @param description
+		 * @param keyCode - can be gotten from {@link Keyboard}
+		 * @param category
+		 */
 		public EasyKeyBinding(String description, int keyCode, String category) {
 			super(description, keyCode, category);
 			keyBinding.add(this);

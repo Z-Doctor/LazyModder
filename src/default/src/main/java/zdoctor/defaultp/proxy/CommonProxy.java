@@ -7,7 +7,7 @@ import zdoctor.defaultp.init.ZBlocks;
 import zdoctor.defaultp.init.ZEvents;
 import zdoctor.defaultp.init.ZFluids;
 import zdoctor.defaultp.init.ZItems;
-import zdoctor.lazymodder.registery.EventRegistry;
+import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 public class CommonProxy {
 	
@@ -22,7 +22,7 @@ public class CommonProxy {
 	}
 	
 	public void postInit(FMLPostInitializationEvent e) {
-		EventRegistry.register(ZEvents.class);
+		EasyRegistry.register(ZEvents.class);
 	}
 	
 }
