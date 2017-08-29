@@ -19,22 +19,21 @@ public class EasyItemAxe extends ItemTool {
 	protected static final float[] ATTACK_DAMAGES = new float[] { 6.0F, 8.0F, 8.0F, 8.0F, 6.0F };
 	protected static final float[] ATTACK_SPEEDS = new float[] { -3.2F, -3.2F, -3.1F, -3.0F, -3.0F };
 
-	public EasyItemAxe(String toolName, int subCount, float attackDamageIn, float attackSpeedIn,
-			Item.ToolMaterial materialIn, Set<Block> effectiveBlocksIn) {
-		super(attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn);
+	public EasyItemAxe(String toolName, Item.ToolMaterial materialIn) {
+		this(toolName, materialIn, 0.0F, 0.0F, EFFECTIVE_ON);
 	}
-
+	
 	public EasyItemAxe(String toolName, Item.ToolMaterial materialIn, Set<Block> effectiveBlocksIn) {
-		this(toolName, 1, 0.0F, 0.0F, materialIn, effectiveBlocksIn);
+		this(toolName, materialIn, 0.0F, 0.0F, effectiveBlocksIn);
 	}
 
-	/**
-	 * Used for custom materials
-	 */
-	public EasyItemAxe(Item.ToolMaterial material, float damage, float speed) {
-		super(material, EFFECTIVE_ON);
-		this.damageVsEntity = damage;
-		this.attackSpeed = speed;
+	public EasyItemAxe(String toolName, Item.ToolMaterial material, float damage, float speed) {
+		this(toolName, material, damage, speed, EFFECTIVE_ON);
+	}
+
+	public EasyItemAxe(String toolName, Item.ToolMaterial materialIn, float attackDamageIn, float attackSpeedIn,
+			Set<Block> effectiveBlocksIn) {
+		super(attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn);
 	}
 
 	@Override
