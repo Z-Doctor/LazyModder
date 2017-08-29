@@ -1,17 +1,11 @@
 package zdoctor.lazymodder.easy.items;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import zdoctor.lazymodder.easy.builders.RecipeBuilder;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IHaveRecipe;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 /**

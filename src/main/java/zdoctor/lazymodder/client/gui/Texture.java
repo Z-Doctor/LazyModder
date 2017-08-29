@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 
 import net.minecraft.util.ResourceLocation;
 import zdoctor.lazymodder.builtin.helpers.StreamHelper;
-import zdoctor.lazymodder.builtin.helpers.TextureLocation.GUITextureLocation;
 
 public class Texture {
 

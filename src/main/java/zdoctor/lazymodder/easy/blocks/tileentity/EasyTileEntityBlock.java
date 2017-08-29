@@ -4,18 +4,12 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 

@@ -1,7 +1,6 @@
 package zdoctor.lazymodder.builtin.helpers;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
 
 /**
  * @author Z_Doctor

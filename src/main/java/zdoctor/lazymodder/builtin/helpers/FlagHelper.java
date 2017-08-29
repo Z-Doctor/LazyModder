@@ -1,10 +1,5 @@
 package zdoctor.lazymodder.builtin.helpers;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializer;
-import net.minecraft.network.datasync.EntityDataManager;
-
 public class FlagHelper {
 	private int flag;
 

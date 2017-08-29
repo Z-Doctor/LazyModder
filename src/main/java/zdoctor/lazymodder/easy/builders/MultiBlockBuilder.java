@@ -1,20 +1,15 @@
 package zdoctor.lazymodder.easy.builders;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import zdoctor.lazymodder.easy.blocks.EasyMultiBlock;
-import zdoctor.lazymodder.easy.builders.StructureBuilder.Layer;
-import zdoctor.lazymodder.easy.builders.StructureBuilder.Structure;
 
 public class MultiBlockBuilder {
 	private int height = 0;

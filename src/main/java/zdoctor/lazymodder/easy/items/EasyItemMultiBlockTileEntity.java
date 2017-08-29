@@ -3,10 +3,8 @@ package zdoctor.lazymodder.easy.items;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.INoModel;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 public class EasyItemMultiBlockTileEntity extends ItemBlock implements IEasyRegister {

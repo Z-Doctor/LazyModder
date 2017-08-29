@@ -49,5 +49,13 @@ public class PropertyVariant extends PropertyHelper<String> {
 	public String getName(String value) {
 		return value;
 	}
+	
+	public String getNameFromValue(int value) {
+		return value > nameToValue.size() ? "" : nameToValue.get(value);
+	}
+	
+	public int getValue(String value) {
+		return nameToValue.indexOf(value);
+	}
 
 }

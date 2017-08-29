@@ -1,14 +1,8 @@
 package zdoctor.lazymodder.easy.items;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 

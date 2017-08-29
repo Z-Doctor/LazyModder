@@ -62,6 +62,7 @@ public class EasyRegistry {
 
 	/**
 	 * Blocks should be registered during preInit
+	 * 
 	 * @param block
 	 */
 	public static void register(Block block) {
@@ -70,6 +71,7 @@ public class EasyRegistry {
 
 	/**
 	 * Items should be registered during preInit
+	 * 
 	 * @param item
 	 */
 	public static void register(Item item) {
@@ -77,7 +79,9 @@ public class EasyRegistry {
 	}
 
 	/**
-	 * Recipes should be registered after items have been initialized and during preInit
+	 * Recipes should be registered after items have been initialized and during
+	 * preInit
+	 * 
 	 * @param recipe
 	 */
 	public static void register(IRecipe recipe) {
@@ -100,6 +104,7 @@ public class EasyRegistry {
 
 	/**
 	 * Used to register living entities and their renders
+	 * 
 	 * @param entity
 	 */
 	public static void register(EasyLivingEntity entity) {
@@ -127,6 +132,7 @@ public class EasyRegistry {
 
 	/**
 	 * Used to register IEasyGuiHandler
+	 * 
 	 * @param guiHandler
 	 */
 	public static void register(IEasyGuiHandler guiHandler) {
@@ -140,6 +146,14 @@ public class EasyRegistry {
 
 		IForgeRegistry<Block> registry = event.getRegistry();
 		blockList.forEach(block -> {
+			if (block instanceof IHaveRecipe) {
+				NonNullList<IRecipe> recipeList = NonNullList.create();
+				((IHaveRecipe) block).addRecipeToList(recipeList);
+				for (IRecipe iRecipe : recipeList) {
+					register(iRecipe);
+				}
+			}
+
 			System.out.println("Registered Block: " + block.getRegistryName());
 			registry.register(block);
 
@@ -149,6 +163,7 @@ public class EasyRegistry {
 				GameRegistry.registerTileEntity(block1.getTileEntity(), block1.getTileEntityRegistryName());
 			}
 		});
+
 	}
 
 	@SubscribeEvent
@@ -158,6 +173,13 @@ public class EasyRegistry {
 
 		IForgeRegistry<Item> registry = event.getRegistry();
 		itemList.forEach(item -> {
+			if (item instanceof IHaveRecipe) {
+				NonNullList<IRecipe> recipeList = NonNullList.create();
+				((IHaveRecipe) item).addRecipeToList(recipeList);
+				for (IRecipe iRecipe : recipeList) {
+					register(iRecipe);
+				}
+			}
 			System.out.println("Registered Item: " + item.getRegistryName());
 			registry.register(item);
 		});
@@ -192,18 +214,6 @@ public class EasyRegistry {
 					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap) block).getStateMap());
 				}
 
-				if (block instanceof IHaveRecipe) {
-					try {
-						NonNullList<IRecipe> recipeList = NonNullList.create();
-						((IHaveRecipe) block).addRecipeToList(recipeList);
-						for (IRecipe iRecipe : recipeList) {
-							register(iRecipe);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-
 				if (block instanceof IEasyTESR) {
 					System.out.println("REG TILEENTITY: " + block.getRegistryName());
 					IEasyTESR tile = (IEasyTESR) block1;
@@ -220,13 +230,10 @@ public class EasyRegistry {
 					}
 				}
 
-				// if (block instanceof INoModel) {
-				// ModelLoader.setCustomStateMapper(block, new EmptyStateMap());
-				// }
 			}
 		});
 	}
-	
+
 	public static void init() {
 		for (IEasyGuiHandler iEasyGuiHandler : guiHandlerList) {
 			NetworkRegistry.INSTANCE.registerGuiHandler(iEasyGuiHandler.getMod(), iEasyGuiHandler.getHandler());
@@ -259,7 +266,9 @@ public class EasyRegistry {
 	}
 
 	/**
-	 * Called internally in {@link EasyLivingEntity}, but is here for others convience
+	 * Called internally in {@link EasyLivingEntity}, but is here for others
+	 * convience
+	 * 
 	 * @param entityClass
 	 * @param entityRender
 	 */

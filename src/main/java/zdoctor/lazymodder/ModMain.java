@@ -1,16 +1,5 @@
 package zdoctor.lazymodder;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -18,9 +7,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import zdoctor.lazymodder.client.render.itemrender.IItemRendererRenderItem;
-import zdoctor.lazymodder.easy.registry.EasyRegistry;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
 /**

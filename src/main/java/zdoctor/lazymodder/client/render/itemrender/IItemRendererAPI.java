@@ -2,11 +2,8 @@ package zdoctor.lazymodder.client.render.itemrender;
 
 import java.lang.reflect.Method;
 
-import com.google.common.base.Throwables;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.FMLLog;
 
 /**
  * Main class of IItem Renderer API.
