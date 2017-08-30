@@ -25,6 +25,7 @@ public class EasyItemSword extends ItemSword implements IEasyRegister {
 
 	public EasyItemSword(String name, int subCount, Item.ToolMaterial material) {
 		super(material);
+		this.subCount = subCount;
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		EasyRegistry.register(this);
