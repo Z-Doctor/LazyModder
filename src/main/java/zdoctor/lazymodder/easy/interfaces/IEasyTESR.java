@@ -1,12 +1,9 @@
 package zdoctor.lazymodder.easy.interfaces;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface IEasyTESR {
-
-	Class<? extends TileEntity> getTileEntity();
-
-	Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer();
-
+public interface IEasyTESR extends IEasyTileEntity {
+	@SideOnly(Side.CLIENT)
+	public Class getTileEntityRenderer();
 }

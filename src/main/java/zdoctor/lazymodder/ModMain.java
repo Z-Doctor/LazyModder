@@ -1,5 +1,7 @@
 package zdoctor.lazymodder;
 
+import java.io.File;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -7,6 +9,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import zdoctor.lazymodder.builtin.helpers.JavaHelper;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
 /**
@@ -28,6 +31,8 @@ public class ModMain {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
+		File jarFile = JavaHelper.getLocationOfMod(MODID);
+		System.out.println("Location: " + jarFile.getAbsolutePath());
 		proxy.preInit(e);
 	}
 

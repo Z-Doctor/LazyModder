@@ -32,107 +32,38 @@ public class EasyLivingEntity {
 	private String entityName;
 
 	private Class<? extends EntityLiving> entityClass;
-	private Class<? extends RenderLiving> entityRenderer;
-	
 	private ResourceLocation registryName;
-	
+
 	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
+		this(entityClass, entityName, 0, 0);
 	}
 
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
-			String entityName) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		this.entityRenderer = entityRenderer;
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int primaryColor,
+			int secondaryColor) {
+		this(entityClass, entityName, 48, 3, true, primaryColor, secondaryColor, true);
 	}
 
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
-			String entityName, int primary, int secondary) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		this.entityRenderer = entityRenderer;
-
-		addEgg(primary, secondary);
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-	}
-	
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
-			String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		this.entityRenderer = entityRenderer;
-
-		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange,
+			int updateFrequenc, boolean sendsVelocityUpdates) {
+		this(entityClass, entityName, trackingRange, updateFrequenc, sendsVelocityUpdates, 0, 0, false);
 	}
 
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, Class<? extends RenderLiving> entityRenderer,
-			String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates, int primary,
-			int secondary) {
-		this.entityClass = entityClass;
+	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange,
+			int updateFrequenc, boolean sendsVelocityUpdates, int primaryColor, int secondaryColor, boolean hasEgg) {
 		this.entityName = entityName;
-
-		this.entityRenderer = entityRenderer;
-
-		this.addEgg(primary, secondary);
-		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-	}
-	
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
 		this.entityClass = entityClass;
-		this.entityName = entityName;
 
-		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
-		
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-	}
-	
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates, int primary, int secondary) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		this.addEgg(primary, secondary);
-		this.updateValues(trackingRange, updateFrequenc, sendsVelocityUpdates);
-		
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-	}
-
-	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int primary, int secondary) {
-		this.entityClass = entityClass;
-		this.entityName = entityName;
-
-		this.addEgg(primary, secondary);
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
-	}
-
-	protected void addEgg(int primaryColor, int secondaryColor) {
 		this.primaryColor = primaryColor;
 		this.secondaryColor = secondaryColor;
-		hasEgg = true;
-	}
 
-	protected void updateValues(int trackingRange, int updateFrequenc, boolean sendsVelocityUpdates) {
 		this.trackingRange = trackingRange;
 		this.updateFrequenc = updateFrequenc;
 		this.sendsVelocityUpdates = sendsVelocityUpdates;
+
+		this.hasEgg = hasEgg;
+
+		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+		EasyRegistry.register(this);
 	}
 
 	public ResourceLocation getRegistryName() {
@@ -141,10 +72,6 @@ public class EasyLivingEntity {
 
 	public Class<? extends EntityLiving> getEntityClass() {
 		return entityClass;
-	}
-
-	public Class<? extends RenderLiving> getEntityRenderer() {
-		return entityRenderer;
 	}
 
 	public boolean hasEgg() {
@@ -188,7 +115,10 @@ public class EasyLivingEntity {
 	 */
 	public void registerNaturalSpawning(int weightedProb, int min, int max, EnumCreatureType typeOfCreature,
 			Biome... biomes) {
-		EasyRegistry.addSpawn(getEntityClass(), weightedProb, min, max, typeOfCreature, biomes);
+		if (getEntityClass().isAssignableFrom(EntityLiving.class)) {
+			Class<EntityLiving> entityClass = (Class<EntityLiving>) getEntityClass();
+			EasyRegistry.addSpawn(entityClass, weightedProb, min, max, typeOfCreature, biomes);
+		}
 	}
 
 	/**
@@ -247,7 +177,4 @@ public class EasyLivingEntity {
 
 	}
 
-	public static class CustomModel extends ModelBase {
-
-	}
 }

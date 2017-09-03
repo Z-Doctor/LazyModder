@@ -9,7 +9,6 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -31,20 +30,16 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 	protected ItemDoor itemDoor;
 
 	protected Class<? extends TileEntity> tileEntity;
-	protected Class<? extends TileEntitySpecialRenderer> renderEntity;
 
 	protected boolean powerOpens;
 
-	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity) {
-		this(name,  tileEntity, renderEntity, false, Material.IRON);
+	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity) {
+		this(name, tileEntity, false, Material.IRON);
 	}
 
-	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity, boolean powerOpens, Material materialIn) {
+	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity, boolean powerOpens, Material materialIn) {
 		super(materialIn);
 		this.tileEntity = tileEntity;
-		this.renderEntity = renderEntity;
 		this.isBlockContainer = true;
 		setUnlocalizedName(name);
 		setRegistryName(name);

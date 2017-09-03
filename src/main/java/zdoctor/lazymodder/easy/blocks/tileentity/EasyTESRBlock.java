@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -19,20 +18,16 @@ import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
-public class EasyTESRBlock extends EasyBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
+public abstract class EasyTESRBlock extends EasyBlock implements ITileEntityProvider, IEasyRegister, IEasyTESR {
 	protected Class<? extends TileEntity> tileEntity;
-	private Class<? extends TileEntitySpecialRenderer> renderEntity;
 
-	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity) {
-		this(name, tileEntity, renderEntity, Material.IRON);
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity) {
+		this(name, tileEntity, Material.IRON);
 	}
 
-	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity, Material materialIn) {
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity, Material materialIn) {
 		super(name, materialIn);
 		this.tileEntity = tileEntity;
-		this.renderEntity = renderEntity;
 		this.isBlockContainer = true;
 	}
 	
@@ -41,11 +36,6 @@ public class EasyTESRBlock extends EasyBlock implements ITileEntityProvider, IEa
 		return this.tileEntity;
 	}
 	
-	@Override
-	public Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer() {
-		return this.renderEntity;
-	}
-
 	@Override
 	public String getTileEntityRegistryName() {
 		return getRegistryName().getResourcePath();

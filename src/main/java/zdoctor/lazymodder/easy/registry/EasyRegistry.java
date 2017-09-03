@@ -32,8 +32,10 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,6 +50,7 @@ import zdoctor.lazymodder.easy.interfaces.IEasyGuiHandler;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
+import zdoctor.lazymodder.easy.interfaces.IEasyWorldGenerator;
 import zdoctor.lazymodder.easy.interfaces.IHaveRecipe;
 import zdoctor.lazymodder.easy.interfaces.INoModel;
 
@@ -55,8 +58,10 @@ public class EasyRegistry {
 	private static ArrayList<Block> blockList = new ArrayList<>();
 	private static ArrayList<Item> itemList = new ArrayList<>();
 	private static ArrayList<IRecipe> recipeList = new ArrayList<>();
+	private static ArrayList<IEasyWorldGenerator> worldGenList = new ArrayList<>();
 	private static ArrayList<Object> eventList = new ArrayList<>();
 	private static ArrayList<EasyLivingEntity> entityList = new ArrayList<>();
+	private static ArrayList<RenderLiving> entityRendererList = new ArrayList<>();
 	private static Map<String, Integer> UID = new HashMap<>();
 	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
 
@@ -87,6 +92,10 @@ public class EasyRegistry {
 	public static void register(IRecipe recipe) {
 		recipeList.add(recipe);
 	}
+	
+	public static void register(IEasyWorldGenerator worldGen) {
+		worldGenList.add(worldGen);
+	}
 
 	/**
 	 * Used to register event classes
@@ -109,7 +118,6 @@ public class EasyRegistry {
 	 */
 	public static void register(EasyLivingEntity entity) {
 		System.out.println("Registered Living Entity: " + entity.getRegistryName());
-
 		String mod = entity.getRegistryName().getResourceDomain();
 		Integer temp = UID.putIfAbsent(mod, 0);
 		int id = temp == null ? 0 : temp.intValue();
@@ -124,10 +132,15 @@ public class EasyRegistry {
 			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
 					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
 					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
+	}
 
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT && entity.getEntityRenderer() != null) {
-			registerEntityRenderingHandler(entity.getEntityClass(), entity.getEntityRenderer());
-		}
+	@SideOnly(Side.CLIENT)
+	public static void registerLivingEntityRenderer(EasyLivingEntity entity, Class<? extends RenderLiving> renderer) {
+		System.out.println("Registered Entity Renderer: " + entity.getRegistryName());
+		registerEntityRenderingHandler(entity.getEntityClass(), renderer);
+	}
+
+	public static void registerEntites() {
 	}
 
 	/**
@@ -195,6 +208,12 @@ public class EasyRegistry {
 			registry.register(recipe);
 		});
 	}
+	
+	public static void registerWorldGen() {
+		worldGenList.forEach(gen -> {
+			GameRegistry.registerWorldGenerator(gen, gen.getGenWeight());
+		});
+	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -224,7 +243,7 @@ public class EasyRegistry {
 					for (int i = 0; i < block1.getSubCount(); i++) {
 						System.out.println("REG BLOCK: " + block.getRegistryName().getResourceDomain() + ":"
 								+ block1.getRegistryNameForMeta(i));
-						ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), i,
+						ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), block1.getRegistryMeta(Item.getItemFromBlock(block), i),
 								new ModelResourceLocation(block.getRegistryName().getResourceDomain() + ":"
 										+ block1.getRegistryNameForMeta(i), "inventory"));
 					}
@@ -235,9 +254,11 @@ public class EasyRegistry {
 	}
 
 	public static void init() {
-		for (IEasyGuiHandler iEasyGuiHandler : guiHandlerList) {
-			NetworkRegistry.INSTANCE.registerGuiHandler(iEasyGuiHandler.getMod(), iEasyGuiHandler.getHandler());
-		}
+		registerEntites();
+		registerWorldGen();
+//		for (IEasyGuiHandler iEasyGuiHandler : guiHandlerList) {
+//			NetworkRegistry.INSTANCE.registerGuiHandler(iEasyGuiHandler.getMod(), iEasyGuiHandler.getHandler());
+//		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -248,7 +269,7 @@ public class EasyRegistry {
 				for (int i = 0; i < item1.getSubCount(); i++) {
 					System.out.println("REG ITEM: " + item.getRegistryName().getResourceDomain() + ":"
 							+ item1.getRegistryNameForMeta(i));
-					ModelLoader.setCustomModelResourceLocation(item, i,
+					ModelLoader.setCustomModelResourceLocation(item, item1.getRegistryMeta(item, i),
 							new ModelResourceLocation(
 									item.getRegistryName().getResourceDomain() + ":" + item1.getRegistryNameForMeta(i),
 									"inventory"));
@@ -323,6 +344,14 @@ public class EasyRegistry {
 		if (world.rand.nextFloat() < chance) {
 			addPotionEffect(entity, effect);
 		}
+	}
+
+	public static Side getSide() {
+		return FMLCommonHandler.instance().getSide();
+	}
+
+	public static ModContainer getActiveMod() {
+		return Loader.instance().activeModContainer();
 	}
 
 }

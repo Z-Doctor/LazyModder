@@ -6,7 +6,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +18,7 @@ public class EasyRotatingPillar extends EasyRotatingBlock {
 
 	public EasyRotatingPillar(String name, int subCount, boolean invert, Material material) {
 		super(name, subCount, invert, material);
+		setDefaultState(getDefaultState().withProperty(TYPE, EnumPillarType.CENTER));
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class EasyRotatingPillar extends EasyRotatingBlock {
 	public IBlockState getStateFromMeta(int meta) {
 		IBlockState state = getDefaultState();
 		state = state.withProperty(FACING, EnumFacing.getHorizontal(meta & 3));
-		state = state.withProperty(TYPE, EnumPillarType.valueOf(meta >> 2));
+//		state = state.withProperty(TYPE, EnumPillarType.valueOf(meta >> 2));
 		return state;
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (state.getValue(TYPE).getValue() << 2) + state.getValue(FACING).getHorizontalIndex();
+		return state.getValue(FACING).getHorizontalIndex(); //(state.getValue(TYPE).getValue() << 2);
 	}
 
 	@Override
