@@ -6,9 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import zdoctor.lazymodder.easy.blocks.EasyDoor;
 import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 
-public abstract class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntityBlock implements IEasyTESR {
+public abstract class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity implements IEasyTESR {
 	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity) {
 		this(name, tileEntity, false, Material.IRON);
 	}

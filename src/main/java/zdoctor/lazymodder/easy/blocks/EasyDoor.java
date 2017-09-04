@@ -1,12 +1,9 @@
-package zdoctor.lazymodder.easy.blocks.tileentity;
+package zdoctor.lazymodder.easy.blocks;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,32 +11,25 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
-import zdoctor.lazymodder.easy.items.EasyItemDoorTileEntity;
+import zdoctor.lazymodder.easy.items.EasyItemDoor;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
-public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityProvider, IEasyTileEntity, IEasyRegister {
+public class EasyDoor extends BlockDoor implements IEasyRegister {
 	protected ItemDoor itemDoor;
-
-	protected Class<? extends TileEntity> tileEntity;
 
 	protected boolean powerOpens;
 
-	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity) {
-		this(name, tileEntity, false, Material.IRON);
+	public EasyDoor(String name) {
+		this(name, false, Material.IRON);
 	}
 
-	public EasyDoorTileEntityBlock(String name, Class<? extends TileEntity> tileEntity, boolean powerOpens, Material materialIn) {
+	public EasyDoor(String name, boolean powerOpens, Material materialIn) {
 		super(materialIn);
-		this.tileEntity = tileEntity;
 		this.isBlockContainer = true;
 		setUnlocalizedName(name);
 		setRegistryName(name);
@@ -47,9 +37,9 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 		EasyRegistry.register(this);
 		itemDoor = createItem();
 	}
-	
+
 	public ItemDoor createItem() {
-		return new EasyItemDoorTileEntity(this);
+		return new EasyItemDoor(this);
 	}
 
 	@Override
@@ -57,7 +47,7 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 		itemDoor.setCreativeTab(tab);
 		return super.setCreativeTab(tab);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -131,31 +121,6 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 	}
 
 	@Override
-	public Class<? extends TileEntity> getTileEntity() {
-		return this.tileEntity;
-	}
-
-	@Override
-	public String getTileEntityRegistryName() {
-		return getRegistryName().getResourcePath();
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		try {
-			return this.tileEntity.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			FMLLog.log.log(Level.TRACE, "Unable to create new instance of {}", this.tileEntity.getName());
-		}
-		return null;
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		return getRegistryName().getResourcePath();
 	}
@@ -170,8 +135,7 @@ public class EasyDoorTileEntityBlock extends BlockDoor implements ITileEntityPro
 	public int getSubCount() {
 		return 1;
 	}
-
-	@Override
+	
 	public ItemDoor getItemBlock() {
 		return itemDoor;
 	}

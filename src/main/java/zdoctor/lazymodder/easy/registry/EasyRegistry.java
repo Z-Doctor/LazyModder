@@ -45,6 +45,7 @@ import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
+import zdoctor.lazymodder.easy.interfaces.ICustomMeshDefinition;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
 import zdoctor.lazymodder.easy.interfaces.IEasyGuiHandler;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
@@ -229,6 +230,9 @@ public class EasyRegistry {
 			if (block instanceof IEasyRegister) {
 				IEasyRegister block1 = (IEasyRegister) block;
 
+				if (block instanceof ICustomMeshDefinition) {
+					ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block), ((ICustomMeshDefinition) block).getMeshDefinition());
+				}
 				if (block instanceof ICustomStateMap) {
 					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap) block).getStateMap());
 				}

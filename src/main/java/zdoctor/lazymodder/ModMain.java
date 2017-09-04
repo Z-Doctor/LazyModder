@@ -2,6 +2,7 @@ package zdoctor.lazymodder;
 
 import java.io.File;
 
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,20 +20,25 @@ import zdoctor.lazymodder.proxy.CommonProxy;
 @Mod(modid = ModMain.MODID)
 public class ModMain {
 	public static final String MODID = "lazymodder";
-	/**
-	 * Set this to true to enable JSon generator tool.
-	 */
-	public static final boolean DEV_ENV = true;
+	// /**
+	// * Set this to true to enable JSon generator tool.
+	// */
+	// public static final boolean DEV_ENV = true;
+	// TODO add back json generator
 	@Instance
 	public static ModMain mod = new ModMain();
+
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
 
 	@SidedProxy(clientSide = "zdoctor.lazymodder.proxy.ClientProxy", serverSide = "zdoctor.lazymodder.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		File jarFile = JavaHelper.getLocationOfMod(MODID);
-		System.out.println("Location: " + jarFile.getAbsolutePath());
+//		File jarFile = JavaHelper.getLocationOfMod(MODID);
+//		System.out.println("Location: " + jarFile.getAbsolutePath());
 		proxy.preInit(e);
 	}
 

@@ -7,15 +7,15 @@ import zdoctor.lazymodder.easy.blocks.EasyBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
-public class EasyItemDoorTileEntity extends ItemDoor implements IEasyRegister {
+public class EasyItemDoor extends ItemDoor implements IEasyRegister {
 	private int subCount;
 	protected Block block;
 
-	public EasyItemDoorTileEntity(Block block) {
+	public EasyItemDoor(Block block) {
 		this(block, 1);
 	}
 
-	public EasyItemDoorTileEntity(Block block, int subCount) {
+	public EasyItemDoor(Block block, int subCount) {
 		super(block);
 		this.setUnlocalizedName(block.getRegistryName().toString());
 		this.setRegistryName(block.getRegistryName());
