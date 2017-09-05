@@ -1,13 +1,18 @@
 package zdoctor.lazymodder.easy.config;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -35,6 +40,7 @@ public class EasyConfig {
 		config = new Configuration(e.getSuggestedConfigurationFile());
 		open();
 		CONFIG_REGISTRY.put(modid, this);
+
 	}
 
 	public EasyConfig registerInt(String name, int defaultValue, String... optional) {
@@ -107,6 +113,10 @@ public class EasyConfig {
 		config.load();
 	}
 
+	/**
+	 * Called when changes are made and should be called after you are done
+	 * registering you config options
+	 */
 	public void close() {
 		config.save();
 	}
@@ -116,14 +126,17 @@ public class EasyConfig {
 		System.out.println("Saving");
 		entries.forEach(entry -> {
 			System.out.println(entry.getName());
-			if(entry.getType() == Entry.Type.BOOLEAN) {
-				boolean value = config.getBoolean(entry.getName(), entry.getCategory(), entry.getDefaultBoolValue(), entry.getOptional().length > 0 ? entry.getOptional()[0] : "",
+			if (entry.getType() == Entry.Type.BOOLEAN) {
+				boolean value = config.getBoolean(entry.getName(), entry.getCategory(), entry.getDefaultBoolValue(),
+						entry.getOptional().length > 0 ? entry.getOptional()[0] : "",
 						entry.getOptional().length > 1 ? entry.getOptional()[1] : entry.getName());
 				Property prop = new Property(entry.getCategory(), entry.getName(), value);
 				properties.put(entry.getName(), prop);
 				System.out.println("New: " + entry.getName() + " - " + value);
-			} else if(entry.getType() == Entry.Type.INT) {
-				int value = config.getInt(entry.getName(), entry.getCategory(), entry.getDefaultIntValue(), entry.getMinValue(), entry.getMaxValue(), entry.getOptional().length > 0 ? entry.getOptional()[0] : "",
+			} else if (entry.getType() == Entry.Type.INT) {
+				int value = config.getInt(entry.getName(), entry.getCategory(), entry.getDefaultIntValue(),
+						entry.getMinValue(), entry.getMaxValue(),
+						entry.getOptional().length > 0 ? entry.getOptional()[0] : "",
 						entry.getOptional().length > 1 ? entry.getOptional()[1] : entry.getName());
 				Property prop = new Property(entry.getCategory(), entry.getName(), value);
 				properties.put(entry.getName(), prop);
@@ -193,11 +206,11 @@ public class EasyConfig {
 			this.optional = optional;
 			this.type = Type.INT;
 		}
-		
+
 		public Type getType() {
 			return type;
 		}
-		
+
 		public String getCategory() {
 			return category;
 		}
@@ -225,8 +238,6 @@ public class EasyConfig {
 		public int getMaxValue() {
 			return maxValue;
 		}
-
-
 
 		public static enum Type {
 			INT, BOOLEAN;

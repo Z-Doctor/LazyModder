@@ -25,11 +25,6 @@ public class EasyDoorTileEntity extends EasyDoor implements ITileEntityProvider,
 		super(name, powerOpens, materialIn);
 		this.tileEntity = tileEntity;
 		this.isBlockContainer = true;
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		this.powerOpens = powerOpens;
-		EasyRegistry.register(this);
-		itemDoor = createItem();
 	}
 
 	@Override

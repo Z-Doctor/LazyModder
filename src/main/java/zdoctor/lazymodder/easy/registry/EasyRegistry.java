@@ -1,10 +1,13 @@
 package zdoctor.lazymodder.easy.registry;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.BiMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -27,12 +30,13 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -44,6 +48,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
+import zdoctor.lazymodder.easy.config.EasyConfigGui;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
 import zdoctor.lazymodder.easy.interfaces.ICustomMeshDefinition;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
@@ -65,6 +70,7 @@ public class EasyRegistry {
 	private static ArrayList<RenderLiving> entityRendererList = new ArrayList<>();
 	private static Map<String, Integer> UID = new HashMap<>();
 	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
+	private static final Map<ModContainer, EasyConfigGui> GUIMAP = new HashMap<>();
 
 	/**
 	 * Blocks should be registered during preInit
@@ -134,7 +140,11 @@ public class EasyRegistry {
 					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
 					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
 	}
-
+	
+	public static void register(EasyConfigGui easyConfigGui) {
+		GUIMAP.put(getActiveMod(), easyConfigGui);
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public static void registerLivingEntityRenderer(EasyLivingEntity entity, Class<? extends RenderLiving> renderer) {
 		System.out.println("Registered Entity Renderer: " + entity.getRegistryName());
@@ -356,6 +366,21 @@ public class EasyRegistry {
 
 	public static ModContainer getActiveMod() {
 		return Loader.instance().activeModContainer();
+	}
+
+	public static void fmlPostInit() {
+		Field guiFactories;
+		try {
+			guiFactories = FMLClientHandler.class.getDeclaredField("guiFactories");
+			guiFactories.setAccessible(true);
+			BiMap<ModContainer, IModGuiFactory> guiMap = (BiMap<ModContainer, IModGuiFactory>) guiFactories.get(FMLClientHandler.instance());
+			GUIMAP.forEach((mod, config) -> {
+				guiMap.forcePut(mod, config);
+			});
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

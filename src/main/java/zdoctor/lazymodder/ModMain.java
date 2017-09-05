@@ -1,16 +1,20 @@
 package zdoctor.lazymodder;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.client.SplashProgress;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.builtin.helpers.JavaHelper;
+import zdoctor.lazymodder.easy.registry.EasyRegistry;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
 /**
@@ -37,8 +41,8 @@ public class ModMain {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-//		File jarFile = JavaHelper.getLocationOfMod(MODID);
-//		System.out.println("Location: " + jarFile.getAbsolutePath());
+		// File jarFile = JavaHelper.getLocationOfMod(MODID);
+		// System.out.println("Location: " + jarFile.getAbsolutePath());
 		proxy.preInit(e);
 	}
 
@@ -50,6 +54,37 @@ public class ModMain {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 		proxy.postInit(e);
+	}
+
+	@EventHandler
+	public void fmlFinished(FMLLoadCompleteEvent e) {
+		Thread t = new Thread() {
+			Field done;
+
+			@Override
+			public synchronized void start() {
+				try {
+					done = SplashProgress.class.getDeclaredField("done");
+					done.setAccessible(true);
+				} catch (NoSuchFieldException | SecurityException e) {
+					e.printStackTrace();
+				}
+				super.start();
+			}
+
+			@Override
+			public void run() {
+				try {
+					while (!done.getBoolean(SplashProgress.class)) {
+
+					}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+				EasyRegistry.fmlPostInit();
+			}
+		};
+		t.start();
 	}
 
 }
