@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -16,47 +15,49 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
+import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
 import zdoctor.lazymodder.easy.blocks.EasyRotatingBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
-public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
+public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock
+		implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
 	protected Class<? extends TileEntity> tileEntity;
-	private Class<? extends TileEntitySpecialRenderer> renderEntity;
+	private Class<? extends EasyTileEntitySpecialRenderer> renderEntity;
 
 	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity) {
+			Class<? extends EasyTileEntitySpecialRenderer> renderEntity) {
 		this(name, tileEntity, renderEntity, Material.IRON);
 	}
 
 	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends TileEntitySpecialRenderer> renderEntity, Material materialIn) {
+			Class<? extends EasyTileEntitySpecialRenderer> renderEntity, Material materialIn) {
 		super(name, materialIn);
 		this.tileEntity = tileEntity;
 		this.renderEntity = renderEntity;
 		this.isBlockContainer = true;
 	}
-	
+
 	@Override
 	public int damageDropped(IBlockState state) {
 		return 0;
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
 		return new ItemStack(getItemBlock(), 1, damageDropped(state));
 	}
-	
+
 	@Override
 	public Class<? extends TileEntity> getTileEntity() {
 		return this.tileEntity;
 	}
-	
+
 	@Override
-	public Class<? extends TileEntitySpecialRenderer> getTileEntityRenderer() {
+	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer() {
 		return this.renderEntity;
 	}
 
@@ -64,7 +65,7 @@ public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock imp
 	public String getTileEntityRegistryName() {
 		return getRegistryName().getResourcePath();
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		try {
@@ -74,7 +75,7 @@ public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock imp
 		}
 		return null;
 	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -94,7 +95,7 @@ public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock imp
 	public ItemBlock createItem() {
 		return new EasyItemBlockTileEntity(this);
 	}
-	
+
 	// Defaults
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {

@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import zdoctor.lazymodder.easy.interfaces.IEasyGuiHandler;
-import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 /**
  * This class is used to create a GuiHandler. GUI IDs are handled internally but
@@ -30,7 +29,7 @@ public class EasyGuiHandler implements IGuiHandler, IEasyGuiHandler {
 
 	public EasyGuiHandler() {
 		this.mod = Loader.instance().activeModContainer().getMod();
-		EasyRegistry.register(this);
+//		EasyRegistry.register(this);
 	}
 
 	@Override

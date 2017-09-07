@@ -1,9 +1,7 @@
 package zdoctor.lazymodder.easy.interfaces;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
 
 public interface IEasyTESR extends IEasyTileEntity {
-	@SideOnly(Side.CLIENT)
-	public Class getTileEntityRenderer();
+	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer();
 }

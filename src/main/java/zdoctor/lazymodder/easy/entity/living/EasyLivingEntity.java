@@ -8,7 +8,10 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
+import zdoctor.lazymodder.easy.interfaces.IEasyLivingRender;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 /**
@@ -50,20 +53,25 @@ public class EasyLivingEntity {
 
 	public EasyLivingEntity(Class<? extends EntityLiving> entityClass, String entityName, int trackingRange,
 			int updateFrequenc, boolean sendsVelocityUpdates, int primaryColor, int secondaryColor, boolean hasEgg) {
-		this.entityName = entityName;
-		this.entityClass = entityClass;
+		if (IEasyLivingRender.class.isAssignableFrom(entityClass)) {
+			this.entityName = entityName;
+			this.entityClass = entityClass;
 
-		this.primaryColor = primaryColor;
-		this.secondaryColor = secondaryColor;
+			this.primaryColor = primaryColor;
+			this.secondaryColor = secondaryColor;
 
-		this.trackingRange = trackingRange;
-		this.updateFrequenc = updateFrequenc;
-		this.sendsVelocityUpdates = sendsVelocityUpdates;
+			this.trackingRange = trackingRange;
+			this.updateFrequenc = updateFrequenc;
+			this.sendsVelocityUpdates = sendsVelocityUpdates;
 
-		this.hasEgg = hasEgg;
+			this.hasEgg = hasEgg;
 
-		registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
-		EasyRegistry.register(this);
+			registryName = new ResourceLocation(Loader.instance().activeModContainer().getModId(), entityName);
+			EasyRegistry.register(this);
+		} else {
+			FMLLog.bigWarning("Entity {} neeeds to extend {}", entityClass.getName(), IEasyLivingRender.class.getName());
+			FMLCommonHandler.instance().exitJava(-1, true);
+		}
 	}
 
 	public ResourceLocation getRegistryName() {

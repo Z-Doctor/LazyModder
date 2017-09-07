@@ -6,33 +6,36 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import zdoctor.lazymodder.easy.blocks.EasyDoor;
+import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
 import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 
-public abstract class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity implements IEasyTESR {
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity) {
-		this(name, tileEntity, false, Material.IRON);
+public class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity implements IEasyTESR {
+	protected Class<? extends EasyTileEntitySpecialRenderer> renderer;
+
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer) {
+		this(name, tileEntity, renderer, false, Material.IRON);
 	}
 	
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Material material) {
-		this(name, tileEntity, false, material);
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer, Material material) {
+		this(name, tileEntity, renderer, false, material);
 	}
 
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, boolean powerOpens, Material materialIn) {
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer, boolean powerOpens, Material materialIn) {
 		super(name, tileEntity, powerOpens, materialIn);
+		this.renderer = renderer;
 	}
-
+	
 	@Override
-	public String getTileEntityRegistryName() {
-		return getRegistryName().getResourcePath();
+	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer() {
+		return renderer;
 	}
 
+	// Defaults
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-
-	// Defaults
+	
 	@Override
 	public boolean isBlockNormalCube(IBlockState state) {
 		return false;

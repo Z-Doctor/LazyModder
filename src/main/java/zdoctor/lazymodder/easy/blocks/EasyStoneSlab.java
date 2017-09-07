@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import zdoctor.lazymodder.easy.common.EasyStateMap.Builder;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.interfaces.INoModel;
@@ -105,9 +106,15 @@ public class EasyStoneSlab extends BlockStoneSlab implements IEasyRegister {
 		}
 
 		@Override
-		public IStateMapper getStateMap() {
-			return new StateMap.Builder().ignore(EasyStoneSlab.SEAMLESS).build();
+		public Builder getStateMap() {
+			// TODO Auto-generated method stub
+			return null;
 		}
+
+//		@Override
+//		public IStateMapper getStateMap() {
+//			return new StateMap.Builder().ignore(EasyStoneSlab.SEAMLESS).build();
+//		}
 
 	}
 

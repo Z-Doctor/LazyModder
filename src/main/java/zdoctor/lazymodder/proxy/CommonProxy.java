@@ -10,7 +10,6 @@ import zdoctor.lazymodder.events.AdditonalEvents;
 public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent e) {
-//		EasyRegistry.register(EasyRegistry.builtinEvents.class);
 		EasyRegistry.register(EasyRegistry.class);
 		EasyRegistry.register(AdditonalEvents.class);
 		EasyRegistry.register(EasyConfig.class);

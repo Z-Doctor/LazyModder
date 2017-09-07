@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.easy.blocks.EasyDoor;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
-import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 public class EasyDoorTileEntity extends EasyDoor implements ITileEntityProvider, IEasyTileEntity {
 	protected Class<? extends TileEntity> tileEntity;

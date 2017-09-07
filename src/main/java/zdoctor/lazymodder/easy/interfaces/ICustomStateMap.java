@@ -1,9 +1,10 @@
 package zdoctor.lazymodder.easy.interfaces;
 
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
+import zdoctor.lazymodder.easy.common.EasyStateMap;
+
 
 public interface ICustomStateMap {
 
-	IStateMapper getStateMap();
+	public EasyStateMap.Builder getStateMap();
 	
 }

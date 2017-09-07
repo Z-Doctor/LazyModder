@@ -8,33 +8,22 @@ import java.util.Map;
 import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
@@ -43,34 +32,27 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
-import zdoctor.lazymodder.ModMain;
-import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
-import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
 import zdoctor.lazymodder.easy.config.EasyConfigGui;
 import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
-import zdoctor.lazymodder.easy.interfaces.ICustomMeshDefinition;
-import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
-import zdoctor.lazymodder.easy.interfaces.IEasyGuiHandler;
-import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.interfaces.IEasyWorldGenerator;
 import zdoctor.lazymodder.easy.interfaces.IHaveRecipe;
-import zdoctor.lazymodder.easy.interfaces.INoModel;
 
 public class EasyRegistry {
-	private static ArrayList<Block> blockList = new ArrayList<>();
-	private static ArrayList<Item> itemList = new ArrayList<>();
-	private static ArrayList<IRecipe> recipeList = new ArrayList<>();
-	private static ArrayList<IEasyWorldGenerator> worldGenList = new ArrayList<>();
-	private static ArrayList<Object> eventList = new ArrayList<>();
-	private static ArrayList<EasyLivingEntity> entityList = new ArrayList<>();
-	private static ArrayList<RenderLiving> entityRendererList = new ArrayList<>();
-	private static Map<String, Integer> UID = new HashMap<>();
-	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
+	private static ArrayList<Block> BLOCKLIST = new ArrayList<>();
+	private static ArrayList<Item> ITEMLIST = new ArrayList<>();
+	private static ArrayList<IRecipe> RECIPELIST = new ArrayList<>();
+	
+	private static ArrayList<EasyLivingEntity> ENTITYLIST = new ArrayList<>();
+	private static Map<String, Integer> MOD_ENTITY_UID = new HashMap<>();
+	
+	private static ArrayList<IEasyWorldGenerator> WORLDGENLIST = new ArrayList<>();
+//	private static ArrayList<RenderLiving> entityRendererList = new ArrayList<>();
+//	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
 	private static final Map<ModContainer, EasyConfigGui> GUIMAP = new HashMap<>();
+	
+	private static ArrayList<Object> eventList = new ArrayList<>();
 
 	/**
 	 * Blocks should be registered during preInit
@@ -78,7 +60,7 @@ public class EasyRegistry {
 	 * @param block
 	 */
 	public static void register(Block block) {
-		blockList.add(block);
+		BLOCKLIST.add(block);
 	}
 
 	/**
@@ -87,7 +69,7 @@ public class EasyRegistry {
 	 * @param item
 	 */
 	public static void register(Item item) {
-		itemList.add(item);
+		ITEMLIST.add(item);
 	}
 
 	/**
@@ -97,11 +79,11 @@ public class EasyRegistry {
 	 * @param recipe
 	 */
 	public static void register(IRecipe recipe) {
-		recipeList.add(recipe);
+		RECIPELIST.add(recipe);
 	}
-	
+
 	public static void register(IEasyWorldGenerator worldGen) {
-		worldGenList.add(worldGen);
+		WORLDGENLIST.add(worldGen);
 	}
 
 	/**
@@ -118,17 +100,12 @@ public class EasyRegistry {
 		}
 	}
 
-	/**
-	 * Used to register living entities and their renders
-	 * 
-	 * @param entity
-	 */
 	public static void register(EasyLivingEntity entity) {
 		System.out.println("Registered Living Entity: " + entity.getRegistryName());
 		String mod = entity.getRegistryName().getResourceDomain();
-		Integer temp = UID.putIfAbsent(mod, 0);
+		Integer temp = MOD_ENTITY_UID.putIfAbsent(mod, 0);
 		int id = temp == null ? 0 : temp.intValue();
-		UID.put(mod, ++id);
+		MOD_ENTITY_UID.put(mod, ++id);
 
 		if (entity.hasEgg())
 			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
@@ -139,29 +116,22 @@ public class EasyRegistry {
 			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
 					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
 					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
+		
+		ENTITYLIST.add(entity);
 	}
-	
+
 	public static void register(EasyConfigGui easyConfigGui) {
 		GUIMAP.put(getActiveMod(), easyConfigGui);
 	}
-	
-	@SideOnly(Side.CLIENT)
-	public static void registerLivingEntityRenderer(EasyLivingEntity entity, Class<? extends RenderLiving> renderer) {
-		System.out.println("Registered Entity Renderer: " + entity.getRegistryName());
-		registerEntityRenderingHandler(entity.getEntityClass(), renderer);
-	}
 
-	public static void registerEntites() {
-	}
-
-	/**
-	 * Used to register IEasyGuiHandler
-	 * 
-	 * @param guiHandler
-	 */
-	public static void register(IEasyGuiHandler guiHandler) {
-		guiHandlerList.add(guiHandler);
-	}
+//	/**
+//	 * Used to register IEasyGuiHandler
+//	 * 
+//	 * @param guiHandler
+//	 */
+//	public static void register(IEasyGuiHandler guiHandler) {
+//		guiHandlerList.add(guiHandler);
+//	}
 
 	@SubscribeEvent
 	public void registerBlocks(Register<Block> event) {
@@ -169,7 +139,7 @@ public class EasyRegistry {
 		System.out.println("Registring Blocks");
 
 		IForgeRegistry<Block> registry = event.getRegistry();
-		blockList.forEach(block -> {
+		BLOCKLIST.forEach(block -> {
 			if (block instanceof IHaveRecipe) {
 				NonNullList<IRecipe> recipeList = NonNullList.create();
 				((IHaveRecipe) block).addRecipeToList(recipeList);
@@ -196,7 +166,7 @@ public class EasyRegistry {
 		System.out.println("Registering Items");
 
 		IForgeRegistry<Item> registry = event.getRegistry();
-		itemList.forEach(item -> {
+		ITEMLIST.forEach(item -> {
 			if (item instanceof IHaveRecipe) {
 				NonNullList<IRecipe> recipeList = NonNullList.create();
 				((IHaveRecipe) item).addRecipeToList(recipeList);
@@ -214,139 +184,21 @@ public class EasyRegistry {
 		System.out.println("Registering Recipes");
 
 		IForgeRegistry<IRecipe> registry = event.getRegistry();
-		recipeList.forEach(recipe -> {
+		RECIPELIST.forEach(recipe -> {
 			System.out.println("Registered Recipe: " + recipe.getRegistryName());
 			registry.register(recipe);
 		});
 	}
-	
+
 	public static void registerWorldGen() {
-		worldGenList.forEach(gen -> {
+		WORLDGENLIST.forEach(gen -> {
 			GameRegistry.registerWorldGenerator(gen, gen.getGenWeight());
 		});
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void registerModels(ModelRegistryEvent event) {
-		System.out.println("Registering Models");
-		registerItemModels();
-		registerBlockModels();
-	}
-
-	@SideOnly(Side.CLIENT)
-	private void registerBlockModels() {
-		blockList.forEach(block -> {
-			if (block instanceof IEasyRegister) {
-				IEasyRegister block1 = (IEasyRegister) block;
-
-				if (block instanceof ICustomMeshDefinition) {
-					ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block), ((ICustomMeshDefinition) block).getMeshDefinition());
-				}
-				if (block instanceof ICustomStateMap) {
-					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap) block).getStateMap());
-				}
-
-				if (block instanceof IEasyTESR) {
-					System.out.println("REG TILEENTITY: " + block.getRegistryName());
-					IEasyTESR tile = (IEasyTESR) block1;
-					bindTileEntitySpecialRenderer(block, tile.getTileEntity(), tile.getTileEntityRenderer());
-				}
-
-				if (!(block instanceof INoModel)) {
-					for (int i = 0; i < block1.getSubCount(); i++) {
-						System.out.println("REG BLOCK: " + block.getRegistryName().getResourceDomain() + ":"
-								+ block1.getRegistryNameForMeta(i));
-						ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), block1.getRegistryMeta(Item.getItemFromBlock(block), i),
-								new ModelResourceLocation(block.getRegistryName().getResourceDomain() + ":"
-										+ block1.getRegistryNameForMeta(i), "inventory"));
-					}
-				}
-
-			}
-		});
-	}
-
-	public static void init() {
-		registerEntites();
-		registerWorldGen();
-//		for (IEasyGuiHandler iEasyGuiHandler : guiHandlerList) {
-//			NetworkRegistry.INSTANCE.registerGuiHandler(iEasyGuiHandler.getMod(), iEasyGuiHandler.getHandler());
-//		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	private void registerItemModels() {
-		itemList.forEach(item -> {
-			if (item instanceof IEasyRegister && !(item instanceof INoModel)) {
-				IEasyRegister item1 = (IEasyRegister) item;
-				for (int i = 0; i < item1.getSubCount(); i++) {
-					System.out.println("REG ITEM: " + item.getRegistryName().getResourceDomain() + ":"
-							+ item1.getRegistryNameForMeta(i));
-					ModelLoader.setCustomModelResourceLocation(item, item1.getRegistryMeta(item, i),
-							new ModelResourceLocation(
-									item.getRegistryName().getResourceDomain() + ":" + item1.getRegistryNameForMeta(i),
-									"inventory"));
-				}
-			} else if (item instanceof INoModel) {
-				IEasyRegister item1 = (IEasyRegister) item;
-				for (int i = 0; i < item1.getSubCount(); i++) {
-					System.out.println("REG ITEM: " + item.getRegistryName().getResourceDomain() + ":"
-							+ item1.getRegistryNameForMeta(i));
-					ModelLoader.setCustomModelResourceLocation(item, i,
-							new ModelResourceLocation(ModMain.MODID + ":" + "empty_item", "inventory"));
-				}
-			}
-		});
-	}
-
-	/**
-	 * Called internally in {@link EasyLivingEntity}, but is here for others
-	 * convience
-	 * 
-	 * @param entityClass
-	 * @param entityRender
-	 */
-	public static void registerEntityRenderingHandler(Class<? extends EntityLiving> entityClass,
-			Class<? extends RenderLiving> entityRender) {
-		registerEntityRenderingHandler(entityClass, new IRenderFactory() {
-
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				try {
-					return entityRender.getConstructor(RenderManager.class).newInstance(manager);
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		});
-	}
-
-	public static void registerEntityRenderingHandler(Class<? extends Entity> entityClass,
-			IRenderFactory<Entity> renderFactory) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
 	}
 
 	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max,
 			EnumCreatureType typeOfCreature, Biome[] biomes) {
 		EntityRegistry.addSpawn(entityClass, weightedProb, min, max, typeOfCreature, biomes);
-	}
-
-	public static void bindTileEntitySpecialRenderer(Block block, Class<? extends TileEntity> tileEntityClass,
-			Class<? extends TileEntitySpecialRenderer> specialRenderer) {
-		try {
-			TileEntitySpecialRenderer renderer = specialRenderer.newInstance();
-			ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, renderer);
-
-			if (renderer instanceof IItemRenderer) {
-				System.out.println("Registered Item Render");
-				IItemRendererAPI.registerIItemRenderer(Item.getItemFromBlock(block), (IItemRenderer) renderer);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Failed");
-		}
 	}
 
 	public static void addPotionEffect(EntityLivingBase entity, PotionEffect effect) {
@@ -373,14 +225,29 @@ public class EasyRegistry {
 		try {
 			guiFactories = FMLClientHandler.class.getDeclaredField("guiFactories");
 			guiFactories.setAccessible(true);
-			BiMap<ModContainer, IModGuiFactory> guiMap = (BiMap<ModContainer, IModGuiFactory>) guiFactories.get(FMLClientHandler.instance());
+			BiMap<ModContainer, IModGuiFactory> guiMap = (BiMap<ModContainer, IModGuiFactory>) guiFactories
+					.get(FMLClientHandler.instance());
 			GUIMAP.forEach((mod, config) -> {
 				guiMap.forcePut(mod, config);
 			});
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public static ImmutableList<Block> getBlockList() {
+		return new ImmutableList.Builder().addAll(BLOCKLIST).build();
+	}
+	
+	public static ImmutableList<Item> getItemList() {
+		return new ImmutableList.Builder().addAll(ITEMLIST).build();
+	}
+	
+	public static ImmutableList<EasyLivingEntity> getEntityList() {
+		return new ImmutableList.Builder().addAll(ENTITYLIST).build();
+	}
+	
+	public static void init() {
+		registerWorldGen();
+	}
 }
