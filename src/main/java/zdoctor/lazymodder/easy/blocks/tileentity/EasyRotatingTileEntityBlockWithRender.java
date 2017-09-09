@@ -15,29 +15,23 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
-import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
 import zdoctor.lazymodder.easy.blocks.EasyRotatingBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IRenderLiving;
-import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
 public abstract class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock
 		implements ITileEntityProvider, IEasyTileEntity, IEasyRegister {
 	protected Class<? extends TileEntity> tileEntity;
-	private Class<? extends EasyTileEntitySpecialRenderer> renderEntity;
 
-	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends EasyTileEntitySpecialRenderer> renderEntity) {
-		this(name, tileEntity, renderEntity, Material.IRON);
+	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity) {
+		this(name, tileEntity, Material.IRON);
 	}
 
 	public EasyRotatingTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends EasyTileEntitySpecialRenderer> renderEntity, Material materialIn) {
+			Material materialIn) {
 		super(name, materialIn);
 		this.tileEntity = tileEntity;
-		this.renderEntity = renderEntity;
 		this.isBlockContainer = true;
 	}
 

@@ -3,7 +3,6 @@ package zdoctor.lazymodder.easy.registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.logging.log4j.Level;
 

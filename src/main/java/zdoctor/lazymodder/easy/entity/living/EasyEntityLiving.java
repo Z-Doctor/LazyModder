@@ -1,10 +1,7 @@
 package zdoctor.lazymodder.easy.entity.living;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.Loader;
 import zdoctor.lazymodder.easy.interfaces.IRenderLiving;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;

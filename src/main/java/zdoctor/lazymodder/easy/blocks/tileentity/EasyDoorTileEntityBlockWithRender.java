@@ -2,16 +2,12 @@ package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
-import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 
 public abstract class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity {
-	protected Class<? extends EasyTileEntitySpecialRenderer> renderer;
 
 	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity) {
 		this(name, tileEntity, false, Material.IRON);
