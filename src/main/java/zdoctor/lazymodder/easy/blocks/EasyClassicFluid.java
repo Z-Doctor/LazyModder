@@ -11,13 +11,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import zdoctor.lazymodder.easy.common.EasyStateMap.Builder;
 import zdoctor.lazymodder.easy.interfaces.ICustomMeshDefinition;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
 import zdoctor.lazymodder.easy.items.EasyItemBlock;
 
-public class EasyClassicFluid extends BlockFluidClassic implements IEasyRegister, ICustomStateMap, ICustomMeshDefinition {
+public class EasyClassicFluid extends BlockFluidClassic
+		implements IEasyRegister, ICustomStateMap, ICustomMeshDefinition {
 
 	protected ItemBlock item;
 	private ModelResourceLocation model;
@@ -28,7 +28,7 @@ public class EasyClassicFluid extends BlockFluidClassic implements IEasyRegister
 		setRegistryName(name);
 		item = new EasyItemBlock(this);
 		item.setCreativeTab(CreativeTabs.MISC);
-		
+
 		this.model = new ModelResourceLocation(getRegistryName().getResourceDomain() + ":" + name, "fluid");
 	}
 
@@ -42,32 +42,26 @@ public class EasyClassicFluid extends BlockFluidClassic implements IEasyRegister
 		return getRegistryName().getResourcePath();
 	}
 
-//	@Override
-//	public IStateMapper getStateMap() {
-//		return new StateMapperBase() {
-//			
-//			@Override
-//			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-//				return model;
-//			}
-//		};
-//	}
-
 	@Override
-	public ItemMeshDefinition getMeshDefinition() {
-		return new ItemMeshDefinition() {
-			
+	public IStateMapper getStateMap() {
+		return new StateMapperBase() {
+
 			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				return model;
 			}
 		};
 	}
 
 	@Override
-	public Builder getStateMap() {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemMeshDefinition getMeshDefinition() {
+		return new ItemMeshDefinition() {
+
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				return model;
+			}
+		};
 	}
 
 }

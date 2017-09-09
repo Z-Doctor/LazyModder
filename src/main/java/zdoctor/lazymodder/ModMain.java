@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import zdoctor.lazymodder.easy.registry.EasyRegistry;
+import zdoctor.lazymodder.easy.registry.LMClientRegistry;
 import zdoctor.lazymodder.proxy.CommonProxy;
 
 /**
@@ -82,7 +82,7 @@ public class ModMain {
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						e.printStackTrace();
 					}
-					EasyRegistry.fmlPostInit();
+					LMClientRegistry.fmlPostInit();
 				}
 			};
 			t.start();

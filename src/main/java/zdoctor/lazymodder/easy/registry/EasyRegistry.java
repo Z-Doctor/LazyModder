@@ -1,14 +1,14 @@
 package zdoctor.lazymodder.easy.registry;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.logging.log4j.Level;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
@@ -22,8 +22,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
@@ -34,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistry;
 import zdoctor.lazymodder.easy.config.EasyConfigGui;
-import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
+import zdoctor.lazymodder.easy.entity.living.EasyEntityLiving;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.interfaces.IEasyWorldGenerator;
 import zdoctor.lazymodder.easy.interfaces.IHaveRecipe;
@@ -43,15 +41,17 @@ public class EasyRegistry {
 	private static ArrayList<Block> BLOCKLIST = new ArrayList<>();
 	private static ArrayList<Item> ITEMLIST = new ArrayList<>();
 	private static ArrayList<IRecipe> RECIPELIST = new ArrayList<>();
-	
-	private static ArrayList<EasyLivingEntity> ENTITYLIST = new ArrayList<>();
+
+	private static ArrayList<EasyEntityLiving> ENTITYLIST = new ArrayList<>();
 	private static Map<String, Integer> MOD_ENTITY_UID = new HashMap<>();
-	
+
 	private static ArrayList<IEasyWorldGenerator> WORLDGENLIST = new ArrayList<>();
-//	private static ArrayList<RenderLiving> entityRendererList = new ArrayList<>();
-//	private static ArrayList<IEasyGuiHandler> guiHandlerList = new ArrayList<>();
+	// private static ArrayList<RenderLiving> entityRendererList = new
+	// ArrayList<>();
+	// private static ArrayList<IEasyGuiHandler> guiHandlerList = new
+	// ArrayList<>();
 	private static final Map<ModContainer, EasyConfigGui> GUIMAP = new HashMap<>();
-	
+
 	private static ArrayList<Object> eventList = new ArrayList<>();
 
 	/**
@@ -100,7 +100,7 @@ public class EasyRegistry {
 		}
 	}
 
-	public static void register(EasyLivingEntity entity) {
+	public static <T extends EasyEntityLiving> void register(T entity) {
 		System.out.println("Registered Living Entity: " + entity.getRegistryName());
 		String mod = entity.getRegistryName().getResourceDomain();
 		Integer temp = MOD_ENTITY_UID.putIfAbsent(mod, 0);
@@ -116,7 +116,7 @@ public class EasyRegistry {
 			net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(entity.getRegistryName(),
 					entity.getEntityClass(), entity.getRegistryName().getResourcePath(), id, mod,
 					entity.getTrackingRange(), entity.getUpdateFrequency(), entity.sendsVelocityUpdates());
-		
+
 		ENTITYLIST.add(entity);
 	}
 
@@ -124,14 +124,14 @@ public class EasyRegistry {
 		GUIMAP.put(getActiveMod(), easyConfigGui);
 	}
 
-//	/**
-//	 * Used to register IEasyGuiHandler
-//	 * 
-//	 * @param guiHandler
-//	 */
-//	public static void register(IEasyGuiHandler guiHandler) {
-//		guiHandlerList.add(guiHandler);
-//	}
+	// /**
+	// * Used to register IEasyGuiHandler
+	// *
+	// * @param guiHandler
+	// */
+	// public static void register(IEasyGuiHandler guiHandler) {
+	// guiHandlerList.add(guiHandler);
+	// }
 
 	@SubscribeEvent
 	public void registerBlocks(Register<Block> event) {
@@ -196,6 +196,21 @@ public class EasyRegistry {
 		});
 	}
 
+	/**
+	 * Add a spawn entry for the supplied entity in the supplied {@link Biome}
+	 * list
+	 * 
+	 * @param weightedProb
+	 *            Probability
+	 * @param min
+	 *            Min spawn count
+	 * @param max
+	 *            Max spawn count
+	 * @param typeOfCreature
+	 *            Type of spawn
+	 * @param biomes
+	 *            List of biomes
+	 */
 	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max,
 			EnumCreatureType typeOfCreature, Biome[] biomes) {
 		EntityRegistry.addSpawn(entityClass, weightedProb, min, max, typeOfCreature, biomes);
@@ -220,33 +235,22 @@ public class EasyRegistry {
 		return Loader.instance().activeModContainer();
 	}
 
-	public static void fmlPostInit() {
-		Field guiFactories;
-		try {
-			guiFactories = FMLClientHandler.class.getDeclaredField("guiFactories");
-			guiFactories.setAccessible(true);
-			BiMap<ModContainer, IModGuiFactory> guiMap = (BiMap<ModContainer, IModGuiFactory>) guiFactories
-					.get(FMLClientHandler.instance());
-			GUIMAP.forEach((mod, config) -> {
-				guiMap.forcePut(mod, config);
-			});
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static ImmutableList<Block> getBlockList() {
 		return new ImmutableList.Builder().addAll(BLOCKLIST).build();
 	}
-	
+
 	public static ImmutableList<Item> getItemList() {
 		return new ImmutableList.Builder().addAll(ITEMLIST).build();
 	}
-	
-	public static ImmutableList<EasyLivingEntity> getEntityList() {
+
+	public static ImmutableList<EasyEntityLiving> getEntityList() {
 		return new ImmutableList.Builder().addAll(ENTITYLIST).build();
 	}
-	
+
+	public static ImmutableSet<Map.Entry<ModContainer, EasyConfigGui>> getGuiMap() {
+		return new ImmutableSet.Builder().addAll(GUIMAP.entrySet()).build();
+	}
+
 	public static void init() {
 		registerWorldGen();
 	}

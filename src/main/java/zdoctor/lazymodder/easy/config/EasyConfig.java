@@ -1,5 +1,6 @@
 package zdoctor.lazymodder.easy.config;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,18 @@ public class EasyConfig {
 		open();
 		CONFIG_REGISTRY.put(modid, this);
 
+	}
+
+	public EasyConfig(File configFile, String modId) {
+		this(configFile, modId, "Default");
+	}
+	
+	public EasyConfig(File configFile, String modId, String defaultCatergory) {
+		this.defaultCatergory = defaultCatergory;
+		this.modid = modId;
+		config = new Configuration(configFile);
+		open();
+		CONFIG_REGISTRY.put(modid, this);
 	}
 
 	public EasyConfig registerInt(String name, int defaultValue, String... optional) {

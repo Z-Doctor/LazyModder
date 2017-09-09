@@ -1,5 +1,6 @@
 package zdoctor.lazymodder.easy.config;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
 
 /**
- * When you extend this class, make sure to add an empty constructor
+ * When you extend this class, make sure to add an empty constructor Do not add
+ * guiFacotry to your mod, this class will handle registering itself
  * 
  */
 public class EasyConfigGui extends EasyConfig implements IModGuiFactory {
@@ -37,31 +39,14 @@ public class EasyConfigGui extends EasyConfig implements IModGuiFactory {
 		EasyRegistry.register(this);
 	}
 
-	protected void modifyGuiFactory(ModContainer container) {
-		Field[] fields = container.getClass().getDeclaredFields();
-		for (int i = 0; i < fields.length; i++) {
-			// System.out.println("Type: " + fields[i].getType().toString());
-			if (fields[i].getType().toString().equals("interface java.util.Map")) {
-				System.out.println("Field: " + fields[i].getName());
-				fields[i].setAccessible(true);
-				try {
-					Map<String, Object> map = (Map<String, Object>) fields[i].get(container);
-					Builder<String, Object> map2 = ImmutableMap.builder();
-					map.forEach((key, value) -> {
-						System.out.println(key + "=" + value);
-						if (!key.equals("guiFactory"))
-							map2.put(key, value);
-					});
-					map2.put("guiFactory", "zdoctor.lazymodder.easy.config.EasyConfigGui");
-					fields[i].set(container, map2.build());
-				} catch (IllegalArgumentException | IllegalAccessException e1) {
-					e1.printStackTrace();
-				}
-			}
-			// System.out.println("Field: " + fields[i].get());
-		}
+	public EasyConfigGui(File configFile, String modId) {
+		super(configFile, modId);
 	}
 	
+	public EasyConfigGui(File configFile, String modId, String defaultCaterogory) {
+		super(configFile, modId, defaultCaterogory);
+	}
+
 	@Override
 	public void initialize(Minecraft minecraftInstance) {
 	}

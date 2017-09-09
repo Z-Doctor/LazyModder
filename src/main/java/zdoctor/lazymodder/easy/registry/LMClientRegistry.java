@@ -1,11 +1,13 @@
-package zdoctor.lazymodder.events;
+package zdoctor.lazymodder.easy.registry;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import com.google.common.collect.BiMap;
+
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,28 +19,31 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zdoctor.lazymodder.ModMain;
 import zdoctor.lazymodder.client.render.itemrender.IItemRenderer;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererAPI;
-import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
-import zdoctor.lazymodder.easy.entity.living.EasyLivingEntity;
+import zdoctor.lazymodder.easy.entity.living.EasyEntityLiving;
 import zdoctor.lazymodder.easy.interfaces.ICustomMeshDefinition;
 import zdoctor.lazymodder.easy.interfaces.ICustomStateMap;
-import zdoctor.lazymodder.easy.interfaces.IEasyLivingRender;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
+import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.interfaces.INoModel;
-import zdoctor.lazymodder.easy.registry.EasyRegistry;
+import zdoctor.lazymodder.easy.interfaces.IRenderLiving;
+import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 
 @SideOnly(Side.CLIENT)
-public class ClientEvents {
-	public static void registerLivingEntityRenderer(EasyLivingEntity entity, Class<? extends RenderLiving> renderer) {
+public class LMClientRegistry {
+	public static void registerLivingEntityRenderer(EasyEntityLiving entity, Class<? extends RenderLiving> renderer) {
 		System.out.println("Registered Entity Renderer: " + entity.getRegistryName());
 		registerEntityRenderingHandler(entity.getEntityClass(), renderer);
 	}
@@ -72,8 +77,8 @@ public class ClientEvents {
 	}
 
 	/**
-	 * Called internally in {@link EasyLivingEntity}, but is here for others
-	 * convience
+	 * Called internally in {@link EasyEntityLivingWithRender}, but is here for
+	 * others convience
 	 * 
 	 * @param entityClass
 	 * @param entityRender
@@ -124,39 +129,26 @@ public class ClientEvents {
 				IEasyRegister block1 = (IEasyRegister) block;
 
 				if (block instanceof ICustomMeshDefinition) {
-					// ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block),
-					// ((ICustomMeshDefinition) block).getMeshDefinition());
+					ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block),
+							((ICustomMeshDefinition) block).getMeshDefinition());
 				}
 				if (block instanceof ICustomStateMap) {
-					// ModelLoader.setCustomStateMapper(block,
-					// (IStateMapper) ((ICustomStateMap)
-					// block).getStateMap().build());
+					ModelLoader.setCustomStateMapper(block, ((ICustomStateMap) block).getStateMap());
 				}
 
-				if (block instanceof IEasyTESR) {
-					System.out.println("REG TileEntity Render: " + block.getRegistryName());
-					IEasyTESR tile = (IEasyTESR) block1;
-					Class<? extends EasyTileEntitySpecialRenderer> renderClass = tile.getTileEntityRenderer();
-					try {
-						EasyTileEntitySpecialRenderer easyRenderer = renderClass.newInstance();
-						TileEntitySpecialRenderer renderer = new TileEntitySpecialRenderer() {
-							@Override
-							public void render(TileEntity te, double x, double y, double z, float partialTicks,
-									int destroyStage, float alpha) {
-								easyRenderer.render(te, x, y, z, partialTicks, destroyStage, alpha);
-							}
-
-							@Override
-							public void renderTileEntityFast(TileEntity te, double x, double y, double z,
-									float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
-								easyRenderer.renderTileEntityFast(te, x, y, z, partialTicks, destroyStage, partial,
-										buffer);
-							};
-						};
-						bindTileEntitySpecialRenderer(block, tile.getTileEntity(), renderer);
-					} catch (InstantiationException | IllegalAccessException e) {
-						e.printStackTrace();
-						System.out.println("REG for TileEntity Render failed: " + block.getRegistryName());
+				if (block instanceof IEasyTileEntity) {
+					Class<? extends TileEntity> tileEntityClass = ((IEasyTileEntity) block).getTileEntity();
+					if (IRenderTESR.class.isAssignableFrom(tileEntityClass)) {
+						System.out.println("REG TileEntity Render: " + block.getRegistryName());
+						try {
+							Class<? extends TileEntitySpecialRenderer> renderClass = ((IRenderTESR) tileEntityClass
+									.newInstance()).getRenderer();
+							TileEntitySpecialRenderer renderer = renderClass.newInstance();
+							bindTileEntitySpecialRenderer(block, tileEntityClass, renderer);
+						} catch (InstantiationException | IllegalAccessException e) {
+							e.printStackTrace();
+							System.out.println("REG for TileEntity Render failed: " + block.getRegistryName());
+						}
 					}
 				}
 
@@ -177,15 +169,30 @@ public class ClientEvents {
 
 	private void registerLivingEntityRenderers() {
 		EasyRegistry.getEntityList().forEach(entity -> {
-			try {
-				ClientEvents.registerLivingEntityRenderer(entity, ((IEasyLivingRender) entity.getEntityClass()
-						.getConstructor(World.class).newInstance(Minecraft.getMinecraft().world)).getEntityRenderer());
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				e.printStackTrace();
-			}
-			// registerEntityRenderingHandler(entity.getEntityClass(),
-			// entityRender);
+			if (IRenderLiving.class.isAssignableFrom(entity.getEntityClass()))
+				try {
+					LMClientRegistry.registerLivingEntityRenderer(entity, ((IRenderLiving) entity.getEntityClass()
+							.getConstructor(World.class).newInstance((World) null)).getLivingRenderer());
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+					FMLLog.log.debug("Unable to register entity '{}' render", entity);
+				}
 		});
+	}
+
+	public static void fmlPostInit() {
+		Field guiFactories;
+		try {
+			guiFactories = FMLClientHandler.class.getDeclaredField("guiFactories");
+			guiFactories.setAccessible(true);
+			BiMap<ModContainer, IModGuiFactory> guiMap = (BiMap<ModContainer, IModGuiFactory>) guiFactories
+					.get(FMLClientHandler.instance());
+			EasyRegistry.getGuiMap().forEach(set -> {
+				guiMap.forcePut(set.getKey(), set.getValue());
+			});
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 }

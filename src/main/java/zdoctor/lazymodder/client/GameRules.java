@@ -36,40 +36,58 @@ public class GameRules {
 	}
 
 	public static enum VanillaRules {
-		FIRETICK("doFireTick", net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), MOBGRIEF("mobGriefing",
-				net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), KEEPINVENTORY("keepInventory",
-						net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), MOBSPAWNING("doMobSpawning",
-								net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), MOBLOOT("doMobLoot",
-										net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), TILEDROPS("doTileDrops",
-												net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), ENTITYDROPS(
-														"doEntityDrops",
-														net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), COMMANDBLOCKOUTPUT(
-																"commandBlockOutput",
-																net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), NATURALREGEN(
-																		"naturalRegeneration",
-																		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), DAYCYCLE(
-																				"doDaylightCycle",
-																				net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), LOGADMINCOMMANDS(
-																						"logAdminCommands",
-																						net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), SHOWDEATHMESSAGES(
-																								"showDeathMessages",
-																								net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), RANDOMTICKSPEED(
-																										"randomTickSpeed",
-																										net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), COMMANDFEEDBACK(
-																												"sendCommandFeedback",
-																												net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), MINDEBUGINFO(
-																														"reducedDebugInfo",
-																														net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), SPECTATORSGENERATECHUNKS(
-																																"spectatorsGenerateChunks",
-																																net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), SPAWNRADIUS(
-																																		"spawnRadius",
-																																		net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), DISABLEELYTRAMOVEMENTCHECK(
-																																				"disableElytraMovementCheck",
-																																				net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), MAXENTITYCRAMMING(
-																																						"maxEntityCramming",
-																																						net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), WEATHERCYCLE(
-																																								"doWeatherCycle",
-																																								net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE);
+		FIRETICK("doFireTick", net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		MOBGRIEF("mobGriefing", net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		KEEPINVENTORY("keepInventory",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		MOBSPAWNING("doMobSpawning",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		MOBLOOT("doMobLoot",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		TILEDROPS("doTileDrops",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		ENTITYDROPS(
+				"doEntityDrops",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		COMMANDBLOCKOUTPUT(
+				"commandBlockOutput",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		NATURALREGEN(
+				"naturalRegeneration",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		DAYCYCLE(
+				"doDaylightCycle",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		LOGADMINCOMMANDS(
+				"logAdminCommands",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		SHOWDEATHMESSAGES(
+				"showDeathMessages",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		RANDOMTICKSPEED(
+				"randomTickSpeed",
+		net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), 
+		COMMANDFEEDBACK(
+				"sendCommandFeedback",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		MINDEBUGINFO(
+				"reducedDebugInfo",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		SPECTATORSGENERATECHUNKS(
+				"spectatorsGenerateChunks",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE), 
+		SPAWNRADIUS(
+				"spawnRadius",
+		net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), 
+		DISABLEELYTRAMOVEMENTCHECK(
+				"disableElytraMovementCheck",
+		net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE), 
+		MAXENTITYCRAMMING(
+				"maxEntityCramming",
+		net.minecraft.world.GameRules.ValueType.NUMERICAL_VALUE),
+		WEATHERCYCLE(
+				"doWeatherCycle",
+		net.minecraft.world.GameRules.ValueType.BOOLEAN_VALUE);
 
 		private final String ruleName;
 		private final ValueType ruleType;

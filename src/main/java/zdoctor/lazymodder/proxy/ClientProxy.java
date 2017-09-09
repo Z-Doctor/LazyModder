@@ -18,14 +18,14 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import zdoctor.lazymodder.builtin.helpers.KeyBindingHelper;
 import zdoctor.lazymodder.client.render.itemrender.IItemRendererRenderItem;
 import zdoctor.lazymodder.easy.registry.EasyRegistry;
-import zdoctor.lazymodder.events.ClientEvents;
+import zdoctor.lazymodder.easy.registry.LMClientRegistry;
 
 public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent e) {
 		super.preInit(e);
 		EasyRegistry.register(KeyBindingHelper.class);
-		EasyRegistry.register(ClientEvents.class);
+		EasyRegistry.register(LMClientRegistry.class);
 	}
 
 	@Override

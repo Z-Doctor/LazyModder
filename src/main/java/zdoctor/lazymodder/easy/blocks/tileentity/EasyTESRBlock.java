@@ -2,30 +2,28 @@ package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
+import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 
-public class EasyTESRBlock extends EasyTileEntityBlock implements IEasyTESR {
-	protected Class<? extends EasyTileEntitySpecialRenderer> renderer;
-
-	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends EasyTileEntitySpecialRenderer> renderer) {
-		this(name, tileEntity, renderer, Material.IRON);
+public abstract class EasyTESRBlock extends EasyTileEntityBlock implements IRenderTESR {
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity) {
+		this(name, tileEntity, Material.IRON);
 	}
 
-	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity,
-			Class<? extends EasyTileEntitySpecialRenderer> renderer, Material materialIn) {
+	/**
+	 * Used to create blocks that support {@link TileEntitySpecialRenderer}
+	 * behavior. The {@link TileEntity} should implement {@link IRenderTESR}
+	 * 
+	 * @param name
+	 * @param tileEntity
+	 * @param materialIn
+	 */
+	public EasyTESRBlock(String name, Class<? extends TileEntity> tileEntity, Material materialIn) {
 		super(name, tileEntity, materialIn);
-		this.renderer = renderer;
-	}
-
-	@Override
-	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer() {
-		return renderer;
 	}
 
 	// Defaults
@@ -33,7 +31,7 @@ public class EasyTESRBlock extends EasyTileEntityBlock implements IEasyTESR {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;

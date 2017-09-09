@@ -2,34 +2,29 @@ package zdoctor.lazymodder.easy.blocks.tileentity;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
+import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 
-public class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity implements IEasyTESR {
+public abstract class EasyDoorTileEntityBlockWithRender extends EasyDoorTileEntity {
 	protected Class<? extends EasyTileEntitySpecialRenderer> renderer;
 
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer) {
-		this(name, tileEntity, renderer, false, Material.IRON);
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity) {
+		this(name, tileEntity, false, Material.IRON);
 	}
 	
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer, Material material) {
-		this(name, tileEntity, renderer, false, material);
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Material material) {
+		this(name, tileEntity, false, material);
 	}
 
-	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, Class<? extends EasyTileEntitySpecialRenderer> renderer, boolean powerOpens, Material materialIn) {
+	public EasyDoorTileEntityBlockWithRender(String name, Class<? extends TileEntity> tileEntity, boolean powerOpens, Material materialIn) {
 		super(name, tileEntity, powerOpens, materialIn);
-		this.renderer = renderer;
 	}
 	
-	@Override
-	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer() {
-		return renderer;
-	}
-
 	// Defaults
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {

@@ -106,15 +106,9 @@ public class EasyStoneSlab extends BlockStoneSlab implements IEasyRegister {
 		}
 
 		@Override
-		public Builder getStateMap() {
-			// TODO Auto-generated method stub
-			return null;
+		public IStateMapper getStateMap() {
+			return new StateMap.Builder().ignore(EasyStoneSlab.SEAMLESS).build();
 		}
-
-//		@Override
-//		public IStateMapper getStateMap() {
-//			return new StateMap.Builder().ignore(EasyStoneSlab.SEAMLESS).build();
-//		}
 
 	}
 

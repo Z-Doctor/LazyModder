@@ -1,6 +1,6 @@
 package zdoctor.lazymodder.easy.entity.tile;
 
-public class EasyTileEntityWithFastRender extends EasyTileEntity {
+public abstract class EasyTileEntityWithFastRender extends EasyTileEntityWithRender {
 	@Override
 	public boolean hasFastRenderer() {
 		return true;

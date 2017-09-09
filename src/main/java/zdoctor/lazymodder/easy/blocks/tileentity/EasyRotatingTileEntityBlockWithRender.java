@@ -18,12 +18,13 @@ import net.minecraftforge.fml.common.FMLLog;
 import zdoctor.lazymodder.common.client.EasyTileEntitySpecialRenderer;
 import zdoctor.lazymodder.easy.blocks.EasyRotatingBlock;
 import zdoctor.lazymodder.easy.interfaces.IEasyRegister;
-import zdoctor.lazymodder.easy.interfaces.IEasyTESR;
+import zdoctor.lazymodder.easy.interfaces.IRenderLiving;
+import zdoctor.lazymodder.easy.interfaces.IRenderTESR;
 import zdoctor.lazymodder.easy.interfaces.IEasyTileEntity;
 import zdoctor.lazymodder.easy.items.EasyItemBlockTileEntity;
 
-public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock
-		implements ITileEntityProvider, IEasyTileEntity, IEasyRegister, IEasyTESR {
+public abstract class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock
+		implements ITileEntityProvider, IEasyTileEntity, IEasyRegister {
 	protected Class<? extends TileEntity> tileEntity;
 	private Class<? extends EasyTileEntitySpecialRenderer> renderEntity;
 
@@ -54,11 +55,6 @@ public class EasyRotatingTileEntityBlockWithRender extends EasyRotatingBlock
 	@Override
 	public Class<? extends TileEntity> getTileEntity() {
 		return this.tileEntity;
-	}
-
-	@Override
-	public Class<? extends EasyTileEntitySpecialRenderer> getTileEntityRenderer() {
-		return this.renderEntity;
 	}
 
 	@Override
